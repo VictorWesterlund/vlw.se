@@ -1,0 +1,6 @@
+{
+    "require": {
+        "reflect/plugin-rules": "^1.5",
+        "victorwesterlund/innodb-fk": "^1.0"
+    }
+}

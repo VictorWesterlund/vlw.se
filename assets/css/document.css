@@ -1,0 +1,155 @@
+:root {
+    --primer-color-accent: 255, 255, 0;
+    --color-accent: yellow;
+	--hue-accent: 0deg;
+
+    --padding: 20px;
+	--running-size: 80px;
+}
+
+/* # Cornerstones */
+
+* {
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "Roboto Mono", sans-serif;
+    color: inherit;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+body {
+	display: grid;
+	grid-template-rows: var(--running-size) 1fr;
+    overscroll-behavior: none;
+	background-color: black;
+    color: white;
+	min-height: 100svh;
+}
+
+a {
+    display: contents;
+    color: inherit;
+    text-decoration: none;
+}
+
+:is(h1, h2, h3, p, li) > a {
+	--underline-tickness: 3px;
+
+    display: initial;
+    text-decoration: underline;
+    text-decoration-thickness: var(--underline-tickness);
+	text-underline-offset: var(--underline-tickness);
+    text-decoration-color: var(--color-accent);
+}
+
+:is(h1, h2, h3, p, li) > a[target="_blank"]::after {
+	content: " ⮥";
+	color: var(--color-accent);
+}
+
+/* # Components */
+
+button {
+	font-size: inherit;
+	padding: calc(var(--padding) / 2) var(--padding);
+	color: white;
+	border: solid 2px white;
+	border-radius: 6px;
+	background-color: transparent;
+	cursor: pointer;
+}
+
+button.solid {
+	color: black;
+	border-color: var(--color-accent);
+	background-color: var(--color-accent);
+}
+
+a > button::after {
+	content: " ➜";
+}
+
+a[target="_blank"] > button::after {
+	content: " ⮥";
+}
+
+/* ## Header */
+
+header {
+	--border-style: solid 1px rgba(255, 255, 255, .2);
+
+	display: sticky;
+	top: 0;
+	width: 100%;
+	height: var(--running-size);
+	border-bottom: var(--border-style);
+	display: grid;
+	align-items: center;
+	justify-items: end;
+	gap: var(--padding);
+	grid-template-columns: 1fr var(--running-size);
+}
+
+header .logo {
+	width: calc(var(--running-size) - 1px);
+	height: calc(var(--running-size) - 1px);
+	display: grid;
+	align-items: center;
+	justify-items: center;
+	border-left: var(--border-style);
+}
+
+header .logo path.stroke {
+	fill: var(--color-accent);
+}
+
+/* ## Main */
+
+main {
+	position: relative;
+}
+
+main > * {
+	transition: 100ms opacity;
+	opacity: 1;
+}
+
+main.loading > * {
+	opacity: 0;
+}
+
+/* # Feature queries */
+
+@media (hover: hover) {
+	:is(h1, h2, h3, p, li) > a:hover {
+		text-underline-offset: 1px;
+		text-decoration-thickness: calc(var(--underline-tickness) * 2);
+		color: var(--color-accent);
+	}
+
+	/* # Components */
+
+	button {
+		transition: 200ms background-color, 200ms border-color, 200ms color;
+	}
+
+	button:hover {
+		border-color: rgba(255, 255, 255, .5);
+		background-color: rgba(255, 255, 255, .1);
+	}
+
+	button.solid:hover {
+		color: var(--color-accent);
+		border-color: rgba(var(--primer-color-accent), .15);
+		background-color: rgba(var(--primer-color-accent), .25);
+	}
+
+	/* ## Header */
+
+	header .logo:hover path.solid {
+		fill: var(--color-accent);
+	}
+}

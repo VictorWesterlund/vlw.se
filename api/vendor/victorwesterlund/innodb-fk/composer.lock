@@ -1,0 +1,93 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "3d45c83fad219dba6e2178c379070b39",
+    "packages": [
+        {
+            "name": "victorwesterlund/libmysqldriver",
+            "version": "3.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/VictorWesterlund/php-libmysqldriver.git",
+                "reference": "f9ec9064147e2f78d14800e755ee54df25714d96"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/VictorWesterlund/php-libmysqldriver/zipball/f9ec9064147e2f78d14800e755ee54df25714d96",
+                "reference": "f9ec9064147e2f78d14800e755ee54df25714d96",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "libmysqldriver\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0-only"
+            ],
+            "authors": [
+                {
+                    "name": "Victor Westerlund",
+                    "email": "victor.vesterlund@gmail.com"
+                }
+            ],
+            "description": "Abstraction library for common mysqli features",
+            "support": {
+                "issues": "https://github.com/VictorWesterlund/php-libmysqldriver/issues",
+                "source": "https://github.com/VictorWesterlund/php-libmysqldriver/tree/3.1.2"
+            },
+            "time": "2023-11-02T10:54:05+00:00"
+        },
+        {
+            "name": "victorwesterlund/xenum",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/VictorWesterlund/php-xenum.git",
+                "reference": "99b784841ee5b69fdfcc4c466ef54f3af4ea4a85"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/VictorWesterlund/php-xenum/zipball/99b784841ee5b69fdfcc4c466ef54f3af4ea4a85",
+                "reference": "99b784841ee5b69fdfcc4c466ef54f3af4ea4a85",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "victorwesterlund\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0-only"
+            ],
+            "authors": [
+                {
+                    "name": "Victor Westerlund",
+                    "email": "victor.vesterlund@gmail.com"
+                }
+            ],
+            "description": "PHP eXtended Enums. The missing quality-of-life features from PHP 8+ Enums",
+            "support": {
+                "issues": "https://github.com/VictorWesterlund/php-xenum/issues",
+                "source": "https://github.com/VictorWesterlund/php-xenum/tree/1.1.0"
+            },
+            "time": "2023-10-09T11:32:07+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "dev",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.0.0"
+}

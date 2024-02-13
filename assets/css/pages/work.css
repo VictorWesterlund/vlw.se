@@ -1,0 +1,99 @@
+/* # Overrides */
+
+body {
+	justify-items: center;
+	overflow-x: hidden;
+}
+
+main {
+	padding: var(--padding);
+	width: 100%;
+	max-width: 1200px;
+}
+/* # Sections */
+
+/* ## Timeline */
+
+section.timeline {
+	--timestamp-gap: calc(var(--padding) / 2);
+
+	width: 100%;
+}
+
+section.timeline :is(.year, .month, .day) {
+	display: grid;
+	grid-template-columns: calc(40px + var(--timestamp-gap)) 1fr;
+	grid-template-rows: 1fr;
+}
+
+section.timeline .track {
+	--opacity: .15;
+	--width: 2%;
+
+	background: linear-gradient(90deg, 
+		transparent 0%, transparent calc(50% - var(--width)), 
+		rgba(255, 255, 255, var(--opacity)) calc(50% - var(--width)), rgba(255, 255, 255, var(--opacity)) calc(50% + var(--width)), 
+		transparent calc(50% + var(--width)), transparent 100%
+	);
+}
+
+section.timeline .track p {
+	position: sticky;
+	top: var(--padding);
+	padding: calc(var(--padding) / 2) 0;
+	background-color: black;
+	color: var(--color-accent);
+}
+
+section.timeline :not(.year) > .track p::before {
+	content: "/ ";
+	color: rgba(255, 255, 255, .3);
+}
+
+/* ### Item */
+
+section.timeline .items .item {
+	display: flex;
+	flex-direction: column;
+	gap: calc(var(--padding) / 2);
+	padding: var(--padding);
+}
+
+section.timeline .items .item + .item {
+	border-top: solid 2px rgba(255, 255, 255, .2);
+}
+
+section.timeline .items .item:first-of-type {
+	margin-top: var(--padding);
+	border-top: solid 2px var(--color-accent);
+}
+
+/* No border style for the latest item (from the top) in the list */
+section.timeline .year:first-of-type .month:first-of-type .day:first-of-type .items .item:first-of-type {
+	margin-top: unset;
+	border-top: unset;
+}
+
+section.timeline .items .item .tags {
+	display: flex;
+	gap: calc(var(--padding) / 2);
+}
+
+section.timeline .items .item .tags .tag {
+	font-size: 12px;
+	letter-spacing: 1px;
+	color: rgba(255, 255, 255, .7);
+	background-color: rgba(255, 255, 255, .15);
+	border-radius: 4px;
+	padding: 5px 10px;
+}
+
+section.timeline .items .item h2 {
+	font-size: 40px;
+	color: var(--color-accent);
+}
+
+section.timeline .items .item .actions {
+	margin-top: 7px;
+	font-size: 13px;
+}

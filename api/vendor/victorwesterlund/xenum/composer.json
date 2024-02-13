@@ -1,0 +1,19 @@
+{
+    "name": "victorwesterlund/xenum",
+    "description": "PHP eXtended Enums. The missing quality-of-life features from PHP 8+ Enums",
+    "type": "library",
+    "license": "GPL-3.0-only",
+    "authors": [
+        {
+            "name": "Victor Westerlund",
+            "email": "victor.vesterlund@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "victorwesterlund\\": "src/"
+        }
+    },
+    "require": {}
+}

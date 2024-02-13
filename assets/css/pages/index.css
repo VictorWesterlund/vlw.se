@@ -1,0 +1,149 @@
+/* # Overrides */
+
+header .logo {
+	pointer-events: none;
+}
+
+main {
+	height: 100%;
+	width: 100svw;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: var(--padding);
+}
+
+.mobile {
+	display: contents;
+}
+
+.large {
+	display: none;
+}
+
+/* # Sections */
+
+picture.gazing {
+	margin: auto;
+}
+
+picture.gazing img {
+	height: clamp(20px, 100vw, 55vh);
+	-webkit-filter: hue-rotate(var(--hue-accent));
+	filter: hue-rotate(var(--hue-accent));
+}
+
+picture.gazing + *.mobile {
+	margin-top: auto;
+}
+
+/* ## Portrait sections */
+
+/* ### Divider */
+
+.mobile > svg {
+	padding: 0 var(--padding);
+	width: 100%;
+	max-width: 400px;
+}
+
+/* ### Email */
+
+.mobile section.email {
+	width: 100%;
+	max-width: 500px;
+	text-align: center;
+	padding: var(--padding);
+}
+
+.mobile section.email p:last-of-type {
+	color: var(--color-accent);
+}
+
+/* ### Menu */
+
+.mobile section.menu {
+	width: 100%;
+	max-width: 600px;
+	padding: var(--padding);
+	display: grid;
+}
+
+.mobile section.menu menu-button {
+	padding: var(--padding);
+	border-radius: 16px;
+	width: 100%;
+	text-align: center;
+	background-color: rgba(255, 255, 255, .2);
+}
+
+/* ## Landscape sections */
+
+/* ### Menu */
+
+.large {
+	display: none;
+	flex-direction: column;
+	align-items: end;
+}
+
+.large section.menu {
+	display: flex;
+	flex-direction: column;
+	align-items: end;
+	font-weight: 800;
+	color: var(--color-accent);
+	font-size: clamp(30px, 7vh, 60px);
+	padding: var(--padding) 0;
+}
+
+/* ### Email */
+
+.large section.email {
+	padding: var(--padding);
+	display: flex;
+	flex-direction: column;
+	text-align: right;
+}
+
+.large section.email p:last-of-type {
+	color: var(--color-accent);
+}
+
+/* # Feature queries */
+
+@media (hover: hover) {
+	.large section.menu p {
+		transition: 300ms transform, 300ms text-shadow;
+	}
+
+	.large section.menu p:hover {
+		transform: translate(-5px, -5px);
+		text-shadow:
+			1px 1px 0 rgba(var(--primer-color-accent), .1),
+			2px 2px 0 rgba(var(--primer-color-accent), .1),
+			3px 3px 0 rgba(var(--primer-color-accent), .1),
+			4px 4px 0 rgba(var(--primer-color-accent), .1),
+			5px 5px 0 rgba(var(--primer-color-accent), .1);
+	}
+}
+
+/* # Media queries */
+
+@media (min-width: 1200px) {
+	main {
+		max-width: 90vw;
+		display: grid;
+		grid-template-rows: 1fr;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 100px;
+	}
+
+	.mobile {
+		display: none;
+	}
+
+	.large {
+		display: flex;
+	}
+}

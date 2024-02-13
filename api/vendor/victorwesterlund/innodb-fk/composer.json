@@ -1,0 +1,22 @@
+{
+    "name": "victorwesterlund/libinnodb-fk",
+    "description": "Retrievie and optionally resolves foreign keys in a MySQL/MariaDB InnoDB database",
+    "type": "library",
+    "license": "GPL-3.0-only",
+    "authors": [
+        {
+            "name": "Victor Westerlund",
+            "email": "victor.vesterlund@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "victorwesterlund\\": "src/"
+        }
+    },
+    "require": {
+        "victorwesterlund/libmysqldriver": "^3.0",
+        "victorwesterlund/xenum": "^1.0"
+    }
+}
