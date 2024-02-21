@@ -1,0 +1,56 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "3e10269d358ba18734f4f011cd22c42e",
+    "packages": [
+        {
+            "name": "reflect/client",
+            "version": "2.1.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/VictorWesterlund/reflect-client-php.git",
+                "reference": "47cee961d1bfdd9261a58dde753d824947e91636"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/VictorWesterlund/reflect-client-php/zipball/47cee961d1bfdd9261a58dde753d824947e91636",
+                "reference": "47cee961d1bfdd9261a58dde753d824947e91636",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Reflect\\": "src/Reflect/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0-only"
+            ],
+            "authors": [
+                {
+                    "name": "Victor Westerlund",
+                    "email": "victor.vesterlund@gmail.com"
+                }
+            ],
+            "description": "Extendable PHP interface for communicating with Reflect API over HTTP or UNIX sockets",
+            "support": {
+                "issues": "https://github.com/VictorWesterlund/reflect-client-php/issues",
+                "source": "https://github.com/VictorWesterlund/reflect-client-php/tree/2.1.4"
+            },
+            "time": "2023-08-18T14:41:31+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.0.0"
+}

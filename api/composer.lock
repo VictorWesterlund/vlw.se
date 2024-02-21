@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8429c1dd6be4372dd8264c04cc65decb",
+    "content-hash": "ba3fa8466aa20501e06050d722c86a35",
     "packages": [
         {
             "name": "reflect/plugin-rules",
@@ -86,16 +86,16 @@
         },
         {
             "name": "victorwesterlund/libmysqldriver",
-            "version": "3.3.0",
+            "version": "3.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/VictorWesterlund/php-libmysqldriver.git",
-                "reference": "17fa248edba0859f3cdaefcd7f633475999fe0c7"
+                "reference": "98ed26a3756fa9dcab5f86606d4974c484b71e74"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/VictorWesterlund/php-libmysqldriver/zipball/17fa248edba0859f3cdaefcd7f633475999fe0c7",
-                "reference": "17fa248edba0859f3cdaefcd7f633475999fe0c7",
+                "url": "https://api.github.com/repos/VictorWesterlund/php-libmysqldriver/zipball/98ed26a3756fa9dcab5f86606d4974c484b71e74",
+                "reference": "98ed26a3756fa9dcab5f86606d4974c484b71e74",
                 "shasum": ""
             },
             "type": "library",
@@ -117,9 +117,9 @@
             "description": "Abstraction library for common mysqli features",
             "support": {
                 "issues": "https://github.com/VictorWesterlund/php-libmysqldriver/issues",
-                "source": "https://github.com/VictorWesterlund/php-libmysqldriver/tree/3.3.0"
+                "source": "https://github.com/VictorWesterlund/php-libmysqldriver/tree/3.5.0"
             },
-            "time": "2024-01-12T12:24:04+00:00"
+            "time": "2024-02-14T11:01:03+00:00"
         },
         {
             "name": "victorwesterlund/xenum",

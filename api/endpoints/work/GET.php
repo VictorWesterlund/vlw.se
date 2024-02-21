@@ -14,6 +14,8 @@
 
 	require_once Path::root("src/databases/VLWdb.php");
 	require_once Path::root("src/databases/models/Work.php");
+	require_once Path::root("src/databases/models/WorkTags.php");
+	require_once Path::root("src/databases/models/WorkActions.php");
 
 	class GET_Work extends VLWdb {
 		protected Ruleset $ruleset;
@@ -23,18 +25,19 @@
 			$this->ruleset = new Ruleset(strict: true);
 
 			$this->ruleset->GET([
-				(new Rules("page"))
-					->type(Type::NUMBER)
-					->default(0)
-					->min(0)
+				(new Rules("id"))
+					->type(Type::STRING)
+					->min(1)
+					->max(255)
+					->default(null)
 			]);
 		}
 
-		// # Database helpers
+		// # Helper methods
 
 		private function fetch_row_tags(string $id): array {
 			$resp = $this->db->for(WorkTagsModel::TABLE)
-				->where([WorkTagsModel::ID->value => $id])
+				->where([WorkTagsModel::ANCHOR->value => $id])
 				->select(WorkTagsModel::NAME->value);
 
 			return parent::is_mysqli_result($resp) ? $resp->fetch_all(MYSQLI_ASSOC) : [];
@@ -42,10 +45,11 @@
 
 		private function fetch_row_actions(string $id): array {
 			$resp = $this->db->for(WorkActionsModel::TABLE)
-				->where([WorkActionsModel::ID->value => $id])
+				->where([WorkActionsModel::ANCHOR->value => $id])
 				->select([
 					WorkActionsModel::DISPLAY_TEXT->value,
 					WorkActionsModel::HREF->value,
+					WorkActionsModel::CLASS_LIST->value,
 					WorkActionsModel::EXTERNAL->value
 				]);
 
@@ -64,10 +68,31 @@
 			return new Response("Failed to get work data, please try again later", 503);
 		}
 
+		private function resp_item_details(string $id): Response {
+			$resp = $this->db->for(WorkModel::TABLE)
+				->where([WorkModel::ID->value => $id])
+				->limit(1)
+				->select("*");
+
+			// Bail out if something went wrong retrieving rows from the database
+			if (!parent::is_mysqli_result($resp)) {
+				return $this->resp_database_error();
+			}
+
+			return $resp->num_rows === 1
+				? new Response($resp->fetch_assoc())
+				: new Response("No entity with id '{$id}' was found", 404);
+		}
+
 		public function main(): Response {
 			// Bail out if request validation failed
 			if (!$this->ruleset->is_valid()) {
 				return $this->resp_rules_invalid();
+			}
+
+			// Return details about a specific item by id
+			if (!empty($_GET["id"])) {
+				return $this->resp_item_details($_GET["id"]);
 			}
 
 			$resp = $this->db->for(WorkModel::TABLE)

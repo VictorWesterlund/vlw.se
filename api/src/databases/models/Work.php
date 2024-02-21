@@ -14,19 +14,3 @@
 		case DATE_TIMESTAMP_MODIFIED = "date_timestamp_modified";
 		case DATE_TIMESTAMP_CREATED  = "date_timestamp_created";
 	}
-
-	enum WorkTagsModel: string {
-		const TABLE = "work_tags";
-
-		case ID   = "anchor";
-		case NAME = "name";
-	}
-
-	enum WorkActionsModel: string {
-		const TABLE = "work_actions";
-		
-		case ID           = "anchor";
-		case DISPLAY_TEXT = "display_text";
-		case HREF         = "href";
-		case EXTERNAL     = "external";
-	}

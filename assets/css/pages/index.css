@@ -60,21 +60,27 @@ picture.gazing + *.mobile {
 	color: var(--color-accent);
 }
 
-/* ### Menu */
+/* ### Menu button */
 
-.mobile section.menu {
+.mobile section.button {
 	width: 100%;
 	max-width: 600px;
 	padding: var(--padding);
 	display: grid;
 }
 
-.mobile section.menu menu-button {
+.mobile section.button menu-button {
 	padding: var(--padding);
 	border-radius: 16px;
 	width: 100%;
 	text-align: center;
 	background-color: rgba(255, 255, 255, .2);
+}
+
+/* ### Menu */
+
+.mobile .menu {
+	display: 
 }
 
 /* ## Landscape sections */

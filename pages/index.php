@@ -25,8 +25,10 @@
 		<p>victor@vlw.one</p>
 		<p>tap to copy</p>
 	</section>
-	<section class="menu">
+	<section class="button">
 		<menu-button>more</menu-button>
 	</section>
+	<div class="menu">
+	</div>
 </div>
 <script><?= VV::js("pages/index") ?></script>

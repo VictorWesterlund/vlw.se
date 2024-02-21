@@ -121,6 +121,12 @@ main.loading > * {
 	opacity: 0;
 }
 
+/* ## Search results */
+
+search-results {
+	position: fixed
+}
+
 /* # Feature queries */
 
 @media (hover: hover) {

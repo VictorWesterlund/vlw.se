@@ -1,6 +1,7 @@
 {
     "require": {
         "reflect/plugin-rules": "^1.5",
-        "victorwesterlund/innodb-fk": "^1.0"
+        "victorwesterlund/innodb-fk": "^1.0",
+        "victorwesterlund/xenum": "^1.1"
     }
 }
