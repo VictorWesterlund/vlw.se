@@ -41,7 +41,11 @@
 </head>
 <body>
 	<header>
-		<p>victor westerlund</p>
+		<p class="title"><a href="/" vv="document" vv-call="navigate">victor westerlund</a></p>
+		<searchbox>
+			<?= VV::media("icons/search.svg") ?>
+			<p>search anything...</p>
+		</searchbox>
 		<a href="/" vv="document" vv-call="navigate">
 			<div class="logo">
 				<?= VV::media("vw.svg") ?>
@@ -50,8 +54,15 @@
 	</header>
 
 	<main></main>
-
-	<search-results></search-results>
+	
+	<dialog class="search">
+		<search>
+			<input type="text" placeholder="start typing to search..."></input>
+			<search-results>
+				<?= VV::media("icons/search.svg") ?>
+			</search-results>
+		</search>
+	</dialog>
 
 	<?php // Bootstrapping ?>
 	<script><?= VV::init() ?></script>

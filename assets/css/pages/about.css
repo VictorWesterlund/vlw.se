@@ -1,5 +1,10 @@
 /* # Overrides */
 
+:root {
+	--primer-color-accent: 148, 255, 21;
+	--color-accent: rgb(var(--primer-color-accent));
+}
+
 body {
 	justify-items: center;
 	overflow-x: hidden;

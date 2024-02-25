@@ -1,5 +1,10 @@
 /* # Overrides */
 
+:root {
+	--primer-color-accent: 3, 255, 219;
+	--color-accent: rgb(var(--primer-color-accent));
+}
+
 body {
 	justify-items: center;
 	overflow-x: hidden;
@@ -11,6 +16,26 @@ main {
 	max-width: 1200px;
 }
 /* # Sections */
+
+/* ## Git */
+
+section.git {
+	display: flex;
+	flex-direction: column;
+	gap: var(--padding);
+	border: solid 3px var(--color-accent);
+	padding: calc(var(--padding) * 1.5);
+}
+
+section.git svg {
+	width: 60px;
+}
+
+section.git .buttons {
+	display: flex;
+	flex-direction: column;
+	gap: var(--padding);
+}
 
 /* ## Timeline */
 
@@ -96,4 +121,29 @@ section.timeline .items .item h2 {
 section.timeline .items .item .actions {
 	margin-top: 7px;
 	font-size: 13px;
+}
+
+/* # Size queries */
+
+@media (min-width: 460px) {
+	section.git .buttons {
+		flex-direction: row;
+	}
+}
+
+@media (min-width: 900px) {
+	section.git {
+		display: grid;
+		grid-template-columns: 70px 1fr 400px;
+		align-items: center;
+		gap: calc(var(--padding) * 1.5);
+	}
+
+	section.git svg {
+		width: 100%;
+	}
+
+	section.git .buttons {
+		justify-content: end;
+	}
 }

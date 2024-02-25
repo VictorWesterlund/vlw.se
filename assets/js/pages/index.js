@@ -1,12 +1,31 @@
-new vv.Interactions("index");
+new vv.Interactions("index", {
+	copyEmail: async () => {
+		try {
+			await navigator.clipboard.writeText("victor@vlw.se");
+
+			[...document.querySelectorAll("[vv-call='copyEmail']")].forEach(element => {
+				element.classList.add("copied");
+
+				setTimeout(() => element.classList.remove("copied"), 1200);
+			});
+		} catch (error) {
+			console.error(error.message);
+		}
+	}
+});
 
 // Change site accent color on hover of menu items
 if (window.matchMedia("(hover: hover)")) {
-	// Get the initial accent color RGB
-	const initRgb = getComputedStyle(document.documentElement).getPropertyValue("--primer-color-accent");
-
 	// Update root CSS variables
-	const updateColor = (rgb = initRgb, hue = 0) => {
+	const updateColor = (rgb = null, hue = 0) => {
+		if (!rgb) {
+			document.documentElement.style.removeProperty("--hue-accent");
+			document.documentElement.style.removeProperty("--primer-color-accent");
+			document.documentElement.style.removeProperty("--color-accent");
+
+			return;
+		}
+
 		document.documentElement.style.setProperty("--hue-accent", `${hue}deg`);
 
 		document.documentElement.style.setProperty("--primer-color-accent", `${rgb}`);

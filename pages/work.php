@@ -12,6 +12,15 @@
 ?>
 <style><?= VV::css("pages/work") ?></style>
 
+<section class="git">
+	<?= VV::media("icons/github.svg") ?>
+	<p>Most of my free open-source software is available on GitHub and it's also mirrored on my server</p>
+	<div class="buttons">
+		<a href="https://github.com/victorwesterlund"><button class="solid">open GitHub</button></a>
+		<a href="https://git.vlw.se"><button>mirror</button></a>
+	</div>
+</section>
+
 <?php if ($resp[0] === 200): ?>
 	<?php
 

@@ -17,8 +17,10 @@
 
 ?>
 <style><?= VV::css("pages/search") ?></style>
-<section class="title">
-	<h1>Search</h1>
+<section class="search">
+	<search>
+		<input type="text" placeholder="start typing to search..."></input>
+	</search>
 </section>
 
 <?php if ($resp): ?>

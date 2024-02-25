@@ -1,9 +1,5 @@
 /* # Overrides */
 
-header .logo {
-	pointer-events: none;
-}
-
 main {
 	height: 100%;
 	width: 100svw;
@@ -35,6 +31,17 @@ picture.gazing img {
 
 picture.gazing + *.mobile {
 	margin-top: auto;
+}
+
+/* ## Global sections */
+
+[vv-call="copyEmail"] {
+	cursor: pointer;
+}
+
+[vv-call="copyEmail"].copied {
+	background-color: red;
+	pointer-events: none;
 }
 
 /* ## Portrait sections */
@@ -80,7 +87,7 @@ picture.gazing + *.mobile {
 /* ### Menu */
 
 .mobile .menu {
-	display: 
+	
 }
 
 /* ## Landscape sections */
@@ -134,7 +141,7 @@ picture.gazing + *.mobile {
 	}
 }
 
-/* # Media queries */
+/* # Size queries */
 
 @media (min-width: 1200px) {
 	main {
