@@ -86,16 +86,16 @@
         },
         {
             "name": "victorwesterlund/libmysqldriver",
-            "version": "3.5.0",
+            "version": "3.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/VictorWesterlund/php-libmysqldriver.git",
-                "reference": "98ed26a3756fa9dcab5f86606d4974c484b71e74"
+                "reference": "73b5d858ffa8d83c5cbe6b3d3de4af314a5ffbe5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/VictorWesterlund/php-libmysqldriver/zipball/98ed26a3756fa9dcab5f86606d4974c484b71e74",
-                "reference": "98ed26a3756fa9dcab5f86606d4974c484b71e74",
+                "url": "https://api.github.com/repos/VictorWesterlund/php-libmysqldriver/zipball/73b5d858ffa8d83c5cbe6b3d3de4af314a5ffbe5",
+                "reference": "73b5d858ffa8d83c5cbe6b3d3de4af314a5ffbe5",
                 "shasum": ""
             },
             "type": "library",
@@ -117,9 +117,9 @@
             "description": "Abstraction library for common mysqli features",
             "support": {
                 "issues": "https://github.com/VictorWesterlund/php-libmysqldriver/issues",
-                "source": "https://github.com/VictorWesterlund/php-libmysqldriver/tree/3.5.0"
+                "source": "https://github.com/VictorWesterlund/php-libmysqldriver/tree/3.5.1"
             },
-            "time": "2024-02-14T11:01:03+00:00"
+            "time": "2024-02-26T12:51:52+00:00"
         },
         {
             "name": "victorwesterlund/xenum",

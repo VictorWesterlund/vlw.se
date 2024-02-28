@@ -5,18 +5,10 @@
 	--color-accent: rgb(var(--primer-color-accent));
 }
 
-body {
-	justify-items: center;
-	overflow-x: hidden;
-}
-
 main {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	padding: var(--padding);
-	width: 100%;
-	max-width: 1000px;
 }
 
 /* # Sections */
@@ -55,18 +47,19 @@ section.social social.hovering p {
 	display: initial;
 }
 
-/* ## GPG */
+/* ## OpenPGP key */
 
-section.gpg {
+section.pgp {
+	max-width: 800px;
 	margin: calc(var(--padding) * 1.5) 0;
 	position: relative;
 	text-align: center;
-	background-color: rgba(var(--primer-color-accent), .03);
+	background-color: rgba(var(--primer-color-accent), .15);
 	padding: calc(var(--padding) * 1.5);
 	transform: rotate(-1.5deg);
 }
 
-section.gpg > svg {
+section.pgp > svg {
 	position: absolute;
 	top: -30px;
 	right: -20px;
@@ -74,7 +67,7 @@ section.gpg > svg {
 	fill: var(--color-accent);
 }
 
-section.gpg > p {
+section.pgp > p {
 	margin-bottom: var(--padding);
 	padding: var(--padding);
 }

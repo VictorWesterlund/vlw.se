@@ -58,9 +58,7 @@
 	<dialog class="search">
 		<search>
 			<input type="text" placeholder="start typing to search..."></input>
-			<search-results>
-				<?= VV::media("icons/search.svg") ?>
-			</search-results>
+			<search-results></search-results>
 		</search>
 	</dialog>
 

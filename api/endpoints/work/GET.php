@@ -96,6 +96,7 @@
 			}
 
 			$resp = $this->db->for(WorkModel::TABLE)
+				->order([WorkModel::DATE_TIMESTAMP_CREATED->value => "DESC"])
 				->select("*");
 
 			// Bail out if something went wrong retrieving rows from the database

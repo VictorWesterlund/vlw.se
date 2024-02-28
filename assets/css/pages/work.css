@@ -5,16 +5,15 @@
 	--color-accent: rgb(var(--primer-color-accent));
 }
 
-body {
-	justify-items: center;
-	overflow-x: hidden;
-}
-
 main {
+	display: flex;
+	flex-direction: column;
+	gap: var(--padding);
 	padding: var(--padding);
 	width: 100%;
 	max-width: 1200px;
 }
+
 /* # Sections */
 
 /* ## Git */
@@ -64,7 +63,7 @@ section.timeline .track {
 
 section.timeline .track p {
 	position: sticky;
-	top: var(--padding);
+	top: calc(var(--running-size) + var(--padding));
 	padding: calc(var(--padding) / 2) 0;
 	background-color: black;
 	color: var(--color-accent);
@@ -115,7 +114,6 @@ section.timeline .items .item .tags .tag {
 
 section.timeline .items .item h2 {
 	font-size: 40px;
-	color: var(--color-accent);
 }
 
 section.timeline .items .item .actions {
@@ -145,5 +143,36 @@ section.timeline .items .item .actions {
 
 	section.git .buttons {
 		justify-content: end;
+	}
+}
+
+@media (max-width: 500px) {
+	section.timeline .track {
+		background: unset;
+	}
+
+	section.timeline .track p {
+		background-color: black;
+	}
+
+	section.timeline .days {
+		width: 0;
+	}
+
+	section.timeline .items {
+		position: relative;
+		left: -140px;
+	}
+
+	section.timeline .items .item {
+		width: calc(100vw - (var(--padding) * 3.5));
+	}
+
+	section.timeline .items .item:first-of-type {
+		border-top-color: rgba(var(--primer-color-accent), .2);
+	}
+
+	section.timeline .year:first-of-type .month:first-of-type .day:first-of-type .items .item:first-of-type {
+		margin-top: var(--padding);
 	}
 }

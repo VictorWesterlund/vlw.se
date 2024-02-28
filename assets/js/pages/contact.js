@@ -51,13 +51,6 @@ class ContactForm {
 		// Save message data to SessionStorage as JSON
 		window.sessionStorage.setItem(ContactForm.STORAGE_KEY, JSON.stringify(message));
 	}
-
-	submit(event = null) {
-		if (event) {
-			event.preventDefault();
-			console.log("hi");
-		}
-	}
 }
 
 // Initialize contact form handler

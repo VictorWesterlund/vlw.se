@@ -52,4 +52,9 @@ mainElement.addEventListener(vv.Navigation.events.LOADED, () => {
 
 	// Run search on keyup
 	document.querySelector("search input").addEventListener("keyup", (event) => search(event.target.value));
+
+	// Trigger expand search box animation 
+	document.querySelector("search input").addEventListener("keydown", () => {
+		searchResultsElement.closest("dialog").classList.add("active");
+	}, { once: true });
 }

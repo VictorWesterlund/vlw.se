@@ -82,6 +82,7 @@ picture.gazing + *.mobile {
 	width: 100%;
 	text-align: center;
 	background-color: rgba(255, 255, 255, .2);
+	cursor: pointer;
 }
 
 /* ### Menu */
@@ -123,6 +124,76 @@ picture.gazing + *.mobile {
 	color: var(--color-accent);
 }
 
+/* # Menu */
+
+menu {
+	position: fixed;
+	top: 0;
+	left: 0;
+	margin-top: var(--running-size);
+	width: 100%;
+	height: calc(100% - var(--running-size));
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	gap: var(--padding);
+	background-color: rgba(0, 0, 0, .85);
+	padding: calc(var(--padding) * 2);
+	-webkit-backdrop-filter: blur(20px);
+	backdrop-filter: blur(20px);
+
+	pointer-events: none;
+	opacity: 0;
+}
+
+menu.active {
+	pointer-events: all;
+	opacity: 1;
+}
+
+/* ## Search box */
+
+menu searchbox {
+	background-color: rgba(255, 255, 255, .1);
+	border-radius: 6px;
+}
+
+/* ## Nav */
+
+menu nav {
+	flex: 1 1 auto;
+	display: flex;
+	align-items: end;
+	justify-content: center;
+	flex-direction: column;
+}
+
+menu nav p {
+	font-size: 60px;
+	font-weight: 900;
+	color: rgb(var(--color));
+}
+
+/* ## Close button */
+
+menu close-button {
+	--icon-size: 30px;
+
+	width: 100%;
+	padding: var(--padding);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: var(--padding);
+	fill: var(--color-accent);
+	border-radius: 6px;
+	cursor: pointer;
+}
+
+menu close-button svg {
+	height: var(--icon-size);
+}
+
 /* # Feature queries */
 
 @media (hover: hover) {
@@ -145,11 +216,13 @@ picture.gazing + *.mobile {
 
 @media (min-width: 1200px) {
 	main {
-		max-width: 90vw;
+		top: var(--running-size);
+		height: calc(100% - var(--running-size));
+		max-width: 1300px;
 		display: grid;
 		grid-template-rows: 1fr;
 		grid-template-columns: repeat(2, 1fr);
-		gap: 100px;
+		gap: 120px;
 	}
 
 	.mobile {

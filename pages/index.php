@@ -1,10 +1,19 @@
+<?php
+
+	enum RGB: string {
+		case WORK    = "3,255,219";
+		case ABOUT   = "148,255,21";
+		case CONTACT = "255,195,255";
+	}
+
+?>
 <style><?= VV::css("pages/index") ?></style>
 <div class="large">
 	<?= VV::media("line.svg") ?>
 	<section class="menu">
-		<a href="/work" vv="index" vv-call="navigate"><p data-rgb="3,255,219" data-hue="90">work</p></a>
-		<a href="/about" vv="index" vv-call="navigate"><p data-rgb="148,255,21" data-hue="390">about</p></a>
-		<a href="/contact" vv="index" vv-call="navigate"><p data-rgb="255,195,255" data-hue="200">contact</p></a>
+		<a href="/work" vv="index" vv-call="navigate"><p data-rgb="<?= RGB::WORK->value ?>" data-hue="90">work</p></a>
+		<a href="/about" vv="index" vv-call="navigate"><p data-rgb="<?= RGB::ABOUT->value ?>" data-hue="390">about</p></a>
+		<a href="/contact" vv="index" vv-call="navigate"><p data-rgb="<?= RGB::CONTACT->value ?>" data-hue="200">contact</p></a>
 	</section>
 	<?= VV::media("line.svg") ?>
 	<section class="email" vv="index" vv-call="copyEmail">
@@ -26,12 +35,22 @@
 		<p>tap to copy</p>
 	</section>
 	<section class="button">
-		<menu-button>more</menu-button>
-	</section>
-	<section class="menu">
-		<a href="/work" vv="index" vv-call="navigate"><p data-rgb="3,255,219" data-hue="90">work</p></a>
-		<a href="/about" vv="index" vv-call="navigate"><p data-rgb="148,255,21" data-hue="390">about</p></a>
-		<a href="/contact" vv="index" vv-call="navigate"><p data-rgb="255,195,255" data-hue="200">contact</p></a>
+		<menu-button vv="index" vv-call="openMenu">more</menu-button>
 	</section>
 </div>
+<menu>
+	<searchbox>
+		<?= VV::media("icons/search.svg") ?>
+		<p>search anything...</p>
+	</searchbox>
+	<nav>
+		<a href="/work" vv="index" vv-call="navigate"><p style="--color:<?= RGB::WORK->value ?>;">work</p></a>
+		<a href="/about" vv="index" vv-call="navigate"><p style="--color:<?= RGB::ABOUT->value ?>;" >about</p></a>
+		<a href="/contact" vv="index" vv-call="navigate"><p style="--color:<?= RGB::CONTACT->value ?>;">contact</p></a>
+	</nav>
+	<close-button vv="index" vv-call="closeMenu">
+		<?= VV::media("icons/close.svg") ?>
+		<p>close</p>
+	</close-button>
+</menu>
 <script><?= VV::js("pages/index") ?></script>

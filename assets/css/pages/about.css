@@ -5,17 +5,6 @@
 	--color-accent: rgb(var(--primer-color-accent));
 }
 
-body {
-	justify-items: center;
-	overflow-x: hidden;
-}
-
-main {
-	padding: var(--padding);
-	width: 100%;
-	max-width: 1000px;
-}
-
 /* # Sections */
 
 /* ## Into */
@@ -59,7 +48,13 @@ section.about span.interests {
 	animation: interests-hue 5s infinite linear;
 }
 
-/* ## Interests */
+/* ## Version */
+
+section.version {
+	color: rgba(255, 255, 255, .2);
+}
+
+/* # Interests */
 
 div.interests {
 	transition: 300ms opacity;
@@ -71,6 +66,7 @@ div.interests {
 	font-size: 60px;
 	color: var(--color-accent);
 	opacity: 0;
+	z-index: 200;
 }
 
 div.interests.active {

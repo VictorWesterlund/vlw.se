@@ -1,4 +1,5 @@
 new vv.Interactions("index", {
+	// Copy email address to clipboard
 	copyEmail: async () => {
 		try {
 			await navigator.clipboard.writeText("victor@vlw.se");
@@ -11,7 +12,11 @@ new vv.Interactions("index", {
 		} catch (error) {
 			console.error(error.message);
 		}
-	}
+	},
+	// Open the fullscreen menu
+	openMenu: () => document.querySelector("menu").classList.add("active"),
+	// Close the fullscreen menu
+	closeMenu: () => document.querySelector("menu").classList.remove("active")
 });
 
 // Change site accent color on hover of menu items
@@ -42,4 +47,16 @@ if (window.matchMedia("(hover: hover)")) {
 
 	// Reset color on navigation
 	document.querySelector(vv._env.MAIN).addEventListener(vv.Navigation.events.LOADING, () => updateColor(), { once: true });
+}
+
+// Open search box from mobile fullscreen menu
+{
+	// Open search dialog when searchbox is clicked
+	document.querySelector("menu searchbox").addEventListener("click", () => {
+		// Search box dialog element
+		document.querySelector("dialog.search").showModal();
+
+		// Close fullscreen menu
+		document.querySelector("menu").classList.remove("active");
+	});
 }
