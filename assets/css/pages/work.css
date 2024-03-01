@@ -19,6 +19,7 @@ main {
 /* ## Git */
 
 section.git {
+	margin: var(--padding);
 	display: flex;
 	flex-direction: column;
 	gap: var(--padding);
@@ -148,7 +149,11 @@ section.timeline .items .item .actions {
 
 @media (max-width: 500px) {
 	section.timeline .track {
+		position: relative;
+		left: calc(var(--padding) * 1.5);
 		background: unset;
+		z-index: 10;
+		pointer-events: none;
 	}
 
 	section.timeline .track p {

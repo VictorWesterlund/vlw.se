@@ -61,14 +61,17 @@ class ContactForm {
 	form ? (new ContactForm(form)) : ContactForm.removeSavedMessage();
 }
 
-// Social links logic
+// Social links hover
 {
 	const socialElementHover = (target) => {
 		const element = target.querySelector("p");
 
 		target.classList.add("hovering");
 		target.addEventListener("mousemove", (event) => {
-			
+			const x = event.layerX - (element.clientWidth / 2);
+			const y = event.layerY + element.clientHeight;
+
+			element.style.setProperty("transform", `translate(${x}px, ${y}px)`);
 		});
 	};
 

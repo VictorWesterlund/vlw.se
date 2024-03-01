@@ -36,11 +36,11 @@ picture.gazing + *.mobile {
 /* ## Global sections */
 
 [vv-call="copyEmail"] {
+	user-select: none;
 	cursor: pointer;
 }
 
-[vv-call="copyEmail"].copied {
-	background-color: red;
+[vv-call="copyEmail"].lock {
 	pointer-events: none;
 }
 
@@ -194,6 +194,74 @@ menu close-button svg {
 	height: var(--icon-size);
 }
 
+/* # Email-copied splash */
+
+splash {
+	--confetti: unset;
+	--text-shadow: 0 0 30px black;
+
+	display: initial !important;
+	transition: 300ms opacity;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	font-size: 80px;
+	color: white;
+	z-index: 200;
+	font-weight: 900;
+	pointer-events: none;
+	perspective: 300px;
+	text-shadow: 
+		var(--text-shadow), 
+		var(--text-shadow), 
+		var(--text-shadow), 
+		var(--text-shadow)
+	;
+	animation: splash-reveal 1s ease;
+}
+
+splash.hide {
+	opacity: 0;
+}
+
+splash::after {
+	content: "";
+	top: 50%;
+	left: 50%;
+	position: absolute;
+	width: 8px;
+	height: 16px;
+	background-color: transparent;
+	box-shadow: var(--confetti);
+	animation: splash-confetti 1s ease;
+	opacity: 0;
+}
+
+/* ## Keyframes */
+
+@keyframes splash-confetti {
+	0%   { 
+		transform: rotate(12deg) scale(0);
+		opacity: 1;
+	}
+
+	60% {
+		opacity: 1;
+	}
+
+	100% { 
+		transform: rotate(-8deg) scale(1);
+		opacity: 0;
+	}
+}
+
+@keyframes splash-reveal {
+	0%   { transform: translate(-50%, -50%) rotate(-8deg) scale(0); }
+	35%  { transform: translate(-50%, -50%) rotate(-3deg) scale(1.1); }
+	100% { transform: translate(-50%, -50%) rotate(0deg) scale(1); }
+}
+
 /* # Feature queries */
 
 @media (hover: hover) {
@@ -208,7 +276,8 @@ menu close-button svg {
 			2px 2px 0 rgba(var(--primer-color-accent), .1),
 			3px 3px 0 rgba(var(--primer-color-accent), .1),
 			4px 4px 0 rgba(var(--primer-color-accent), .1),
-			5px 5px 0 rgba(var(--primer-color-accent), .1);
+			5px 5px 0 rgba(var(--primer-color-accent), .1)
+		;
 	}
 }
 
