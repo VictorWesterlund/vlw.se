@@ -19,9 +19,12 @@
 
 	class PATCH_Work extends VLWdb {
 		const MYSQL_TEXT_MAX_LENGTH = 65538;
+		const MYSQL_INT_MAX_LENGHT = 2147483647;
 
 		protected Ruleset $ruleset;
-		protected Response $entity;
+
+		protected Response $current_entity;
+		protected array $updated_entity;
 
 		public function __construct() {
 			parent::__construct();
@@ -44,15 +47,52 @@
 				(new Rules(WorkModel::SUMMARY->value))
 					->type(Type::STRING)
 					->min(1)
-					->max(self::MYSQL_TEXT_MAX_LENGTH)
+					->max(self::MYSQL_TEXT_MAX_LENGTH),
+
+				(new Rules(WorkModel::IS_LISTABLE->value))
+					->type(Type::BOOLEAN),
+
+				(new Rules(WorkModel::IS_READABLE->value))
+					->type(Type::BOOLEAN),
+
+				(new Rules(WorkModel::DATE_TIMESTAMP_CREATED->value))
+					->type(Type::NUMBER)
+					->min(0)
+					->max(self::MYSQL_INT_MAX_LENGHT)
 			]);
 
-			$this->get_entity();
+			$this->get_existing_entity();
+
+			// Copy all provided post data into a new array
+			$this->updated_entity = $_POST;
+
+			// Set date modified timestamp
+			$this->updated_entity[WorkModel::DATE_TIMESTAMP_MODIFIED->value] = time();
 		}
 
 		// Generate a slug URL from string
 		private static function gen_slug(string $input): string {
 			return strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $input)));
+		}
+
+		// # Helper methods
+
+		private function get_existing_entity(): Response {
+			// Check if an entity already exists with slugified title from GET endpoint
+			$this->current_entity = Call("work?id={$_GET["id"]}", Method::GET);
+
+			// Response is not 404 (Not found) so we can't create the entity
+			if ($this->current_entity->code !== 200) {
+				// Response is not a valid entity, something went wrong
+				if ($this->current_entity->code !== 404) {
+					return $this->resp_database_error();
+				}
+
+				// Return 402 Conflict
+				return new Response("No entity with id '{$_GET["id"]}' was found", 404);
+			}
+
+			return $this->current_entity;
 		}
 
 		// Create new permalink for entity slug
@@ -65,22 +105,29 @@
 			return $create->ok;
 		}
 
-		private function get_entity(): Response {
-			// Check if an entity already exists with slugified title from GET endpoint
-			$this->entity = Call("work?id={$_GET["id"]}", Method::GET);
+		// ## Updated entity
 
-			// Response is not 404 (Not found) so we can't create the entity
-			if ($this->entity->code !== 200) {
-				// Response is not a valid entity, something went wrong
-				if ($this->entity->code !== 404) {
-					return $this->resp_database_error();
-				}
-
-				// Return 402 Conflict
-				return new Response("No entity with id '{$_GET["id"]}' was found", 404);
+		private function change_slug(): bool {
+			if (!array_key_exists(WorkModel::ID->value, $this->updated_entity)) {
+				return true;
 			}
 
-			return $this->entity;
+			// Generate new permalink for entity id
+			return $this->create_permalink($this->updated_entity[WorkModel::ID->value]);
+		}
+
+		private function timestamp_to_dates(): void {
+			if (!array_key_exists(WorkModel::DATE_TIMESTAMP_CREATED->value, $this->updated_entity)) {
+				return;
+			}
+
+			// Get timestamp from post data
+			$timestamp = $this->updated_entity[WorkModel::DATE_TIMESTAMP_CREATED->value];
+
+			// Update fractured dates from timestamp
+			$this->updated_entity[WorkModel::DATE_YEAR->value] = date("Y", $timestamp);
+			$this->updated_entity[WorkModel::DATE_MONTH ->value] = date("n", $timestamp);
+			$this->updated_entity[WorkModel::DATE_DAY->value] = date("j", $timestamp);
 		}
 
 		// # Responses
@@ -104,7 +151,7 @@
 		private function resp_permalink_error_rollback(): Response {
 			$update = $this->db->for(WorkModel::TABLE)
 				->where([WorkModel::ID->value => $_GET["id"]])
-				->update($this->entity->output());
+				->update($this->current_entity->output());
 
 			return $update
 				? new Response("Failed to create new permalink for updated entity. Changes have been rolled back", 500)
@@ -122,41 +169,36 @@
 				return $this->resp_no_changes();
 			}
 
-			// Assoc array of columns and values to update
-			$update_entity = $_POST;
-
 			// Generate new slug for entity if title is updated
 			if (array_key_exists(WorkModel::TITLE->value, $_POST)) {
 				// Generate URL slug from title text or UUID if undefined
 				$slug = self::gen_slug($_POST["title"]);
 
 				// Save generated slug from title if it's different from existing slug
-				if ($slug !== $this->entity->output()[WorkModel::ID->value]) {
-					$update_entity[WorkModel::ID->value] = $slug;
+				if ($slug !== $this->current_entity->output()[WorkModel::ID->value]) {
+					$this->updated_entity[WorkModel::ID->value] = $slug;
 				}
 			}
+
+			// Update fractured dates from timestamp
+			$this->timestamp_to_dates();
 
 			// Attempt to update the entity
 			$update = $this->db->for(WorkModel::TABLE)
 				->where([WorkModel::ID->value => $_GET["id"]])
-				->update($update_entity);
+				->update($this->updated_entity);
 
 			// Bail out if update failed
 			if (!$update) {
 				return $this->resp_database_error();
 			}
 
-			// Slug has been updated
-			if (array_key_exists(WorkModel::ID->value, $update_entity)) {
-				// Create new permalink for changed slug
-				if (!$this->create_permalink($update_entity[WorkModel::ID->value])) {
-					return $this->resp_permalink_error_rollback();
-				}
-
-				return new Response($update_entity[WorkModel::ID->value]);
+			// Create new slug for entity if title was changed
+			if (!$this->change_slug()) {
+				return $this->resp_permalink_error_rollback();
 			}
 			
 			// Return 200 OK and new or existing entity slug as body
-			return new Response($this->entity->output()[WorkModel::ID->value]);
+			return new Response($this->current_entity->output()[WorkModel::ID->value]);
 		}
 	}

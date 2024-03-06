@@ -1,6 +1,5 @@
 <?php
 
-
 	use Reflect\Path;
 	use Reflect\Response;
 	use ReflectRules\Type;
@@ -70,9 +69,22 @@
 
 		private function resp_item_details(string $id): Response {
 			$resp = $this->db->for(WorkModel::TABLE)
-				->where([WorkModel::ID->value => $id])
+				->where([
+					WorkModel::ID->value          => $id,
+					WorkModel::IS_READABLE->value => true
+				])
 				->limit(1)
-				->select("*");
+				->select([
+					WorkModel::ID->value,
+					WorkModel::TITLE->value,
+					WorkModel::SUMMARY->value,
+					WorkModel::ANCHOR_COVER->value,
+					WorkModel::DATE_YEAR->value,
+					WorkModel::DATE_MONTH->value,
+					WorkModel::DATE_DAY->value,
+					WorkModel::DATE_TIMESTAMP_MODIFIED->value,
+					WorkModel::DATE_TIMESTAMP_CREATED->value
+				]);
 
 			// Bail out if something went wrong retrieving rows from the database
 			if (!parent::is_mysqli_result($resp)) {
@@ -96,8 +108,19 @@
 			}
 
 			$resp = $this->db->for(WorkModel::TABLE)
+				->where([WorkModel::IS_LISTABLE->value => true])
 				->order([WorkModel::DATE_TIMESTAMP_CREATED->value => "DESC"])
-				->select("*");
+				->select([
+					WorkModel::ID->value,
+					WorkModel::TITLE->value,
+					WorkModel::SUMMARY->value,
+					WorkModel::ANCHOR_COVER->value,
+					WorkModel::DATE_YEAR->value,
+					WorkModel::DATE_MONTH->value,
+					WorkModel::DATE_DAY->value,
+					WorkModel::DATE_TIMESTAMP_MODIFIED->value,
+					WorkModel::DATE_TIMESTAMP_CREATED->value
+				]);
 
 			// Bail out if something went wrong retrieving rows from the database
 			if (!parent::is_mysqli_result($resp)) {

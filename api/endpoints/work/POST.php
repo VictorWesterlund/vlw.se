@@ -19,6 +19,7 @@
 
 	class POST_Work extends VLWdb {
 		const MYSQL_TEXT_MAX_LENGTH = 65538;
+		const MYSQL_INT_MAX_LENGHT = 2147483647;
 
 		protected Ruleset $ruleset;
 
@@ -37,6 +38,12 @@
 					->type(Type::STRING)
 					->min(1)
 					->max(self::MYSQL_TEXT_MAX_LENGTH)
+					->default(null),
+
+				(new Rules(WorkModel::DATE_TIMESTAMP_CREATED->value))
+					->type(Type::NUMBER)
+					->min(1)
+					->max(self::MYSQL_INT_MAX_LENGHT)
 					->default(null)
 			]);
 		}
@@ -90,17 +97,24 @@
 				return new Response("Entity with id '{$slug}' already exists", 402);
 			}
 
+			// Get created timestamp from payload or use current time if not specified
+			$created_timestamp = $_POST[WorkModel::DATE_TIMESTAMP_CREATED->value] 
+				? $_POST[WorkModel::DATE_TIMESTAMP_CREATED->value]
+				: time();
+
 			// Attempt to create new entity
 			$insert = $this->db->for(WorkModel::TABLE)
 				->insert([
 					WorkModel::ID->value                      => $slug,
 					WorkModel::TITLE->value                   => $_POST["title"],
 					WorkModel::SUMMARY->value                 => $_POST["summary"],
-					WorkModel::DATE_YEAR->value               => date("Y"),
-					WorkModel::DATE_MONTH ->value             => date("n"),
-					WorkModel::DATE_DAY->value                => date("j"),
+					WorkModel::IS_LISTABLE->value             => true,
+					WorkModel::IS_READABLE->value             => true,
+					WorkModel::DATE_YEAR->value               => date("Y", $created_timestamp),
+					WorkModel::DATE_MONTH ->value             => date("n", $created_timestamp),
+					WorkModel::DATE_DAY->value                => date("j", $created_timestamp),
 					WorkModel::DATE_TIMESTAMP_MODIFIED->value => null,
-					WorkModel::DATE_TIMESTAMP_CREATED->value  => time(),
+					WorkModel::DATE_TIMESTAMP_CREATED->value  => $created_timestamp,
 				]);
 
 			// Bail out if insert failed
@@ -111,7 +125,7 @@
 			// Create permalink for new entity
 			if (!$this->create_permalink($slug)) {
 				// Rollback created entity if permalink creation failed
-				Call("work", Method::DELETE, [WorkModel::ID => $slug]);
+				Call("work", Method::DELETE, [WorkModel::ID->value => $slug]);
 
 				return new Response("Failed to create permalink", 500);
 			}

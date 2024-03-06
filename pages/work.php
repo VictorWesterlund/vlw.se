@@ -93,7 +93,20 @@
 														</div>
 													<?php endif; ?>
 
-													<h2><?= $item["title"] ?></h2>
+													<?php // Show large heading if defiend ?>
+													<?php if (!empty($item["title"])): ?>
+														<h2><?= $item["title"] ?></h2>
+													<?php endif; ?>
+
+													<?php // Show cover image if defiend for item ?>
+													<?php if (!empty($item["anchor_cover"])): ?>
+														<picture>
+															<srcset src="/assets/media/content/<?= $item["anchor_cover"] ?>/<?= $item["anchor_cover"] ?>.avif" type="image/avif">
+															<srcset src="/assets/media/content/<?= $item["anchor_cover"] ?>/<?= $item["anchor_cover"] ?>.webp" type="image/webp">
+															<img src="/assets/media/content/<?= $item["anchor_cover"] ?>/<?= $item["anchor_cover"] ?>.jpg" loading="lazy"/>
+														</picture>
+													<?php endif; ?>
+
 													<p><?= $item["summary"] ?></p>
 
 													<?php // List actions if defiend for item ?>

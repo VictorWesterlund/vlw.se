@@ -41,6 +41,8 @@ a {
     text-decoration: none;
 }
 
+/* # Components */
+
 :is(h1, h2, h3, p, li) > a {
 	--underline-tickness: 3px;
 
@@ -51,12 +53,7 @@ a {
     text-decoration-color: var(--color-accent);
 }
 
-:is(h1, h2, h3, p, li) > a[target="_blank"]::after {
-	content: " ⮥";
-	color: var(--color-accent);
-}
-
-/* # Components */
+/* ## Buttons */
 
 button {
 	font-size: inherit;
@@ -78,8 +75,11 @@ a > button::after {
 	content: " ➜";
 }
 
-a[target="_blank"] > button::after {
+a[target="_blank"] > button::after,
+:is(h1, h2, h3, p, li) > a[target="_blank"]::after {
 	content: " ⮥";
+	color: var(--color-accent);
+	white-space: nowrap;
 }
 
 /* ## Header */

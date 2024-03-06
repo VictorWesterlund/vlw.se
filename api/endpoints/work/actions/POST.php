@@ -47,7 +47,7 @@
 					->type(Type::ARRAY)
 					->min(1)
 					->max(4)
-					->default(null),
+					->default([]),
 
 				(new Rules(WorkActionsModel::EXTERNAL->value))
 					->type(Type::BOOLEAN)
@@ -89,10 +89,10 @@
 				->insert([
 					WorkActionsModel::ID->value           => parent::gen_uuid4(),
 					WorkActionsModel::ANCHOR->value       => $_GET["id"],
-					WorkActionsModel::DISPLAY_TEXT->value => $_POST["display_name"],
-					WorkActionsModel::HREF->value         => $_POST["href"],
-					WorkActionsModel::CLASS_LIST->value   => implode(",", $_POST["class_list"]),
-					WorkActionsModel::EXTERNAL->value     => $_POST["name"],
+					WorkActionsModel::DISPLAY_TEXT->value => $_POST[WorkActionsModel::DISPLAY_TEXT->value],
+					WorkActionsModel::HREF->value         => $_POST[WorkActionsModel::HREF->value],
+					WorkActionsModel::CLASS_LIST->value   => implode(",", $_POST[WorkActionsModel::CLASS_LIST->value]),
+					WorkActionsModel::EXTERNAL->value     => $_POST[WorkActionsModel::EXTERNAL->value],
 				]);
 
 			// Return 201 Created and entity id as body if insert was successful

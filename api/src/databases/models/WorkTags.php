@@ -4,10 +4,12 @@
 
 	use victorwesterlund\xEnum;
 
-	enum WorkTagsNameEnum {
+	enum WorkTagsNameEnum: string {
 		use xEnum;
 
-		case RELEASE;
+		case VLW     = "VLW";
+		case RELEASE = "RELEASE";
+		case WEBSITE = "WEBSITE";
 	}
 
 	enum WorkTagsModel: string {

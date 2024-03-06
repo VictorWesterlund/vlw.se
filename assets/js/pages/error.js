@@ -13,11 +13,6 @@ canvas._glitch = new Glitch(canvas);
 	const NEXT_GLITCH_MIN = 100;
 	const NEXT_GLITCH_MAX = 500;
 
-	const COLORS = [
-		"255,0,0", // Red
-		"0,0,255" // Blue
-	];
-
 	const randomIntFromInterval = (min, max) => {
 		return Math.floor(Math.random() * (max - min + 1) + min)
 	}
