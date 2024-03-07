@@ -41,7 +41,9 @@
 </head>
 <body>
 	<header>
-		<p class="title"><a href="/" vv="document" vv-call="navigate">victor westerlund</a></p>
+		<nav>
+			<p><a href="/" vv="document" vv-call="navigate">victor westerlund</a></p>
+		</nav>
 		<searchbox>
 			<?= VV::media("icons/search.svg") ?>
 			<p>search anything...</p>

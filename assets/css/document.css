@@ -93,7 +93,7 @@ header {
 	height: var(--running-size);
 	border-bottom: var(--border-style);
 	display: grid;
-	align-items: center;
+	align-items: stretch;
 	justify-items: end;
 	grid-template-columns: 1fr var(--running-size);
 	background-color: rgba(0, 0, 0, .8);
@@ -102,7 +102,9 @@ header {
 	backdrop-filter: blur(20px);
 }
 
-header .title {
+header nav {
+	display: flex;
+	align-items: center;
 	padding: var(--padding);
 }
 
@@ -147,7 +149,6 @@ main.loading > * {
 /* ### Box */
 
 searchbox {
-	align-self: stretch;
 	display: grid;
 	width: 100%;
 	border-left: var(--border-style);
@@ -286,8 +287,9 @@ dialog.search search search-results > svg {
 		grid-template-columns: 1fr 250px var(--running-size);
 	}
 
-	header .title {
-		justify-self: baseline;
+	header nav {
+		justify-self: start;
+		margin: 0 calc(var(--padding) / 2);
 	}
 
 	/* # Menu */

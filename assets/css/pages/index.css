@@ -85,12 +85,6 @@ picture.gazing + *.mobile {
 	cursor: pointer;
 }
 
-/* ### Menu */
-
-.mobile .menu {
-	
-}
-
 /* ## Landscape sections */
 
 /* ### Menu */
@@ -283,7 +277,7 @@ splash::after {
 
 /* # Size queries */
 
-@media (min-width: 1200px) {
+@media (min-width: 1100px) {
 	main {
 		top: var(--running-size);
 		height: calc(100% - var(--running-size));
