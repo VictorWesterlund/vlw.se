@@ -6,6 +6,9 @@
 	use ReflectRules\Rules;
 	use ReflectRules\Ruleset;
 
+	use function Reflect\Call;
+	use Reflect\Request\Method;
+
 	use VLW\API\Databases\VLWdb\VLWdb;
 	use VLW\API\Databases\VLWdb\Models\Work\WorkModel;
 	use VLW\API\Databases\VLWdb\Models\Work\WorkTagsModel;
@@ -27,7 +30,7 @@
 				(new Rules("id"))
 					->type(Type::STRING)
 					->min(1)
-					->max(255)
+					->max(parent::MYSQL_VARCHAR_MAX_LENGTH)
 					->default(null)
 			]);
 		}
@@ -78,7 +81,7 @@
 					WorkModel::ID->value,
 					WorkModel::TITLE->value,
 					WorkModel::SUMMARY->value,
-					WorkModel::ANCHOR_COVER->value,
+					WorkModel::COVER_SRCSET->value,
 					WorkModel::DATE_YEAR->value,
 					WorkModel::DATE_MONTH->value,
 					WorkModel::DATE_DAY->value,
@@ -114,7 +117,7 @@
 					WorkModel::ID->value,
 					WorkModel::TITLE->value,
 					WorkModel::SUMMARY->value,
-					WorkModel::ANCHOR_COVER->value,
+					WorkModel::COVER_SRCSET->value,
 					WorkModel::DATE_YEAR->value,
 					WorkModel::DATE_MONTH->value,
 					WorkModel::DATE_DAY->value,
@@ -127,11 +130,17 @@
 				return $this->resp_database_error();
 			}
 
-			// Resolve tags and actions for each row
+			// Resolve foreign keys
 			$rows = [];
 			while ($row = $resp->fetch_assoc()) {
 				$row["tags"] = $this->fetch_row_tags($row["id"]);
 				$row["actions"] = $this->fetch_row_actions($row["id"]);
+
+				// Resolve media entities in srcset
+				$srcset = Call("media/srcset?id={$row[WorkModel::COVER_SRCSET->value]}", Method::GET);
+				
+				// Mutate key on current row
+				$row[WorkModel::COVER_SRCSET->value] = $srcset->ok ? $srcset->output() : [];
 
 				$rows[] = $row;
 			}

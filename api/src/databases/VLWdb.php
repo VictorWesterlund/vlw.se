@@ -5,6 +5,10 @@
 	use libmysqldriver\MySQL;
 
 	class VLWdb {
+		const MYSQL_TEXT_MAX_LENGTH = 65538;
+		const MYSQL_VARCHAR_MAX_LENGTH = 255;
+		const MYSQL_INT_MAX_LENGHT = 2147483647;
+
 		protected MySQL $db;
 
 		public function __construct() {

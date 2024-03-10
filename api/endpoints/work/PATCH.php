@@ -18,9 +18,6 @@
 	require_once Path::root("src/databases/models/WorkPermalinks.php");
 
 	class PATCH_Work extends VLWdb {
-		const MYSQL_TEXT_MAX_LENGTH = 65538;
-		const MYSQL_INT_MAX_LENGHT = 2147483647;
-
 		protected Ruleset $ruleset;
 
 		protected Response $current_entity;
@@ -35,19 +32,19 @@
 					->required()
 					->type(Type::STRING)
 					->min(1)
-					->max(255)
+					->max(parent::MYSQL_VARCHAR_MAX_LENGTH)
 			]);
 
 			$this->ruleset->POST([
 				(new Rules(WorkModel::TITLE->value))
 					->type(Type::STRING)
 					->min(3)
-					->max(255),
+					->max(parent::MYSQL_VARCHAR_MAX_LENGTH),
 
 				(new Rules(WorkModel::SUMMARY->value))
 					->type(Type::STRING)
 					->min(1)
-					->max(self::MYSQL_TEXT_MAX_LENGTH),
+					->max(parent::MYSQL_TEXT_MAX_LENGTH),
 
 				(new Rules(WorkModel::IS_LISTABLE->value))
 					->type(Type::BOOLEAN),
@@ -58,7 +55,7 @@
 				(new Rules(WorkModel::DATE_TIMESTAMP_CREATED->value))
 					->type(Type::NUMBER)
 					->min(0)
-					->max(self::MYSQL_INT_MAX_LENGHT)
+					->max(parent::MYSQL_INT_MAX_LENGHT)
 			]);
 
 			$this->get_existing_entity();

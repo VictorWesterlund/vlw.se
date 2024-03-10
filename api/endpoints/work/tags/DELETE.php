@@ -28,7 +28,7 @@
 					->required()
 					->type(Type::STRING)
 					->min(1)
-					->max(255),
+					->max(parent::MYSQL_VARCHAR_MAX_LENGTH),
 
 				(new Rules(WorkTagsModel::NAME->value))
 					->required()

@@ -84,7 +84,7 @@
 											<?php foreach($items as $item): ?>
 												<div class="item">
 
-													<?php // List tags if defiend for item ?>
+													<?php // List tags if defined for item ?>
 													<?php if(!empty($item["tags"])): ?>
 														<div class="tags">
 															<?php foreach($item["tags"] as $tag): ?>
@@ -93,23 +93,34 @@
 														</div>
 													<?php endif; ?>
 
-													<?php // Show large heading if defiend ?>
+													<?php // Show large heading if defined ?>
 													<?php if (!empty($item["title"])): ?>
 														<h2><?= $item["title"] ?></h2>
 													<?php endif; ?>
 
-													<?php // Show cover image if defiend for item ?>
-													<?php if (!empty($item["anchor_cover"])): ?>
+													<?php // Show cover image if defined for item ?>
+													<?php if (!empty($item["cover_srcset"])): ?>
 														<picture>
-															<srcset src="/assets/media/content/<?= $item["anchor_cover"] ?>/<?= $item["anchor_cover"] ?>.avif" type="image/avif">
-															<srcset src="/assets/media/content/<?= $item["anchor_cover"] ?>/<?= $item["anchor_cover"] ?>.webp" type="image/webp">
-															<img src="/assets/media/content/<?= $item["anchor_cover"] ?>/<?= $item["anchor_cover"] ?>.jpg" loading="lazy"/>
+
+															<?php // List all srcset images ?>
+															<?php foreach ($item["cover_srcset"]["srcset"] as $srcset): ?>
+																<?php // Skip any media that isn't an image ?>
+																<?php if ($srcset["type"] !== "IMAGE"): continue; endif; ?>
+
+																<srcset src="/assets/media/content/<?= $srcset["id"] ?>.<?= $srcset["extension"] ?>" type="<?= $srcset["mime"] ?>"></srcset>
+															<?php endforeach; ?>
+
+															<?php 
+																// Get the default/fallback image for this srcset
+																$default = $item["cover_srcset"]["default"];
+															?>
+															<img src="/assets/media/content/<?= $default["id"] ?>.<?= $default["extension"] ?>" type="<?= $default["mime"] ?>" loading="lazy"/>
 														</picture>
 													<?php endif; ?>
 
 													<p><?= $item["summary"] ?></p>
 
-													<?php // List actions if defiend for item ?>
+													<?php // List actions if defined for item ?>
 													<?php if(!empty($item["actions"])): ?>
 														<div class="actions">
 															<?php foreach($item["actions"] as $action): ?>

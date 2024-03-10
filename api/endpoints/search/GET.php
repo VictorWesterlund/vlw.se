@@ -27,7 +27,7 @@
 					->required()
 					->type(Type::STRING)
 					->min(2)
-					->max(255)
+					->max(parent::MYSQL_VARCHAR_MAX_LENGTH)
 			]);
 		}
 

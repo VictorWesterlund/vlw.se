@@ -18,9 +18,6 @@
 	require_once Path::root("src/databases/models/WorkPermalinks.php");
 
 	class POST_Work extends VLWdb {
-		const MYSQL_TEXT_MAX_LENGTH = 65538;
-		const MYSQL_INT_MAX_LENGHT = 2147483647;
-
 		protected Ruleset $ruleset;
 
 		public function __construct() {
@@ -31,19 +28,19 @@
 				(new Rules(WorkModel::TITLE->value))
 					->type(Type::STRING)
 					->min(3)
-					->max(255)
+					->max(parent::MYSQL_VARCHAR_MAX_LENGTH)
 					->default(null),
 
 				(new Rules(WorkModel::SUMMARY->value))
 					->type(Type::STRING)
 					->min(1)
-					->max(self::MYSQL_TEXT_MAX_LENGTH)
+					->max(parent::MYSQL_TEXT_MAX_LENGTH)
 					->default(null),
 
 				(new Rules(WorkModel::DATE_TIMESTAMP_CREATED->value))
 					->type(Type::NUMBER)
 					->min(1)
-					->max(self::MYSQL_INT_MAX_LENGHT)
+					->max(parent::MYSQL_INT_MAX_LENGHT)
 					->default(null)
 			]);
 		}

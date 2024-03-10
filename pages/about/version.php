@@ -1,5 +1,12 @@
 <?php
 
+	/*
+		A pretty naive website version fetcher that assumes the latest git tag is the
+		version the website is currently displaying. The intent is that any live-master
+		of this website should always track the master branch and pull the latest HEAD 
+		without any exceptions.
+	*/
+	
 	use Vegvisir\Path;
 
 	// Get tags from local git folder

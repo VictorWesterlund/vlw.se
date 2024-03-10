@@ -104,7 +104,7 @@ if (window.matchMedia("(hover: hover)")) {
 	});
 
 	// Reset color on navigation
-	document.querySelector(vv._env.MAIN).addEventListener(vv.Navigation.events.LOADING, () => updateColor(), { once: true });
+	document.querySelector(vv._env.MAIN).addEventListener(vv.Navigation.events.LOADED, () => updateColor(), { once: true });
 }
 
 // Open search box from mobile fullscreen menu

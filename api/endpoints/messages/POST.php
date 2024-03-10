@@ -16,8 +16,6 @@
 	require_once Path::root("src/databases/models/Messages.php");
 
 	class POST_Messages extends VLWdb {
-		const MYSQL_TEXT_MAX_LENGTH = 65538;
-
 		protected Ruleset $ruleset;
 
 		public function __construct() {
@@ -34,7 +32,7 @@
 					->required()
 					->type(Type::STRING)
 					->min(1)
-					->max(self::MYSQL_TEXT_MAX_LENGTH)
+					->max(parent::MYSQL_TEXT_MAX_LENGTH)
 			]);
 		}
 

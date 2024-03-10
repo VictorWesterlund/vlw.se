@@ -27,7 +27,7 @@
 					->required()
 					->type(Type::STRING)
 					->min(1)
-					->max(255)
+					->max(parent::MYSQL_VARCHAR_MAX_LENGTH)
 			]);
 
 			$this->ruleset->POST([
@@ -35,13 +35,14 @@
 					->required()
 					->type(Type::STRING)
 					->min(1)
-					->max(255),
+					->max(parent::MYSQL_VARCHAR_MAX_LENGTH),
 
 				(new Rules(WorkActionsModel::HREF->value))
 					->required()
 					->type(Type::STRING)
+					->type(Type::NULL)
 					->min(1)
-					->max(255),
+					->max(parent::MYSQL_VARCHAR_MAX_LENGTH),
 
 				(new Rules(WorkActionsModel::CLASS_LIST->value))
 					->type(Type::ARRAY)

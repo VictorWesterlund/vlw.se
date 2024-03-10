@@ -8,7 +8,7 @@
 		case ID                      = "id";
 		case TITLE                   = "title";
 		case SUMMARY                 = "summary";
-		case ANCHOR_COVER            = "anchor_cover";
+		case COVER_SRCSET            = "cover_srcset";
 		case IS_LISTABLE             = "is_listable";
 		case IS_READABLE             = "is_readable";
 		case DATE_YEAR               = "date_year";

@@ -43,6 +43,7 @@ section.timeline {
 	--timestamp-gap: calc(var(--padding) / 2);
 
 	width: 100%;
+	padding: var(--padding);
 }
 
 section.timeline :is(.year, .month, .day) {
@@ -105,7 +106,7 @@ section.timeline .items .item .tags {
 }
 
 section.timeline .items .item .tags .tag {
-	font-size: 12px;
+	font-size: 11px;
 	letter-spacing: 1px;
 	color: rgba(255, 255, 255, .7);
 	background-color: rgba(255, 255, 255, .15);
@@ -114,11 +115,15 @@ section.timeline .items .item .tags .tag {
 }
 
 section.timeline .items .item h2 {
-	font-size: 40px;
+	font-size: 30px;
 }
 
 section.timeline .items .item h3 {
 	font-size: 25px;
+}
+
+section.timeline .items .item p {
+	font-size: 16px;
 }
 
 section.timeline .items .item img {
@@ -157,6 +162,10 @@ section.timeline .items .item .actions {
 }
 
 @media (max-width: 500px) {
+	section.timeline {
+		padding: unset;
+	}
+
 	section.timeline .track {
 		position: relative;
 		left: calc(var(--padding) * 1.5);

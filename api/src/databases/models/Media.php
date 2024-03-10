@@ -4,16 +4,21 @@
 
 	use victorwesterlund\xEnum;
 
-	enum MediaTypeEnum {
+	enum MediaTypeEnum: string {
 		use xEnum;
 
-		case IMAGE;
+		case BLOB  = "BLOB";
+		case IMAGE = "IMAGE";
 	}
 
 	enum MediaModel: string {
 		const TABLE = "media";
 
-		case ID   = "id";
-		case TYPE = "type";
-		case MIME = "mime";
+		case ID                     = "id";
+		case NAME                   = "name";
+		case TYPE                   = "type";
+		case MIME                   = "mime";
+		case EXTENSION              = "extension";
+		case SRCSET                 = "srcset";
+		case DATE_TIMESTAMP_CREATED = "date_timestamp_created";
 	}

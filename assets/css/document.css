@@ -82,6 +82,10 @@ a[target="_blank"] > button::after,
 	white-space: nowrap;
 }
 
+a > button.solid:not(:hover)::after {
+	color: black;
+}
+
 /* ## Header */
 
 header {
