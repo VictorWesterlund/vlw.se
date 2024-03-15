@@ -12,6 +12,7 @@ main {
 	padding: var(--padding);
 	width: 100%;
 	max-width: 1200px;
+	overflow-x: initial;
 }
 
 /* # Sections */
@@ -178,7 +179,7 @@ section.timeline .items .item .actions {
 		background-color: black;
 	}
 
-	section.timeline .days {
+	section.timeline :is(.years, .year, .months, .month, .days, .day) {
 		width: 0;
 	}
 

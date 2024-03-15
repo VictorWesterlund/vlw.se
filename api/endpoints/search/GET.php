@@ -31,32 +31,63 @@
 			]);
 		}
 
+		// Return an SQL string from array for use in prepared statements
+		private static function array_to_wildcard_sql(array $columns): string {
+			$sql = array_map(fn(string $column): string => "{$column} LIKE CONCAT('%', ?, '%')", $columns);
+			
+			return implode(" OR ", $sql);
+		}
+
+		// Return chained AND statements from array for use in prepared statements
+		private static function array_to_and_statement(array $keys): string {
+			$sql = array_map(fn(string $k): string => "{$k} = ?", $keys);
+
+			return implode(" AND ", $sql);
+		}
+
 		// Wildcard search columns in table with query string from query string
-		private function search(string $table, array $columns): array {
+		// This has to be implemented manually until "libmysqldriver/MySQL" supports wildcard SELECT 
+		private function search(string $table, array $columns, array $conditions = null): array {
 			// Create CSV from columns array
 			$columns_concat = implode(",", $columns);
 
 			// Create SQL LIKE wildcard statement for each column.
-			$where_stmt = array_map(fn(string $column): string => "{$column} LIKE CONCAT('%', ?, '%')", $columns);
-			$where_concat = implode(" OR ", $where_stmt);
-			
+			$where = self::array_to_wildcard_sql($columns);
+
 			// Create array of values from query string for each colum
 			$values = array_fill(0, count($columns), $_GET[self::GET_QUERY]);
 
+			if ($conditions) {
+				$conditions_sql = self::array_to_and_statement(array_keys($conditions));
+
+				// Wrap positive where statements and prepare new group of conditions
+				// WHERE (<search_terms>) AND (<conditions>)
+				$where = "({$where}) AND ({$conditions_sql})";
+
+				// Append values from conditions statements to prepared statement
+				array_push($values, ...array_values($conditions));
+			}
+
 			// Order the rows by the array index of $colums received
-			$rows = $this->db->exec("SELECT {$columns_concat} FROM {$table} WHERE {$where_concat} ORDER BY {$columns_concat}", $values);
+			$rows = $this->db->exec("SELECT {$columns_concat} FROM {$table} WHERE {$where} ORDER BY {$columns_concat}", $values);
 			// Return results as assoc or empty array
 			return parent::is_mysqli_result($rows) ? $rows->fetch_all(MYSQLI_ASSOC) : [];
 		}
 
 		// Search work table
 		private function search_work(): array {
-			return $this->search(WorkModel::TABLE, [
+			$search = [
 				WorkModel::TITLE->value,
 				WorkModel::SUMMARY->value,
 				WorkModel::DATE_TIMESTAMP_CREATED->value,
 				WorkModel::ID->value
-			]);
+			];
+
+			$conditions = [
+				WorkModel::IS_LISTABLE->value => true
+			];
+
+			return $this->search(WorkModel::TABLE, $search, $conditions);
 		}
 
 		// # Responses

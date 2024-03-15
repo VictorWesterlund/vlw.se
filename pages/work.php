@@ -152,6 +152,9 @@
 			</div>
 		<?php endforeach; ?>
 	</section>
+	<section class="note">
+		<p>This is not really the end of the list. I will work on adding some of my older work at some point.</p>
+	</section>
 <?php else: ?>
 	<p>Something went wrong!</p>
 <?php endif; ?>

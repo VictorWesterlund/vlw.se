@@ -6,11 +6,11 @@ const randomIntFromInterval = (min, max) => {
 
 // Interest explosion effect from origin position
 const explodeInterests = (originX, originY) => {
+	// Elements can not translate more than negative- and positive from this number
+	const TRANS_LIMIT = 300;
+
 	const wrapper = document.querySelector("div.interests");
 	wrapper.classList.add("active");
-
-	// Elements can not translate more than negative- and positive from this number
-	const transLimit = 350;
 
 	[...wrapper.querySelectorAll("p")].forEach(element => {
 		/*
@@ -18,8 +18,8 @@ const explodeInterests = (originX, originY) => {
 		*/
 		const hue = randomIntFromInterval(0, 360);
 		const rotate = randomIntFromInterval(-5, 5);
-		const transX = randomIntFromInterval(transLimit * -1, transLimit);
-		const transY = randomIntFromInterval(transLimit * -1, transLimit);
+		const transX = randomIntFromInterval(TRANS_LIMIT * -1, TRANS_LIMIT);
+		const transY = randomIntFromInterval(TRANS_LIMIT * -1, TRANS_LIMIT);
 
 		// Set initial position
 		element.style.setProperty("top", `${originY}px`);
@@ -27,6 +27,7 @@ const explodeInterests = (originX, originY) => {
 
 		// Set random HUE rotation
 		element.style.setProperty("-webkit-filter", `hue-rotate(${hue}deg)`);
+		element.style.setProperty("filter", `hue-rotate(${hue}deg)`);
 
 		// Translate and rotate to random position from origin
 		element.style.setProperty("transform", `translate(${transX}px, ${transY}px) rotate(${rotate}deg)`);
@@ -44,16 +45,21 @@ const implodeInterests = () => {
 	});
 };
 
-// Bind trigger element for interests explosion and implotion
-const interestsElement = document.querySelector("section.about span.interests");
-interestsElement.addEventListener("mouseenter", () => {
-	/*
-		Magic numbers to offset the explosion initial position to accommodate larger elements
-	*/
-	const x = interestsElement.offsetLeft - 80;
-	const y = interestsElement.offsetTop - 10;
+// Bind triggers for interests explosion and implotion
+{
+	const interestsElement = document.querySelector("section.about span.interests");
+	// Bind mouse or touch events depending on pointer type of device
+	const canHover = window.matchMedia("(pointer: fine)").matches;
 
-	explodeInterests(x, y);
-});
+	interestsElement.addEventListener(canHover ? "mouseenter" : "touchstart", () => {
+		// Get absolute position of the trigger element
+		const size = interestsElement.getBoundingClientRect();
 
-interestsElement.addEventListener("mouseleave", () => implodeInterests());
+		const x = size.x - 80;
+		const y = size.y - 10;
+
+		explodeInterests(x, y);
+	});
+
+	interestsElement.addEventListener(canHover ? "mouseleave" : "touchend", () => implodeInterests());
+}

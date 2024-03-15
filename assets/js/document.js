@@ -5,6 +5,9 @@ const mainElement = document.querySelector(vv._env.MAIN);
 // Crossfade pages on navigation
 mainElement.addEventListener(vv.Navigation.events.LOADING, () => {
 	mainElement.classList.add("loading");
+
+	// Clean up modified transform-origin if set after search dialog animation
+	mainElement.style.removeProperty("transform-origin");
 });
 
 mainElement.addEventListener(vv.Navigation.events.LOADED, () => {
@@ -17,6 +20,9 @@ mainElement.addEventListener(vv.Navigation.events.LOADED, () => {
 // Search dialog open/close logic
 {
 	const CLASNAME_DIALOG_OPEN = "search-dialog-open";
+	// Offset in pixels from scroll position when scaling the main element
+	const TRANSFORM_ORIGIN_Y_PADDING = 350;
+
 	const dialog = document.querySelector("dialog.search");
 
 	// "Polyfill" for HTMLDialogELement open and close events
@@ -31,7 +37,12 @@ mainElement.addEventListener(vv.Navigation.events.LOADED, () => {
 
 	}).observe(dialog, { attributes: true }));
 
-	dialog.addEventListener("open", () => document.body.classList.add(CLASNAME_DIALOG_OPEN));
+	dialog.addEventListener("open", () => {
+		// Scale main element from the current scroll position
+		mainElement.style.setProperty("transform-origin", `50% calc(${window.scrollY}px + ${TRANSFORM_ORIGIN_Y_PADDING}px)`);
+
+		document.body.classList.add(CLASNAME_DIALOG_OPEN);
+	});
 	dialog.addEventListener("close", () => document.body.classList.remove(CLASNAME_DIALOG_OPEN));
 	
 	// Close search dialog if dialog is clicked outside inner content

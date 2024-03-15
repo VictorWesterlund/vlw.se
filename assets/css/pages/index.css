@@ -27,6 +27,9 @@ picture.gazing img {
 	height: clamp(20px, 100vw, 55vh);
 	-webkit-filter: hue-rotate(var(--hue-accent));
 	filter: hue-rotate(var(--hue-accent));
+	-webkit-user-select: none;
+	user-select: none;
+	pointer-events: none;
 }
 
 picture.gazing + *.mobile {
@@ -163,7 +166,7 @@ menu nav {
 }
 
 menu nav p {
-	font-size: 60px;
+	font-size: clamp(16px, 10vh, 19vw);
 	font-weight: 900;
 	color: rgb(var(--color));
 }
