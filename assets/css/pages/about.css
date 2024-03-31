@@ -50,6 +50,7 @@ section.about p:first-of-type:first-letter {
 }
 
 section.about span.interests {
+	-webkit-user-select: none;
 	user-select: none;
 	color: var(--color-accent);
 	animation: interests-hue 5s infinite linear;
