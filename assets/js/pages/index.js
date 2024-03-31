@@ -96,7 +96,7 @@ if (window.matchMedia("(hover: hover)")) {
 		document.documentElement.style.setProperty("--color-accent", "rgb(var(--primer-color-accent)");
 	};
 
-	[...document.querySelectorAll(".large section.menu p")].forEach(element => {
+	[...document.querySelectorAll("menu li")].forEach(element => {
 		// Change site accent color to RGB and HUE rotation defined in element dataset
 		element.addEventListener("mouseenter", (event) => updateColor(event.target.dataset.rgb, event.target.dataset.hue));
 		// Reset initial accent color and hues

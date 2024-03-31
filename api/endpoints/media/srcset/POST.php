@@ -3,8 +3,8 @@
 	use Reflect\Path;
 	use Reflect\Response;
 
+	use Reflect\Method;
 	use function Reflect\Call;
-	use Reflect\Request\Method;
 
 	use VLW\API\Databases\VLWdb\VLWdb;
 	use VLW\API\Databases\VLWdb\Models\MediaSrcset\MediaSrcsetModel;

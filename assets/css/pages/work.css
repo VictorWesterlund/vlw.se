@@ -38,6 +38,15 @@ section.git .buttons {
 	gap: var(--padding);
 }
 
+/* ## Git */
+
+section.note {
+	margin: 0 var(--padding);
+	background-color: rgba(var(--primer-color-accent), .1);
+	padding: calc(var(--padding) * 1.5);
+	border-radius: 6px;
+}
+
 /* ## Timeline */
 
 section.timeline {

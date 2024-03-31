@@ -21,6 +21,11 @@
 	</div>
 </section>
 
+<section class="note">
+	<h1>Whatever!</h1>
+	<p>Okay I've been holding of publishing my website for sooo long now due to this timeline. I wanted to provide some writing about my projects and all that, but I never get around to it! So I will publish this "as is" for now with the hope I will cumulatively add some copy later on...</p>
+</section>
+
 <?php if ($resp[0] === 200): ?>
 	<?php
 

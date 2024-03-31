@@ -6,8 +6,8 @@
 	use ReflectRules\Rules;
 	use ReflectRules\Ruleset;
 
+	use Reflect\Method;
 	use function Reflect\Call;
-	use Reflect\Request\Method;
 
 	use VLW\API\Databases\VLWdb\Models\Work\WorkModel;
 	use VLW\API\Databases\VLWdb\Models\Work\WorkTagsModel;

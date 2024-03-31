@@ -3,7 +3,8 @@ new vv.Interactions("document");
 const mainElement = document.querySelector(vv._env.MAIN);
 
 // Crossfade pages on navigation
-mainElement.addEventListener(vv.Navigation.events.LOADING, () => {
+// Or maybe I shouldn't... hmmm
+/*mainElement.addEventListener(vv.Navigation.events.LOADING, () => {
 	mainElement.classList.add("loading");
 
 	// Clean up modified transform-origin if set after search dialog animation
@@ -15,7 +16,7 @@ mainElement.addEventListener(vv.Navigation.events.LOADED, () => {
 
 	// Wait 200ms for the page fade-in animation to finish
 	setTimeout(() => mainElement.classList.remove("loading"), 200);
-});
+});*/
 
 // Search dialog open/close logic
 {

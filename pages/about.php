@@ -42,7 +42,7 @@
 </section>
 <section class="about">
 	<h2>This website</h2>
-	<p>This site and all of its components are 100% Free Software. It's built on top of my own <a href="">Vegvisir</a> (web) and <a href="">Reflect</a> (API) framework. There are no cookies or trackers on this site and analytics <strong>only</strong> consist of basic access and error logs; and from which IP address.</p>
+	<p>This site and all of its components are 100% Free Software; licensed under the GNU GPLv3. It's built on top of my own <a href="">Vegvisir</a> (web) and <a href="">Reflect</a> (API) framework. There are no cookies or trackers on this site and analytics <strong>only</strong> consist of basic access and error logs; and from which IP address.</p>
 </section>
 <section class="about">
 	<h2>Projects</h2>
@@ -53,7 +53,7 @@
 </section>
 <section class="about">
 	<h2>Philosophy</h2>
-	<p>I believe in a world where humans treat other humans as humans, not products of profit and/or control. While my focus primarily lies in software freedom - that is, software that respects the user's right to freedom. My main goal is to preserve and promote liberalism.</p>
+	<p>I believe in a world where humans treat other humans as humans, not products of profit and control. While my focus primarily lies in software freedom - that is, software that respects the user's right to freedom. My main goal is to preserve and promote liberalism.</p>
 	<?php //<p>See my unstructured "blog" for posts (rants) about this now and then if this sounds interesting to you.</p> ?>
 </section>
 <hr>
