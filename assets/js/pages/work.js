@@ -1,0 +1,1 @@
+new vv.Interactions("work");

@@ -1,0 +1,207 @@
+/* # Overrides */
+
+:root {
+	--primer-color-accent: 3, 255, 219;
+	--color-accent: rgb(var(--primer-color-accent));
+}
+
+main {
+	display: flex;
+	flex-direction: column;
+	gap: var(--padding);
+	padding: calc(var(--padding) * 1.5);
+	width: 100%;
+	max-width: 1200px;
+	overflow-x: initial;
+}
+
+/* # Sections */
+
+/* ## Git */
+
+section.git {
+	display: flex;
+	flex-direction: column;
+	gap: var(--padding);
+	background-color: rgba(var(--primer-color-accent), .1);
+	padding: calc(var(--padding) * 1.5);
+	border-radius: 6px;
+}
+
+section.git svg {
+	width: 60px;
+}
+
+section.git .buttons {
+	display: flex;
+	flex-direction: column;
+	gap: var(--padding);
+}
+
+/* ## Timeline */
+
+section.timeline {
+	--timestamp-gap: calc(var(--padding) / 2);
+
+	width: 100%;
+}
+
+section.timeline :is(.year, .month, .day) {
+	display: grid;
+	grid-template-columns: calc(40px + var(--timestamp-gap)) 1fr;
+	grid-template-rows: 1fr;
+}
+
+section.timeline .track {
+	--opacity: .15;
+	--width: 2%;
+
+	background: linear-gradient(90deg, 
+		transparent 0%, transparent calc(50% - var(--width)), 
+		rgba(255, 255, 255, var(--opacity)) calc(50% - var(--width)), rgba(255, 255, 255, var(--opacity)) calc(50% + var(--width)), 
+		transparent calc(50% + var(--width)), transparent 100%
+	);
+}
+
+section.timeline .track p {
+	position: sticky;
+	top: calc(var(--running-size) + var(--padding));
+	padding: calc(var(--padding) / 2) 0;
+	background-color: black;
+	color: var(--color-accent);
+}
+
+section.timeline :not(.year) > .track p::before {
+	content: "/ ";
+	color: rgba(255, 255, 255, .3);
+}
+
+/* ### Item */
+
+section.timeline .items .item {
+	display: flex;
+	flex-direction: column;
+	gap: calc(var(--padding) / 2);
+	padding: var(--padding);
+}
+
+section.timeline .items .item + .item {
+	border-top: solid 2px rgba(255, 255, 255, .2);
+}
+
+section.timeline .items .item:first-of-type {
+	margin-top: var(--padding);
+	border-top: solid 2px var(--color-accent);
+}
+
+/* No border style for the latest item (from the top) in the list */
+section.timeline .year:first-of-type .month:first-of-type .day:first-of-type .items .item:first-of-type {
+	margin-top: unset;
+	border-top: unset;
+}
+
+section.timeline .items .item .tags {
+	display: flex;
+	gap: calc(var(--padding) / 2);
+}
+
+section.timeline .items .item .tags .tag {
+	font-size: 11px;
+	letter-spacing: 1px;
+	color: rgba(255, 255, 255, .7);
+	background-color: rgba(255, 255, 255, .15);
+	border-radius: 4px;
+	padding: 5px 10px;
+}
+
+section.timeline .items .item h2 {
+	font-size: 30px;
+}
+
+section.timeline .items .item h3 {
+	font-size: 25px;
+}
+
+section.timeline .items .item p {
+	font-size: 16px;
+}
+
+section.timeline .items .item img {
+	max-width: 100%;
+	height: 250px;
+}
+
+section.timeline .items .item .actions {
+	margin-top: 7px;
+	font-size: 13px;
+}
+
+/* ## Note */
+
+section.note {
+	text-align: center;
+}
+
+/* # Size queries */
+
+@media (min-width: 460px) {
+	section.git .buttons {
+		flex-direction: row;
+	}
+}
+
+@media (min-width: 900px) {
+	section.git {
+		display: grid;
+		grid-template-columns: 70px 1fr 400px;
+		align-items: center;
+		gap: calc(var(--padding) * 1.5);
+	}
+
+	section.git svg {
+		width: 100%;
+	}
+
+	section.git .buttons {
+		justify-content: end;
+	}
+}
+
+@media (max-width: 500px) {
+	section.timeline {
+		padding: unset;
+	}
+
+	section.timeline .track {
+		position: relative;
+		left: calc(var(--padding) * 1.5);
+		background: unset;
+		z-index: 10;
+		pointer-events: none;
+	}
+
+	section.timeline .track p {
+		background-color: black;
+	}
+
+	section.timeline :is(.years, .year, .months, .month, .days, .day) {
+		width: 0;
+	}
+
+	section.timeline .items {
+		position: relative;
+		left: -140px;
+	}
+
+	section.timeline .items .item {
+		width: calc(100vw - (var(--padding) * 3.5));
+	}
+
+	section.timeline .items .item:first-of-type {
+		border-top-color: rgba(var(--primer-color-accent), .2);
+	}
+
+	section.timeline .year:first-of-type .month:first-of-type .day:first-of-type .items .item:first-of-type {
+		margin-top: var(--padding);
+	}
+}

@@ -1,0 +1,170 @@
+/* # Main styles */
+
+/* ## Picture */
+
+main {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	flex-direction: column-reverse;
+}
+
+main img {
+	margin: auto;
+	width: 25vh;
+	pointer-events: none;
+	-webkit-filter: hue-rotate(var(--hue-accent));
+	filter: hue-rotate(var(--hue-accent));
+}
+
+/* ## Menu */
+
+.menu {
+	width: 100%;
+	max-width: 300px;
+	display: flex;
+	flex-direction: column;
+}
+
+.menu menu {
+	margin: var(--padding) 0;
+	list-style: none;
+	padding: unset;
+	text-align: right;
+	font-size: clamp(20px, 8vh, 60px);
+	font-weight: 900;
+	line-height: clamp(20px, 8vh, 60px);
+	color: var(--color-accent);
+}
+
+.menu menu li {
+	transition: 200ms opacity, 200ms color;
+}
+
+.menu svg {
+	width: 100%;
+}
+
+/* ### Copy email button */
+
+.menu button {
+	text-align: right;
+	border: unset;
+	padding: var(--padding) 0;
+}
+
+.menu button p:first-of-type {
+	color: var(--color-accent);
+}
+
+/* # Email-copied splash */
+
+splash {
+	--confetti: unset;
+	--text-shadow: 0 0 30px black;
+
+	display: initial !important;
+	transition: 300ms opacity;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	font-size: 80px;
+	color: white;
+	z-index: 200;
+	font-weight: 900;
+	pointer-events: none;
+	perspective: 300px;
+	text-shadow: 
+		var(--text-shadow), 
+		var(--text-shadow), 
+		var(--text-shadow), 
+		var(--text-shadow)
+	;
+	animation: splash-reveal 1s ease;
+}
+
+splash.hide {
+	opacity: 0;
+}
+
+splash::after {
+	content: "";
+	top: 50%;
+	left: 50%;
+	position: absolute;
+	width: 8px;
+	height: 16px;
+	background-color: transparent;
+	box-shadow: var(--confetti);
+	animation: splash-confetti 1s ease;
+	opacity: 0;
+}
+
+/* ## Keyframes */
+
+@keyframes splash-confetti {
+	0%   { 
+		transform: rotate(12deg) scale(0);
+		opacity: 1;
+	}
+
+	60% {
+		opacity: 1;
+	}
+
+	100% { 
+		transform: rotate(-10deg) scale(1);
+		opacity: 0;
+	}
+}
+
+@keyframes splash-reveal {
+	0%   { transform: translate(-50%, -50%) rotate(-8deg) scale(0); }
+	35%  { transform: translate(-50%, -50%) rotate(-3deg) scale(1.1); }
+	100% { transform: translate(-50%, -50%) rotate(0deg) scale(1); }
+}
+
+/* # Features */
+
+.cta::before {
+	content: "tap ";
+}
+
+@media (pointer: fine) {
+	.cta::before {
+		content: "click ";
+	}
+}
+
+/* # Feature queries */
+
+@media (hover: hover) {
+	.menu menu:hover li {
+		opacity: .6;
+	}
+
+	.menu menu li:hover {
+		opacity: 1;
+		text-shadow: 0 0 10px rgba(var(--primer-color-accent), .4);
+	}
+}
+
+/* # Size quries */
+
+@media (min-width: 900px) {
+	main {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		justify-items: center;
+		align-items: center;
+	}
+	
+	main img {
+		width: 35vh;
+	}
+
+	button:hover {
+		background-color: transparent;
+	}
+}

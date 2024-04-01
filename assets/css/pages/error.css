@@ -1,0 +1,51 @@
+/* # Overrides */
+
+header {
+	background-color: transparent;
+	-webkit-backdrop-filter: unset;
+	backdrop-filter: unset;
+}
+
+main {
+	max-width: unset;
+	display: grid;
+	justify-items: center;
+}
+
+/* # Glitch effects */
+
+/* ## Canvas */
+
+canvas {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: -1;
+	opacity: .3;
+	transform: scale(1.3);
+}
+
+/* ## Text */
+
+[glitch-text] {
+	transition: 50ms text-shadow;
+}
+
+/* # Sections */
+
+section.error h1 {
+	font-size: 30vw;
+	user-select: none;
+	animation: rumble 100ms infinite linear;
+	opacity: .2;
+}
+
+section.error h1 span {
+
+}
+
+@keyframes rumble {
+	to { transform: translateX(1px); }
+}

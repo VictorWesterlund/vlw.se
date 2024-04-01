@@ -1,0 +1,5 @@
+{
+    "require": {
+        "reflect/client": "^2.1"
+    }
+}
