@@ -9,7 +9,7 @@ main {
 	display: flex;
 	flex-direction: column;
 	gap: var(--padding);
-	padding: var(--padding);
+	padding: calc(var(--padding) * 1.5);
 	width: 100%;
 	max-width: 1200px;
 	overflow-x: initial;
@@ -20,12 +20,12 @@ main {
 /* ## Git */
 
 section.git {
-	margin: var(--padding);
 	display: flex;
 	flex-direction: column;
 	gap: var(--padding);
-	border: solid 3px var(--color-accent);
+	background-color: rgba(var(--primer-color-accent), .1);
 	padding: calc(var(--padding) * 1.5);
+	border-radius: 6px;
 }
 
 section.git svg {
@@ -38,22 +38,12 @@ section.git .buttons {
 	gap: var(--padding);
 }
 
-/* ## Git */
-
-section.note {
-	margin: 0 var(--padding);
-	background-color: rgba(var(--primer-color-accent), .1);
-	padding: calc(var(--padding) * 1.5);
-	border-radius: 6px;
-}
-
 /* ## Timeline */
 
 section.timeline {
 	--timestamp-gap: calc(var(--padding) / 2);
 
 	width: 100%;
-	padding: var(--padding);
 }
 
 section.timeline :is(.year, .month, .day) {
@@ -144,6 +134,12 @@ section.timeline .items .item img {
 section.timeline .items .item .actions {
 	margin-top: 7px;
 	font-size: 13px;
+}
+
+/* ## Note */
+
+section.note {
+	text-align: center;
 }
 
 /* # Size queries */

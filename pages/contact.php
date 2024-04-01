@@ -40,8 +40,10 @@
 	<?= VV::media("icons/pin.svg") ?>
 	<h3>encrypt your message with my OpenPGP key.</h3>
 	<p>my key is also listed on the <a href="https://keys.openpgp.org/search?q=victor%40vlw.se" target="_blank" rel="noopener noreferer">openPGP key server</a> for victor@vlw.se so your e-mail client can automatically retreive it if supported.</p>
-	<a href="https://keys.openpgp.org/vks/v1/by-fingerprint/DCE987311CB5D2A252F58951D0AD730E1057DFC6"><button class="solid">download ASC</button></a>
-	<a href="https://emailselfdefense.fsf.org/en/" target="_blank" rel="noopener noreferer"><button>more info</button></a>
+	<div class="buttons">
+		<a href="https://keys.openpgp.org/vks/v1/by-fingerprint/DCE987311CB5D2A252F58951D0AD730E1057DFC6"><button class="solid">download ASC</button></a>
+		<a href="https://emailselfdefense.fsf.org/en/" target="_blank" rel="noopener noreferer"><button>more info</button></a>
+	</div>
 </section>
 <?= VV::media("line.svg") ?>
 

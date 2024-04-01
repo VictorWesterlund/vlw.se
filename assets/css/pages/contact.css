@@ -86,6 +86,12 @@ section.pgp > p {
 	padding: var(--padding);
 }
 
+section.pgp .buttons {
+	display: flex;
+	flex-direction: column;
+	gap: var(--padding);
+}
+
 /* ## Contact form */
 
 section.form :is(input, textarea) {
@@ -166,4 +172,13 @@ section.form-message.error {
 
 section.form-message.sent {
 	background-color: var(--color-accent);
+}
+
+/* # Size queries */
+
+@media (min-width: 460px) {
+	section.pgp .buttons {
+		flex-direction: row;
+		justify-content: center;
+	}
 }

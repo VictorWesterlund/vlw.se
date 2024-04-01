@@ -21,11 +21,6 @@
 	</div>
 </section>
 
-<section class="note">
-	<h1>Whatever!</h1>
-	<p>Okay I've been holding of publishing my website for sooo long now due to this timeline. I wanted to provide some writing about my projects and all that, but I never get around to it! So I will publish this "as is" for now with the hope I will cumulatively add some copy later on...</p>
-</section>
-
 <?php if ($resp[0] === 200): ?>
 	<?php
 
@@ -158,7 +153,7 @@
 		<?php endforeach; ?>
 	</section>
 	<section class="note">
-		<p>This is not really the end of the list. I will work on adding some of my older work at some point.</p>
+		<p>This is not really the end of the list. I will add some of my notable older work at some point.</p>
 	</section>
 <?php else: ?>
 	<p>Something went wrong!</p>

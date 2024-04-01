@@ -259,14 +259,15 @@ dialog.search search search-results > svg {
 	}
 
 	button:hover {
-		border-color: rgba(255, 255, 255, .5);
+		border-color: rgba(255, 255, 255, .2);
 		background-color: rgba(255, 255, 255, .1);
 	}
 
 	button.solid:hover {
 		color: var(--color-accent);
-		border-color: rgba(var(--primer-color-accent), .15);
-		background-color: rgba(var(--primer-color-accent), .25);
+		border-color: rgba(var(--primer-color-accent), .2);
+		background-color: rgba(var(--primer-color-accent), .2);
+		box-shadow: 0 -10px 20px 10px rgba(var(--primer-color-accent), .05);
 	}
 
 	/* ## Header */
