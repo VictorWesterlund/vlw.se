@@ -1,13 +1,13 @@
 <?php
 
-	use Reflect\Client;
-	use Reflect\Method;
+	use VLW\API\Client;
+	use VLW\API\Endpoints;
 
 	// Connect to VLW API
-	$api = new Client($_ENV["api"]["base_url"], $_ENV["api"]["api_key"], https_peer_verify: $_ENV["api"]["verify_peer"]);
+	$api = new Client();
 
 	// Retreive rows from work endpoint
-	$resp = $api->call("/work", Method::GET);
+	$response = $api->call(Endpoints::WORK->value)->get();
 
 ?>
 <style><?= VV::css("pages/work") ?></style>
@@ -21,7 +21,7 @@
 	</div>
 </section>
 
-<?php if ($resp[0] === 200): ?>
+<?php if ($response->ok): ?>
 	<?php
 
 		/*
@@ -32,7 +32,7 @@
 
 		$rows = [];
 		// Create array of arrays ordered by decending year, month, day, items
-		foreach ($resp[1] as $row) {
+		foreach ($response->json() as $row) {
 			// Create array for current year if it doesn't exist
 			if (!array_key_exists($row["date_year"], $rows)) {
 				$rows[$row["date_year"]] = [];

@@ -1,7 +1,14 @@
 {
     "require": {
+        "local/api.endpoints": "1.0.0-dev",
         "reflect/plugin-rules": "^1.5",
-        "victorwesterlund/innodb-fk": "^1.0",
         "victorwesterlund/xenum": "^1.1"
-    }
+    },
+    "minimum-stability": "dev",
+    "repositories": [
+        {
+            "type": "path",
+            "url": "src/packages/Endpoints"
+        }
+    ]
 }

@@ -1,18 +1,26 @@
 <?php
 
-	use Reflect\Client;
-	use Reflect\Method;
+	use VLW\API\Client;
+	use VLW\API\Endpoints;
+
+	enum ContactFieldsEnum: string {
+		case EMAIL   = "email";
+		case MESSAGE = "message";
+	}
 
 	// Connect to VLW API
-	$api = new Client($_ENV["api"]["base_url"], $_ENV["api"]["api_key"], https_peer_verify: $_ENV["api"]["verify_peer"]);
+	$api = new Client();
 
+	// Null when nothing has been sent, true if message has been sent, false if it failed
 	$message_sent = null;
 
+	// Message has been submitted
 	if ($_SERVER["REQUEST_METHOD"] === "POST") {
-		$post_message = $api->call("messages", Method::POST, $_POST);
-
-		// Set message sent to true if ok, false if something went wrong
-		$message_sent = $post_message[0] === 201;
+		// Submit message to endpoint and set variable with results
+		$message_sent = $api->call(Endpoints::MESSAGES->value)->post([
+			ContactFieldsEnum::EMAIL->value => $_POST[ContactFieldsEnum::EMAIL->value],
+			ContactFieldsEnum::MESSAGE->value => $_POST[ContactFieldsEnum::MESSAGE->value]
+		])->ok;
 	}
 
 ?>
@@ -63,11 +71,11 @@
 		<form method="POST">
 			<input-group>
 				<label>your email</label>
-				<input type="email" name="email" placeholder="nissehult@example.com" autocomplete="off"></input>
+				<input type="email" name="<?= ContactFieldsEnum::EMAIL->value ?>" placeholder="nissehult@example.com" autocomplete="off"></input>
 			</input-group>
 			<input-group>
 				<label title="this field is required">your message<sup>*</sup></label>
-				<textarea name="message" required placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed molestie dignissim mauris vel dignissim. Sed et aliquet odio, id egestas libero. Vestibulum ut dui a turpis aliquam hendrerit id et dui. Morbi eu tristique quam, sit amet dictum felis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ac nibh a ex accumsan ullamcorper non quis eros. Nam at suscipit lacus. Nullam placerat semper sapien, vitae aliquet nisl elementum a. Duis viverra quam eros, eu vestibulum quam egestas sit amet. Duis lobortis varius malesuada. Mauris in fringilla mi. "></textarea>
+				<textarea name="<?= ContactFieldsEnum::MESSAGE->value ?>" required placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed molestie dignissim mauris vel dignissim. Sed et aliquet odio, id egestas libero. Vestibulum ut dui a turpis aliquam hendrerit id et dui. Morbi eu tristique quam, sit amet dictum felis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ac nibh a ex accumsan ullamcorper non quis eros. Nam at suscipit lacus. Nullam placerat semper sapien, vitae aliquet nisl elementum a. Duis viverra quam eros, eu vestibulum quam egestas sit amet. Duis lobortis varius malesuada. Mauris in fringilla mi. "></textarea>
 			</input-group>
 			<button class="solid">send</button>
 		</form>

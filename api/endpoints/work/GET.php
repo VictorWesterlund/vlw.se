@@ -1,13 +1,14 @@
 <?php
 
+	use Reflect\Call;
 	use Reflect\Path;
+	use Reflect\Method;
 	use Reflect\Response;
 	use ReflectRules\Type;
 	use ReflectRules\Rules;
 	use ReflectRules\Ruleset;
 
-	use Reflect\Method;
-	use function Reflect\Call;
+	use VLW\API\Endpoints;
 
 	use VLW\API\Databases\VLWdb\VLWdb;
 	use VLW\API\Databases\VLWdb\Models\Work\WorkModel;
@@ -41,19 +42,6 @@
 			$resp = $this->db->for(WorkTagsModel::TABLE)
 				->where([WorkTagsModel::ANCHOR->value => $id])
 				->select(WorkTagsModel::NAME->value);
-
-			return parent::is_mysqli_result($resp) ? $resp->fetch_all(MYSQLI_ASSOC) : [];
-		}
-
-		private function fetch_row_actions(string $id): array {
-			$resp = $this->db->for(WorkActionsModel::TABLE)
-				->where([WorkActionsModel::ANCHOR->value => $id])
-				->select([
-					WorkActionsModel::DISPLAY_TEXT->value,
-					WorkActionsModel::HREF->value,
-					WorkActionsModel::CLASS_LIST->value,
-					WorkActionsModel::EXTERNAL->value
-				]);
 
 			return parent::is_mysqli_result($resp) ? $resp->fetch_all(MYSQLI_ASSOC) : [];
 		}
@@ -134,13 +122,11 @@
 			$rows = [];
 			while ($row = $resp->fetch_assoc()) {
 				$row["tags"] = $this->fetch_row_tags($row["id"]);
-				$row["actions"] = $this->fetch_row_actions($row["id"]);
 
-				// Resolve media entities in srcset
-				$srcset = Call("media/srcset?id={$row[WorkModel::COVER_SRCSET->value]}", Method::GET);
-				
-				// Mutate key on current row
-				$row[WorkModel::COVER_SRCSET->value] = $srcset->ok ? $srcset->output() : [];
+				// Fetch actions for work entity by id from endpoint
+				$row["actions"] = (new Call(Endpoints::WORK_ACTIONS->value))
+					->params([WorkActionsModel::ANCHOR->value => $row[WorkModel::ID->value]])
+					->get()->output();
 
 				$rows[] = $row;
 			}
