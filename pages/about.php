@@ -33,18 +33,11 @@
 <hr aria-hidden="true">
 <section class="about">
 	<p>I&ZeroWidthSpace;'m a full-stack web developer from Sweden, currently working as IT-Lead at <a href="https://icellate.com">iCellate&nbsp;Medical</a> in Solna, Stockholm - a biopharma start-up developing precision oncology. I develop and maintain <a href="https://docs.vlw.one/vegvisir">my own web framework</a> and use it to build web apps and websites - including this one.</p>
-	<p>The &lt;programming/markup/command&gt;-languages I currently use the most are (in a mostly accurate decending order): PHP, JavaScript, CSS, MySQL, Python, SQLite, Bash, and [raw] HTML. In the process of learning Rust!</p>
+	<p>The &lt;programming/markup/command&gt;-languages I currently use the most are (in a mostly accurate decending order): PHP, JavaScript, CSS, MySQL, Python, SQLite, Bash, and [raw] HTML.</p>
 </section>
 <section class="about">
 	<h2>This website</h2>
 	<p>This site and all of its components are 100% Free Software; licensed under the GNU GPLv3. It's built on top of my own <a href="">Vegvisir</a> (web) and <a href="">Reflect</a> (API) framework. There are no cookies or trackers on this site and analytics <strong>only</strong> consist of basic access and error logs; and from which IP address.</p>
-</section>
-<section class="about">
-	<h2>Projects</h2>
-	<p>These are my top projects I'm working on right now:</p>
-	<p>* <a href="">Vegvisir</a>: A web framework written in PHP, for PHP developers.</p>
-	<p>* <a href="">Reflect</a>: An API framework also written in PHP, for PHP developers.</p>
-	<p>See more on my <a href="work" vv="about" vv-call="navigate">works page</a>. And even more including smaller projects on my <a href="https://github.com/VictorWesterlund">GitHub</a>.</p>
 </section>
 <section class="about">
 	<h2>Personal</h2>
@@ -52,9 +45,11 @@
 	<p>Let's work on something together, have a chat, or anything else. <a href="contact" vv="about" vv-call="navigate">write me a line!</a></p>
 </section>
 <section class="about">
-	<h2>Philosophy</h2>
-	<p>I believe in a world where humans treat other humans as humans, not products of profit and control. While my focus primarily lies in software freedom - that is, software that respects the user's right to freedom. My main goal is to preserve and promote liberalism.</p>
-	<?php //<p>See my unstructured "blog" for posts (rants) about this now and then if this sounds interesting to you.</p> ?>
+	<h2>Projects</h2>
+	<p>These are my top projects I'm working on right now:</p>
+	<p>* <a href="">Vegvisir</a>: A web framework written in PHP, for PHP developers.</p>
+	<p>* <a href="">Reflect</a>: An API framework also written in PHP, for PHP developers.</p>
+	<p>See more on my <a href="work" vv="about" vv-call="navigate">works page</a>. And even more including smaller projects on my <a href="https://github.com/VictorWesterlund">GitHub</a>.</p>
 </section>
 <hr>
 <section class="version">
