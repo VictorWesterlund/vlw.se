@@ -14,6 +14,7 @@
     box-sizing: border-box;
     font-family: "Roboto Mono", sans-serif;
     color: inherit;
+	font-size: inherit;
 }
 
 ::-webkit-scrollbar {
@@ -29,6 +30,7 @@ body {
     color: white;
 	overflow-x: hidden;
 	min-height: 100svh;
+	font-size: 15px;
 }
 
 body.search-dialog-open {
@@ -53,10 +55,22 @@ a {
     text-decoration-color: var(--color-accent);
 }
 
+h1 {
+	font-size: 30px;
+	color: var(--color-accent);
+}
+
+h2 {
+	font-size: 30px;
+}
+
+h3 {
+	font-size: 25px;
+}
+
 /* ## Buttons */
 
 button {
-	font-size: inherit;
 	padding: calc(var(--padding) / 2) var(--padding);
 	color: white;
 	border: solid 2px white;
@@ -161,7 +175,7 @@ searchbox {
 	padding: var(--padding);
 	gap: var(--padding);
 	fill: var(--color-accent);
-	font-size: 14px;
+	font-size: 13px;
 	color: rgba(255, 255, 255, .5);
 	cursor: pointer;
 }
@@ -218,7 +232,7 @@ search input {
 	border: none;
 	outline: none;
 	color: black;
-	font-size: 18px;
+	font-size: 16px;
 	padding: var(--padding) calc(var(--padding) * 1.5);
 	background-color: rgba(255, 255, 255, .05);
 	box-shadow: 0 5px 70px 10px rgba(0, 0, 0, .3);

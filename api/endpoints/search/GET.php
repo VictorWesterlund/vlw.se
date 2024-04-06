@@ -1,17 +1,21 @@
 <?php
 
-
+	use Reflect\Call;
 	use Reflect\Path;
 	use Reflect\Response;
 	use ReflectRules\Type;
 	use ReflectRules\Rules;
 	use ReflectRules\Ruleset;
 
+	use VLW\API\Endpoints;
+
 	use VLW\API\Databases\VLWdb\VLWdb;
 	use VLW\API\Databases\VLWdb\Models\Work\WorkModel;
+	use VLW\API\Databases\VLWdb\Models\Work\WorkActionsModel;
 
 	require_once Path::root("src/databases/VLWdb.php");
 	require_once Path::root("src/databases/models/Work.php");
+	require_once Path::root("src/databases/models/WorkActions.php");
 
 	class GET_Search extends VLWdb {
 		const GET_QUERY = "q";
@@ -87,7 +91,15 @@
 				WorkModel::IS_LISTABLE->value => true
 			];
 
-			return $this->search(WorkModel::TABLE, $search, $conditions);
+			$results = $this->search(WorkModel::TABLE, $search, $conditions);
+
+			foreach ($results as &$result) {
+				$result["actions"] = (new Call(Endpoints::WORK_ACTIONS->value))
+					->params([WorkActionsModel::ANCHOR->value => $result[WorkModel::ID->value]])
+					->get()->output();
+			}
+
+			return $results;
 		}
 
 		// # Responses

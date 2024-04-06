@@ -13,17 +13,6 @@ main {
 
 /* # Sections */
 
-/* ## Into */
-
-section.intro h2 {
-	font-size: 25px;
-}
-
-section.intro h1 {
-	font-size: 40px;
-	color: var(--color-accent);
-}
-
 /* ## Divider */
 
 main > hr {
@@ -38,12 +27,8 @@ section.about {
 	gap: calc(var(--padding) / 2);
 }
 
-section.about {
-	font-size: 16px;
-}
-
 section.about p:first-of-type:first-letter {
-	font-size: 1.5rem;
+	font-size: 1.8rem;
 	font-weight: bold;
 	margin-right: .1rem;
 	color: var(--color-accent);
@@ -73,7 +58,7 @@ div.interests {
 	height: 100%;
 	font-weight: bold;
 	pointer-events: none;
-	font-size: 60px;
+	font-size: 50px;
 	color: var(--color-accent);
 	overflow: hidden;
 	opacity: 0;

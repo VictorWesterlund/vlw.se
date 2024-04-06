@@ -1,30 +1,3 @@
-<?php
-
-	use Reflect\Client;
-	use Reflect\Method;
-
-	// Connect to VLW API
-	function api_client(): Client {
-		return new Client($_ENV["api"]["base_url"], $_ENV["api"]["api_key"], https_peer_verify: $_ENV["api"]["verify_peer"]);
-	}
-
-	// Return the amount of cups of coffee had in the last 24 hours
-	function get_coffee_24h(): int {
-		// Retreive coffee list from endpoint
-		$resp = api_client()->call("/coffee", Method::GET);
-
-		$offset = 86400; // 24 hours in seconds
-		$now = time();
-
-		// Get only timestamps from response
-		$coffee_dates = array_column($resp[1], "date_timestamp_created");
-		// Filter array for timestamps between now and $offset
-		$coffee_last_day = array_filter($coffee_dates, fn(int $time): bool => $time >= ($now - $offset));
-
-		return count($coffee_last_day);
-	}
-
-?>
 <style><?= VV::css("pages/about") ?></style>
 <section class="intro">
 	<h2 aria-hidden="true">Hi, I'm</h2>

@@ -1,0 +1,17 @@
+{
+    "name": "local/api.endpoints",
+    "description": "Endpoint pathmappings for VLW API",
+    "type": "library",
+	"version": "1.0.0-dev",
+    "authors": [
+        {
+            "name": "Victor Westerlund",
+            "email": "victor@vlw.se"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "VLW\\API\\": "src/"
+        }
+    }
+}
