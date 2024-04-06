@@ -10,10 +10,10 @@
 	use Vegvisir\Path;
 
 	// Get tags from local git folder
-	$dir = scandir(Path::root(".git/refs/tags"), SCANDIR_SORT_ASCENDING);
+	$dir = scandir(Path::root(".git/refs/tags"));
 
 	// Get current version number from latest tag
-	$version = $dir[2] ?? "";
+	$version = end($dir);
 
 ?>
 <a href="https://github.com/victorwesterlund/vlw.se/releases/<?= $version ?>"><?= $version ?></a>
