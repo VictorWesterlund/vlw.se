@@ -17,12 +17,8 @@ class Generator {
 			get dir () { return this._dir; },
 			set dir (newPath) {
 				const url = new URL(newPath);
-
-				// Replace pathname of this file with relative path to assets
-				const path = url.pathname.split("/");
-				path[path.length - 1] = this._dir_rel;
-
-				url.pathname = path.join("/");
+				url.pathname = this._dir_rel;
+				
 				this._dir = url.toString();
 			}
 		}
