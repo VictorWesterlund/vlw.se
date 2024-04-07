@@ -114,6 +114,7 @@ header {
 	align-items: stretch;
 	justify-items: end;
 	grid-template-columns: 1fr var(--running-size);
+	grid-template-rows: var(--running-size);
 	background-color: rgba(0, 0, 0, .8);
 	z-index: 100;
 	-webkit-backdrop-filter: blur(20px);
@@ -167,10 +168,12 @@ main.loading > * {
 /* ### Box */
 
 searchbox {
+	--icon-size: 25px;
+
 	display: grid;
 	width: 100%;
 	border-left: var(--border-style);
-	grid-template-columns: 25px 1fr;
+	grid-template-columns: var(--icon-size) 1fr;
 	align-items: center;
 	padding: var(--padding);
 	gap: var(--padding);
@@ -178,6 +181,10 @@ searchbox {
 	font-size: 13px;
 	color: rgba(255, 255, 255, .5);
 	cursor: pointer;
+}
+
+searchbox > svg {
+	width: var(--icon-size);
 }
 
 /* ### Dialog */
@@ -317,9 +324,4 @@ dialog.search search search-results > svg {
 	header searchbox {
 		display: grid;
 	}
-	
-	menu searchbox {
-		display: none;
-	}
-	/* /> */
 }
