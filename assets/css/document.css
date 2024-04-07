@@ -91,7 +91,7 @@ a > button::after {
 
 a[target="_blank"] > button::after,
 :is(h1, h2, h3, p, li) > a[target="_blank"]::after {
-	content: " ⮥";
+	content: " ↑";
 	color: var(--color-accent);
 	white-space: nowrap;
 }
