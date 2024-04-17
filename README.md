@@ -6,6 +6,11 @@ If you for whatever reason want to get this website up and running for yourself 
 
 This website is built for PHP 8.0+ and MariaDB 14+ (for the API database).
 
+**Confimed supported framework versions:**
+Vegvisir|Reflect
+--|--
+✅ [`2.3.0`](https://github.com/VictorWesterlund/vegvisir/releases/tag/2.3.0)|✅ [`2.6.2`](https://github.com/VictorWesterlund/reflect/releases/tag/2.6.2)
+
 ## Website (Vegvisir)
 1. **Download this repo**
    
