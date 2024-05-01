@@ -26,7 +26,7 @@
 </section>
 <hr>
 <section class="version">
-	<p>website version: <?= VV::include("about/version") ?></p>
+	<p>website version: <?= VV::include("pages/about/version") ?></p>
 </section>
 
 <div class="interests" aria-hidden="true">
