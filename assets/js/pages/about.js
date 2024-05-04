@@ -6,26 +6,35 @@ const randomIntFromInterval = (min, max) => {
 
 // Interest explosion effect from origin position
 const explodeInterests = (originX, originY) => {
-	// Elements can not translate more than negative- and positive from this number
-	const TRANS_LIMIT = 300;
-
 	const wrapper = document.querySelector("div.interests");
 	wrapper.classList.add("active");
 
+	// Elements can not expand further than positive or negative of these values
+	const transLimitX = window.innerWidth / 4;
+	const transLimitY = window.innerHeight / 3;
+
 	[...wrapper.querySelectorAll("p")].forEach(element => {
-		/*
-			Generate random visuals for current element
-		*/
+		const size = element.getBoundingClientRect();
+		
+		// Generate random HUE wheel rotation degrees
 		const hue = randomIntFromInterval(0, 360);
+		// Generate random element transform rotation
 		const rotate = randomIntFromInterval(-5, 5);
-		const transX = randomIntFromInterval(TRANS_LIMIT * -1, TRANS_LIMIT);
-		const transY = randomIntFromInterval(TRANS_LIMIT * -1, TRANS_LIMIT);
+
+		// Generate random offsets in each direction clamped to translation limit
+		let transX = randomIntFromInterval(transLimitX * -1, transLimitX);
+		let transY = randomIntFromInterval(transLimitY * -1, transLimitY);
+	
+		// Clamp translation to screen left and right X size
+		transX = Math.max(0 - originX, Math.min((window.innerWidth - originX) - size.width, transX));
+		// Clamp translation to top and bottom Y size
+		transY = Math.max(0 - originY, Math.min((window.innerHeight - originY) - size.height, transY));
 
 		// Set initial position
 		element.style.setProperty("top", `${originY}px`);
 		element.style.setProperty("left", `${originX}px`);
 
-		// Set random HUE rotation
+		// Set HUE rotation
 		element.style.setProperty("-webkit-filter", `hue-rotate(${hue}deg)`);
 		element.style.setProperty("filter", `hue-rotate(${hue}deg)`);
 
@@ -39,10 +48,8 @@ const implodeInterests = () => {
 	const wrapper = document.querySelector("div.interests");
 	wrapper.classList.remove("active");
 
-	[...wrapper.querySelectorAll("p")].forEach(element => {
-		// Reset to initial position
-		element.style.setProperty("transform", "translate(0, 0)");
-	});
+	// Reset to initial position
+	[...wrapper.querySelectorAll("p")].forEach(element => element.style.setProperty("transform", "translate(0, 0)"));
 };
 
 // Bind triggers for interests explosion and implotion
@@ -55,10 +62,7 @@ const implodeInterests = () => {
 		// Get absolute position of the trigger element
 		const size = interestsElement.getBoundingClientRect();
 
-		const x = size.x - 80;
-		const y = size.y - 10;
-
-		explodeInterests(x, y);
+		explodeInterests(size.x, size.y);
 	});
 
 	interestsElement.addEventListener(canHover ? "mouseleave" : "touchend", () => implodeInterests());
