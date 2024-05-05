@@ -56,13 +56,6 @@
 	</header>
 
 	<main></main>
-	
-	<dialog class="search">
-		<search>
-			<input type="text" placeholder="start typing to search..."></input>
-			<search-results></search-results>
-		</search>
-	</dialog>
 
 	<?php // Bootstrapping ?>
 	<script><?= VV::init() ?></script>
