@@ -5,6 +5,7 @@
 
     --padding: 20px;
 	--running-size: 80px;
+	--header-search-size: var(--running-size);
 }
 
 /* # Cornerstones */
@@ -94,15 +95,23 @@ h3 {
 /* ## Buttons */
 
 button {
+	border: none;
+	background-color: transparent;
+	color: inherit;
+	fill: inherit;
+	cursor: pointer;
+}
+
+/* ### Inline */
+
+button.inline {
 	padding: calc(var(--padding) / 2) var(--padding);
 	color: white;
 	border: solid 2px white;
 	border-radius: 6px;
-	background-color: transparent;
-	cursor: pointer;
 }
 
-button.solid {
+button.inline.solid {
 	color: black;
 	border-color: var(--color-accent);
 	background-color: var(--color-accent);
@@ -111,6 +120,8 @@ button.solid {
 a > button::after {
 	content: " ➜";
 }
+
+/* ### Text links */
 
 a[target="_blank"] > button::after,
 :is(h1, h2, h3, p, li) > a[target="_blank"]::after {
@@ -135,13 +146,31 @@ header {
 	border-bottom: var(--border-style);
 	display: grid;
 	align-items: stretch;
-	justify-items: end;
-	grid-template-columns: 1fr var(--running-size);
+	grid-template-columns: 1fr var(--header-search-size) var(--running-size);
 	grid-template-rows: var(--running-size);
 	background-color: rgba(0, 0, 0, .8);
 	z-index: 100;
+	perspective: 3000px;
 	-webkit-backdrop-filter: blur(20px);
 	backdrop-filter: blur(20px);
+	overflow: hidden;
+}
+
+header > * {
+	--anim-3d-depth: 5px;
+	--anim-3d-peek: 25deg;
+
+	transition: 300ms background-color;
+	transform: rotateX(0deg);
+	backface-visibility: hidden;
+	box-shadow: 0 var(--anim-3d-depth) 0 0 rgba(255, 255, 255, .2);
+}
+
+/* enable 3d flip animation */
+@media not (prefers-reduced-motion: reduce) {
+	header > * {	
+		transition: 600ms transform, 300ms background-color;
+	}
 }
 
 header nav {
@@ -150,27 +179,90 @@ header nav {
 	padding: var(--padding);
 }
 
-header .logo {
-	width: calc(var(--running-size) - 1px);
-	height: calc(var(--running-size) - 1px);
-	display: grid;
-	align-items: center;
-	justify-items: center;
-	border-left: var(--border-style);
-}
-
 header .logo path.stroke {
 	fill: var(--color-accent);
 }
 
-header searchbox {
+header header .search {
 	display: none;
+}
+
+/* ### Buttons */
+
+header button {
+	--icon-size: 25px;
+
+	display: grid;
+	width: 100%;
+	border-left: var(--border-style);
+	grid-template-columns: 1fr;
+	align-items: center;
+	justify-items: center;
+	padding: var(--padding);
+	gap: var(--padding);
+	fill: var(--color-accent);
+	font-size: 13px;
+	color: rgba(255, 255, 255, .5);
+	cursor: pointer;
+}
+
+header button:not(.logo) svg {
+	width: var(--icon-size);
+}
+
+header button.search p {
+	display: none;
+}
+
+/* ### Searchbox */
+
+header searchbox {
+	position: absolute;
+	right: 0;
+	width: 100%;
+	height: var(--running-size);
+	background-color: var(--color-accent);
+	display: grid;
+	align-items: stretch;
+	grid-template-columns: 1fr var(--running-size);
+	grid-template-rows: var(--running-size);
+	box-shadow: none;
+	transform: rotateX(180deg);
+}
+
+header searchbox > * {
+	box-shadow: 0 calc(var(--anim-3d-depth) * -1) 0 0 rgba(var(--primer-color-accent), .8);
+}
+
+header searchbox button {
+	transition: 300ms background-color, 300ms border-color;
+	border-color: rgba(0, 0, 0, .1);
+	fill: black;
+}
+
+header searchbox input {
+	padding: 0 var(--padding);
+	background-color: transparent;
+	outline: none;
+	color: black;
+	border: none;
+}
+
+/* #### Active */
+
+header.searchboxActive > * {
+	transform: rotateX(-180deg);
+	pointer-events: none;
+}
+
+header.searchboxActive searchbox {
+	transform: rotateX(0);
+	pointer-events: all;
 }
 
 /* ## Main */
 
 main {
-	transition: 400ms transform;
 	position: relative;
 	padding: calc(var(--padding) * 1.5);
 	width: 100%;
@@ -186,105 +278,49 @@ main.loading > * {
 	opacity: 0;
 }
 
-/* ## Search */
+/* ## Search results */
 
-/* ### Box */
-
-searchbox {
-	--icon-size: 25px;
-
-	display: grid;
+search-results {
+	transition: 500ms opacity, 300ms transform;
+	position: fixed;
+	top: var(--running-size);
+	right: 0;
 	width: 100%;
-	border-left: var(--border-style);
-	grid-template-columns: var(--icon-size) 1fr;
-	align-items: center;
 	padding: var(--padding);
-	gap: var(--padding);
-	fill: var(--color-accent);
-	font-size: 13px;
-	color: rgba(255, 255, 255, .5);
-	cursor: pointer;
-}
-
-searchbox > svg {
-	width: var(--icon-size);
-}
-
-/* ### Dialog */
-
-body.search-dialog-open main {
-	transform: scale(.94);
-}
-
-dialog.search {
-	transition: 200ms height cubic-bezier(.41,0,.34,.99);
-	margin: auto;
-	width: 100%;
-	max-width: 1000px;
-	height: calc(var(--running-size) + (var(--padding) * 5));
-	max-height: 1000px;
-	border-color: transparent;
-	background-color: transparent;
-	overflow: visible;
-	outline: none;
-}
-
-dialog.search.active {
-	height: 70vh;
-}
-
-dialog.search search {
-	transition: 400ms transform, 200ms opacity;
-	width: 100%;
-	height: 100%;
-	display: grid;
-	grid-template-rows: var(--running-size) 1fr;
-	gap: calc(var(--padding) * 2);
-	transform: scale(1.1);
-	overflow: hidden;
-	background-color: rgba(255, 255, 255, .05);
-	-webkit-backdrop-filter: blur(20px);
-	backdrop-filter: brightness(.3) blur(20px);
-	border-radius: 12px;
-	box-shadow: 0 10px 30px 10px black;
+	height: calc(100svh - var(--running-size));
+	background-color: black;
+	pointer-events: none;
 	opacity: 0;
+	transform: scale(.99);
+	transform-origin: 100% 0;
+	overflow-y: scroll;
 }
 
-body.search-dialog-open dialog.search search {
-	transform: scale(1);
-	padding: calc(var(--padding) * 1.5);
+search-results:not([vv-page]) {
+	display: grid;
+	align-items: center;
+	justify-items: center;
+}
+
+header.searchboxActive ~ search-results {
 	opacity: 1;
+	pointer-events: all;
+	transform: scale(1);
 }
 
-search input {
-	transition: 200ms background-color, 200ms box-shadow, 200ms color;
-	border-radius: 6px;
-	border: none;
-	outline: none;
-	color: black;
-	font-size: 16px;
-	padding: var(--padding) calc(var(--padding) * 1.5);
-	background-color: rgba(255, 255, 255, .05);
-	box-shadow: 0 5px 70px 10px rgba(0, 0, 0, .3);
-	color: white;
-}
+/* ### "Start typing" prompt */
 
-search input:focus {
-	background-color: rgba(255, 255, 255, .9);
-	box-shadow: 0 10px 30px 10px black;
-	color: black;
-}
-
-/* ### Search results */
-
-dialog.search search search-results {
-	overflow-y: auto;
-}
-
-dialog.search search search-results > svg {
+search-results .info {
+	display: flex;
+	align-items: center;
+	flex-direction: column;
 	margin: auto;
-	width: 150px;
-	fill: rgba(255, 255, 255, .05);
+	gap: 3svh;
+}
+
+search-results .info :is(svg, img) {
+	width: 128px;
+	fill: var(--color-accent);
 }
 
 /* # Feature queries */
@@ -298,7 +334,7 @@ dialog.search search search-results > svg {
 
 	/* # Components */
 
-	button {
+	button.inline {
 		transition: 200ms background-color, 200ms border-color, 200ms color;
 	}
 
@@ -320,18 +356,31 @@ dialog.search search search-results > svg {
 		fill: var(--color-accent);
 	}
 
-	searchbox {
-		transition: 200ms background-color;
+	header searchbox button:hover {
+		background-color: rgba(0, 0, 0, .08);
 	}
 
-	searchbox:hover {
-		background-color: rgba(255, 255, 255, .07);
+	/* ### Search */
+
+	@media not (prefers-reduced-motion: reduce) {
+		header:not(.searchboxActive) button.search:hover,
+		header:not(.searchboxActive) button.search:hover + button.logo {
+			transform: rotateX(calc(var(--anim-3d-peek) * -1));
+		}
+
+		header:not(.searchboxActive) button.search:hover ~ searchbox {
+			transform: rotateX(calc(180deg - var(--anim-3d-peek)));
+		}
 	}
 }
 
 /* # Size queries */
 
 @media (min-width: 700px) {
+	:root {
+		--header-search-size: 250px;
+	}
+
 	/* # Cornerstones */
 
 	body::before {
@@ -346,19 +395,49 @@ dialog.search search search-results > svg {
 
 	/* ## Header */
 
-	header {
-		grid-template-columns: 1fr 250px var(--running-size);
+	header nav {
+		margin: 0 calc(var(--padding) / 2);
 	}
 
-	header nav {
-		justify-self: start;
-		margin: 0 calc(var(--padding) / 2);
+	header > button.search {
+		grid-template-columns: var(--icon-size) 1fr;
+	}
+
+	header > button.search p {
+		display: initial;
+	}
+
+	header.searchboxActive > nav {
+		transform: rotateX(0deg);
+		pointer-events: all;
+	}
+
+	/* ### Searchbox */
+
+	header searchbox {
+		width: calc(var(--header-search-size) + var(--running-size));
 	}
 
 	/* ### Menu */
 
 	/* Move the search box to the header */
-	header searchbox {
+	header > button.search {
 		display: grid;
+		justify-items: baseline;
+	}
+
+	@media (min-height: 600px) {
+		search-results {
+			top: calc(var(--running-size) + var(--padding));
+			width: 50%;
+			height: calc(100svh - 100px);
+			background-color: rgba(0, 0, 0, .8);
+			box-shadow: 
+				inset 0 0 100px 200px rgba(0, 0, 0, 1),
+				0 0 100px 200px rgba(0, 0, 0, 1)
+			;
+			--webkit-backdrop-filter: blur(15px);
+			backdrop-filter: blur(15px);
+		}
 	}
 }

@@ -18,12 +18,12 @@
 <section class="search">
 	<form method="GET">
 		<search>
-			<input name="q" type="text" placeholder="search anything..." value="<?= $query ?>"></input>
+			<input name="q" type="text" placeholder="search vlw.se..." value="<?= $query ?>"></input>
 		</search>
-		<button type="submit" class="solid">Search</button>
+		<button type="submit" class="inline solid">Search</button>
 	</form>
 	<?= VV::media("line.svg") ?>
-	<button>advanced search options</button>
+	<button class="inline">advanced search options</button>
 </section>
 
 <?php if ($response): ?>
@@ -33,7 +33,7 @@
 	<?php // Do things depending on the response code from API ?>
 	<?php switch ($response->code): default: ?>
 			<?php // An unknown error occured ?>
-			<section class="error">
+			<section class="info">
 				<p>Something went wrong</p>
 			</section>
 		<?php break; ?>
@@ -69,9 +69,9 @@
 										<?php foreach ($result["actions"] as $action): ?>
 											
 											<?php if (!$action["external"]): ?>
-												<a href="<?= $action["href"] ?>" vv="search" vv-call="navigate"><button class="<?= $action["class_list"] ?>"><?= $action["display_text"] ?></button></a>
+												<a href="<?= $action["href"] ?>" vv="search" vv-call="navigate"><button class="inline <?= $action["class_list"] ?>"><?= $action["display_text"] ?></button></a>
 											<?php else: ?>
-												<a href="<?= $action["href"] ?>" target="_blank"><button class="<?= $action["class_list"] ?>"><?= $action["display_text"] ?></button></a>
+												<a href="<?= $action["href"] ?>" target="_blank"><button class="inline <?= $action["class_list"] ?>"><?= $action["display_text"] ?></button></a>
 											<?php endif; ?>
 
 										<?php endforeach; ?>
@@ -87,7 +87,8 @@
 
 			<?php // No search matches were found ?>
 			<?php else: ?>
-				<section class="empty">
+				<section class="info noresults">
+					<img src="/assets/media/travolta.gif" alt="">
 					<p>No results for search term "<?= $_GET["q"] ?>"</p>
 				</section>
 			<?php endif; ?>
@@ -96,7 +97,7 @@
 
 		<?php // No access to the search endpoint ?>
 		<?php case 404: ?>
-			<section class="error">
+			<section class="info">
 				<p>Connection to VLW API was successful but lacking permission to search</p>
 			</section>
 		<?php break; ?>
@@ -109,15 +110,16 @@
 
 				<?php // Check the error code of the current error ?>
 				<?php switch ($error_code): default: ?>
-						<section class="error">
+						<section class="info">
 							<p>Unknown request validation error</p>
 						</section>
 					<?php break; ?>
 
 					<?php // Search query string is not long enough ?>
 					<?php case "VALUE_MIN_ERROR": ?>
-						<section class="error">
-							<p>Type at least <?= $error_msg ?> characters to search!</p>
+						<section class="info">
+							<?= VV::media("icons/search.svg") ?>
+							<p>type at least <?= $error_msg ?> characters to search!</p>
 						</section>
 					<?php break; ?>
 

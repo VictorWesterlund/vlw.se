@@ -154,6 +154,10 @@ splash::after {
 		opacity: 1;
 		text-shadow: 0 0 10px rgba(var(--primer-color-accent), .4);
 	}
+
+	button.email:hover {
+		background-color: transparent;
+	}
 }
 
 /* # Size quries */
@@ -168,9 +172,5 @@ splash::after {
 	
 	main img {
 		width: 35vh;
-	}
-
-	button:hover {
-		background-color: transparent;
 	}
 }
