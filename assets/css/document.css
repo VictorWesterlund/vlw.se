@@ -33,6 +33,33 @@ body {
 	font-size: 15px;
 }
 
+body::before {
+	transition: 1s opacity;
+	content: "";
+	position: absolute;
+	top: -5%;
+	right: 0;
+	width: 20%;
+	height: 5%;
+	border-radius: 100%;
+	z-index: 1000;
+	box-shadow:
+		0 0 30svh 10svh rgba(var(--primer-color-accent), .2),
+		0 0 30svh 60svh rgba(var(--primer-color-accent), .1),
+		0 0 30svh 150svh rgba(var(--primer-color-accent), .02)
+	;
+	opacity: 0;
+}
+
+/* "enable" the corner glow effect on initial load when a page has been fully loaded */
+body[vv-page]::before {
+	opacity: 1;
+}
+
+body.search-dialog-open {
+	overflow: hidden;
+}
+
 a {
     display: contents;
     color: inherit;
@@ -226,6 +253,20 @@ searchbox > svg {
 /* # Size queries */
 
 @media (min-width: 700px) {
+	/* # Cornerstones */
+
+	body::before {
+		right: unset;
+		left: 0;
+		box-shadow:
+			0 0 30svh 10svh rgba(var(--primer-color-accent), .1),
+			0 0 30svh 60svh rgba(var(--primer-color-accent), .05),
+			0 0 30svh 150svh rgba(var(--primer-color-accent), .02)
+		;
+	}
+
+	/* ## Header */
+
 	header {
 		grid-template-columns: 1fr 250px var(--running-size);
 	}
@@ -235,9 +276,9 @@ searchbox > svg {
 		margin: 0 calc(var(--padding) / 2);
 	}
 
-	/* # Menu */
+	/* ### Menu */
 
-	/* < Move the search box to the header */
+	/* Move the search box to the header */
 	header searchbox {
 		display: grid;
 	}

@@ -106,15 +106,3 @@ if (window.matchMedia("(hover: hover)")) {
 	// Reset color on navigation
 	document.querySelector(vv._env.MAIN).addEventListener(vv.Navigation.events.LOADED, () => updateColor(), { once: true });
 }
-
-// Open search box from mobile fullscreen menu
-{
-	// Open search dialog when searchbox is clicked
-	document.querySelector("menu searchbox").addEventListener("click", () => {
-		// Search box dialog element
-		document.querySelector("dialog.search").showModal();
-
-		// Close fullscreen menu
-		document.querySelector("menu").classList.remove("active");
-	});
-}
