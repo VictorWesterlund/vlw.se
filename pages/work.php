@@ -16,8 +16,8 @@
 	<?= VV::media("icons/github.svg") ?>
 	<p>Most of my free open-source software is available on GitHub and it's also mirrored on my server</p>
 	<div class="buttons">
-		<a href="https://github.com/victorwesterlund"><button class="solid">open GitHub</button></a>
-		<a href="https://git.vlw.se"><button>mirror</button></a>
+		<a href="https://github.com/victorwesterlund"><button class="inline solid">open GitHub</button></a>
+		<a href="https://git.vlw.se"><button class="inline">mirror</button></a>
 	</div>
 </section>
 
@@ -132,7 +132,7 @@
 																	$link_href = $action["href"] === null ? "/work/{$item["id"]}" : $action["href"];
 																?>
 
-																<a href="<?= $link_href ?>" <?= $link_attr ?>><button class="<?= $action["class_list"] ?>"><?= $action["display_text"] ?></button></a>
+																<a href="<?= $link_href ?>" <?= $link_attr ?>><button class="inline <?= $action["class_list"] ?>"><?= $action["display_text"] ?></button></a>
 															<?php endforeach; ?>
 														</div>
 													<?php endif; ?>

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 	<script>
 		<!--//--><![CDATA[//><!--
@@ -44,18 +44,25 @@
 		<nav>
 			<p><a href="/" vv="document" vv-call="navigate">victor westerlund</a></p>
 		</nav>
-		<searchbox>
+		<button class="search" vv="document" vv-call="openSearchbox">
 			<?= VV::media("icons/search.svg") ?>
-			<p>search anything...</p>
+			<p>search vlw.se...</p>
+		</button>
+		<button class="logo" vv="document" vv-call="navigateHome"><?= VV::media("vw.svg") ?></button>
+		<searchbox>
+			<input type="search" autocomplete="off" placeholder="search vlw.se...">
+			<button class="close" vv="document" vv-call="closeSearchbox"><?= VV::media("icons/close.svg") ?></button>
 		</searchbox>
-		<a href="/" vv="document" vv-call="navigate">
-			<div class="logo">
-				<?= VV::media("vw.svg") ?>
-			</div>
-		</a>
 	</header>
 
 	<main></main>
+
+	<search-results>
+		<div class="info empty">
+			<?= VV::media("icons/search.svg") ?>
+			<p>start typing to search</p>
+		</div>
+	</search-results>
 
 	<?php // Bootstrapping ?>
 	<script><?= VV::init() ?></script>
