@@ -1,3 +1,9 @@
+/* # Overrides */
+
+body[vv-page="/"]::before {
+	opacity: 0;
+}
+
 /* # Main styles */
 
 /* ## Picture */
