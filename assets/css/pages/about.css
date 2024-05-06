@@ -50,6 +50,8 @@ section.version {
 /* # Interests */
 
 div.interests {
+	--text-shadow-blur: 30px;
+	
 	transition: 300ms opacity;
 	position: fixed;
 	top: 0;
@@ -58,7 +60,7 @@ div.interests {
 	height: 100%;
 	font-weight: bold;
 	pointer-events: none;
-	font-size: 50px;
+	font-size: clamp(16px, 15vw, 50px);
 	color: var(--color-accent);
 	overflow: hidden;
 	opacity: 0;
@@ -70,9 +72,7 @@ div.interests.active {
 }
 
 div.interests p {
-	--text-shadow-blur: 30px;
-
-	transition: 300ms transform;
+	transition: 500ms transform cubic-bezier(.34,0,0,.99);
 	position: absolute;
 	text-shadow: 
 		0 0 var(--text-shadow-blur) black,
