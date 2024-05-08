@@ -11,18 +11,6 @@
 	// Connect to VLW API
 	$api = new Client();
 
-	// Null when nothing has been sent, true if message has been sent, false if it failed
-	$message_sent = null;
-
-	// Message has been submitted
-	if ($_SERVER["REQUEST_METHOD"] === "POST") {
-		// Submit message to endpoint and set variable with results
-		$message_sent = $api->call(Endpoints::MESSAGES->value)->post([
-			ContactFieldsEnum::EMAIL->value => $_POST[ContactFieldsEnum::EMAIL->value],
-			ContactFieldsEnum::MESSAGE->value => $_POST[ContactFieldsEnum::MESSAGE->value]
-		])->ok;
-	}
-
 ?>
 <style><?= VV::css("pages/contact") ?></style>
 <section>
@@ -55,35 +43,45 @@
 </section>
 <?= VV::media("line.svg") ?>
 
-<?php // Show contact form if a message has not been (sucessfully) sent ?>
-<?php if ($message_sent !== true): ?>
+<?php // Send message on POST request ?>
+<?php if ($_SERVER["REQUEST_METHOD"] === "POST"): ?>
 
-	<?php // Show error message if something went wrong ?>
-	<?php if ($message_sent === false): ?>
+	<?php 
+	
+		// Send message via API
+		$send = $api->call(Endpoints::MESSAGES->value)->post([
+			ContactFieldsEnum::EMAIL->value   => $_POST[ContactFieldsEnum::EMAIL->value],
+			ContactFieldsEnum::MESSAGE->value => $_POST[ContactFieldsEnum::MESSAGE->value]
+		]);
+
+	?>
+
+	<?php if ($send->ok): ?>
+		<section class="form-message sent">
+			<h3>🙏 Message sent!</h3>
+		</section>
+	<?php else: ?>
+		<?php // Show response body from endpoint as error if request failed ?>
 		<section class="form-message error">
 			<h3>😟 Oh no, something went wrong</h3>
 			<p>Response from API:</p>
-			<pre><?= json_encode($post_message[1], JSON_PRETTY_PRINT) ?></pre>
+			<pre><?= $send->output() ?></pre>
 		</section>
 	<?php endif; ?>
-
-	<section class="form">
-		<form method="POST">
-			<input-group>
-				<label>your email</label>
-				<input type="email" name="<?= ContactFieldsEnum::EMAIL->value ?>" placeholder="nissehult@example.com" autocomplete="off"></input>
-			</input-group>
-			<input-group>
-				<label title="this field is required">your message<sup>*</sup></label>
-				<textarea name="<?= ContactFieldsEnum::MESSAGE->value ?>" required placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed molestie dignissim mauris vel dignissim. Sed et aliquet odio, id egestas libero. Vestibulum ut dui a turpis aliquam hendrerit id et dui. Morbi eu tristique quam, sit amet dictum felis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ac nibh a ex accumsan ullamcorper non quis eros. Nam at suscipit lacus. Nullam placerat semper sapien, vitae aliquet nisl elementum a. Duis viverra quam eros, eu vestibulum quam egestas sit amet. Duis lobortis varius malesuada. Mauris in fringilla mi. "></textarea>
-			</input-group>
-			<button class="inline solid">send</button>
-		</form>
-	</section>
-<?php else: ?>
-	<section class="form-message sent">
-		<h3>🙏 Message sent!</h3>
-	</section>
 <?php endif; ?>
+
+<section class="form">
+	<form method="POST">
+		<input-group>
+			<label>your email (optional)</label>
+			<input type="email" name="<?= ContactFieldsEnum::EMAIL->value ?>" placeholder="nissehult@example.com" autocomplete="off"></input>
+		</input-group>
+		<input-group>
+			<label title="this field is required">your message (required)</label>
+			<textarea name="<?= ContactFieldsEnum::MESSAGE->value ?>" required placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed molestie dignissim mauris vel dignissim. Sed et aliquet odio, id egestas libero. Vestibulum ut dui a turpis aliquam hendrerit id et dui. Morbi eu tristique quam, sit amet dictum felis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ac nibh a ex accumsan ullamcorper non quis eros. Nam at suscipit lacus. Nullam placerat semper sapien, vitae aliquet nisl elementum a. Duis viverra quam eros, eu vestibulum quam egestas sit amet. Duis lobortis varius malesuada. Mauris in fringilla mi. "></textarea>
+		</input-group>
+		<button class="inline solid">send</button>
+	</form>
+</section>
 
 <script><?= VV::js("pages/contact") ?></script>
