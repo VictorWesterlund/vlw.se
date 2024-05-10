@@ -15,7 +15,7 @@
 <style><?= VV::css("pages/contact") ?></style>
 <section>
 	<h1>Let's chat</h1>
-	<p>The best way to get in touch is by email, or with the form on this page. I will try to reply as quickly as possible, probably within a few hours. The time is <i><?= date("h:i a") ?></i> in Sweden right now.</p>
+	<p>The best way to get in touch is by email, or with the form on this page. I will try to reply as quickly as possible, probably within a few hours. The time is <i><?= (new DateTime("now", new DateTimeZone($_ENV["time"]["date_time_zone"])))->format("h:i a") ?></i> in Sweden right now.</p>
 </section>
 <section class="social">
 	<a href="mailto:victor@vlw.se"><social>
