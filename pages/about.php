@@ -10,7 +10,7 @@
 </section>
 <section class="about">
 	<h2>This website</h2>
-	<p>This site and all of its components are 100% free and open source software. The website is designed and built by me from the ground up on top of my own <a href="">Vegvisir</a> (web) and <a href="">Reflect</a> (API) framework. There are <i>no cookies or trackers</i> on this site. The only information I have about you is your public client/proxy IP-address <i>(<?= $_SERVER["REMOTE_ADDR"] ?>)</i> plus the pages and resources your browser requests. None of this data is used for analytics.</p>
+	<p>This site and all of its components are 100% free and open source software. The website is designed and built by me from the ground up on top of my own <a href="https://github.com/victorwesterlund/vegvisir">Vegvisir</a> (web) and <a href="https://github.com/victorwesterlund/reflect">Reflect</a> (API) framework. There are <i>no cookies or trackers</i> on this site. The only information I have about you is your public client/proxy IP-address <i>(<?= $_SERVER["REMOTE_ADDR"] ?>)</i> plus the pages and resources your browser requests. None of this data is used for analytics.</p>
 	<p><a href="https://github.com/victorwesterlund/vlw.se">Checkout the website source code on GitHub</a></p>
 </section>
 <section class="about">
