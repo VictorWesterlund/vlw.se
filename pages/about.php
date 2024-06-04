@@ -5,21 +5,21 @@
 </section>
 <hr aria-hidden="true">
 <section class="about">
-	<p>I&ZeroWidthSpace;'m a full-stack web developer from Sweden, currently working as IT-Lead at <a href="https://icellate.com">iCellate&nbsp;Medical</a>. iCellate is a biopharma start-up developing precision oncology in Solna, Stockholm. I develop and maintain <a href="https://github.com/VictorWesterlund/vegvisir">my own web framework</a> and use it to build web apps and websites - including this one.</p>
+	<p>I&ZeroWidthSpace;'m a full-stack web developer from Sweden, currently working as IT-Lead at the biopharma start-up <a href="https://icellate.com">iCellate&nbsp;Medical</a> in Solna, Stockholm. I also develop and maintain <a href="https://github.com/VictorWesterlund/vegvisir">my own web framework</a> and use it to build web apps and websites - including this one.</p>
 	<p>The &lt;programming/markup/command&gt;-languages I currently use the most are (in a mostly accurate decending order): PHP, JavaScript, CSS, MySQL, Python, SQLite, Bash, and [pure] HTML.</p>
 </section>
 <section class="about">
 	<h2>This website</h2>
-	<p>This site and all of its components are 100% free and open source software. The website is designed and built by me from the ground up on top of my own <a href="https://github.com/victorwesterlund/vegvisir">Vegvisir</a> (web) and <a href="https://github.com/victorwesterlund/reflect">Reflect</a> (API) framework. There are <i>no cookies or trackers</i> on this site. The only information I have about you is your public client/proxy IP-address <i>(<?= $_SERVER["REMOTE_ADDR"] ?>)</i> plus the pages and resources your browser requests. None of this data is used for analytics.</p>
+	<p>This site and all of its components are 100% free and open source software. The website is designed and built by me from the ground up on top of my own <a href="https://github.com/victorwesterlund/vegvisir">web</a> and <a href="https://github.com/victorwesterlund/reflect">API</a> frameworks. There are <i>no cookies or trackers</i> here. The only information I have about you is your public IP-address and which resources on this site your browser requests. None of this data is used for any kind of analytics.</p>
 	<p><a href="https://github.com/victorwesterlund/vlw.se">Checkout the website source code on GitHub</a></p>
 </section>
 <section class="about">
 	<h2>Personal</h2>
-	<p>I can at times become a real sucker for a <span class="interests">variety of topics I find interesting</span>, and spend hours reading as much as I can about them too. When I'm not glued to a computer screen with a cup of coffee ready at-hand, I like to skii and venture out on occasional hobby photography trips.</p>
+	<p>With a cup of coffee ready at hand, I can at times become a real armchair detective for a <span class="interests">variety of nerdy topics I find interesting</span>, and spend hours reading as much as I can about them too. I like to skii when I'm not glued in front of a computer screen.</p>
 </section>
 <section class="about">
 	<h2>Projects</h2>
-	<p>These are my top projects I'm working on right now:</p>
+	<p>Here are the projects I'm working on right now:</p>
 	<p>* <a href="https://github.com/victorwesterlund/reflect">Reflect</a>: An API framework written in PHP - for PHP developers.</p>
 	<p>* <a href="https://github.com/victorwesterlund/vegvisir">Vegvisir</a>: A web framework written in PHP and JavaScript - for PHP and JavaScript developers.</p>
 	<p>See more on my <a href="work" vv="about" vv-call="navigate">works page</a>. And even more, including smaller projects on <a href="https://github.com/VictorWesterlund">my GitHub profile</a>.</p>
