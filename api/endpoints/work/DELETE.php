@@ -1,15 +1,16 @@
 <?php
 
-
 	use Reflect\Path;
 	use Reflect\Response;
 	use ReflectRules\Type;
 	use ReflectRules\Rules;
 	use ReflectRules\Ruleset;
 
+	use const VLW\API\RESP_DELETE_OK;
 	use VLW\API\Databases\VLWdb\VLWdb;
 	use VLW\API\Databases\VLWdb\Models\Work\WorkModel;
 
+	require_once Path::root("src/Endpoints.php");
 	require_once Path::root("src/databases/VLWdb.php");
 	require_once Path::root("src/databases/models/Work.php");
 
@@ -17,44 +18,47 @@
 		protected Ruleset $ruleset;
 
 		public function __construct() {
-			parent::__construct();
 			$this->ruleset = new Ruleset(strict: true);
 
-			$this->ruleset->GET([
-				(new Rules("id"))
-					->required()
+			$this->ruleset->POST([
+				(new Rules(WorkModel::ID->value))
 					->type(Type::STRING)
 					->min(1)
-					->max(parent::MYSQL_VARCHAR_MAX_LENGTH)
+					->max(parent::MYSQL_VARCHAR_MAX_LENGTH),
+
+				(new Rules(WorkModel::TITLE->value))
+					->type(Type::STRING)
+					->min(3)
+					->max(parent::MYSQL_VARCHAR_MAX_LENGTH),
+
+				(new Rules(WorkModel::SUMMARY->value))
+					->type(Type::STRING)
+					->min(1)
+					->max(parent::MYSQL_TEXT_MAX_LENGTH),
+
+				(new Rules(WorkModel::IS_LISTABLE->value))
+					->type(Type::BOOLEAN),
+
+				(new Rules(WorkModel::IS_READABLE->value))
+					->type(Type::BOOLEAN),
+
+				(new Rules(WorkModel::DATE_MODIFIED->value))
+					->type(Type::NUMBER)
+					->min(1)
+					->max(parent::MYSQL_INT_MAX_LENGHT),
+
+				(new Rules(WorkModel::DATE_CREATED->value))
+					->type(Type::NUMBER)
+					->min(1)
+					->max(parent::MYSQL_INT_MAX_LENGHT)
 			]);
-		}
 
-		// # Responses
-
-		// Return 422 Unprocessable Content error if request validation failed 
-		private function resp_rules_invalid(): Response {
-			return new Response($this->ruleset->get_errors(), 422);
-		}
-
-		// Return a 503 Service Unavailable error if something went wrong with the database call
-		private function resp_database_error(): Response {
-			return new Response("Failed to delete work data, please try again later", 503);
+			parent::__construct($this->ruleset);
 		}
 
 		public function main(): Response {
-			// Bail out if request validation failed
-			if (!$this->ruleset->is_valid()) {
-				return $this->resp_rules_invalid();
-			}
-
-			// Attempt to update the entity
-			$update = $this->db->for(WorkModel::TABLE)
-				->where([WorkModel::ID->value => $_GET["id"]])
-				->update([
-					WorkModel::IS_LISTABLE->value => false,
-					WorkModel::IS_READABLE->value => false
-				]);
-
-			return $update ? new Response($_GET["id"]) : $this->resp_database_error();
+			return $this->db->for(FieldsEnumsModel::TABLE)->delete($_POST) === true
+				? new Response(RESP_DELETE_OK)
+				: new Response("Failed to delete work entity", 500);
 		}
 	}

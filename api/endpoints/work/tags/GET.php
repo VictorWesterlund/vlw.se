@@ -6,14 +6,13 @@
 	use ReflectRules\Rules;
 	use ReflectRules\Ruleset;
 
-	use const VLW\API\RESP_DELETE_OK;
 	use VLW\API\Databases\VLWdb\VLWdb;
 	use VLW\API\Databases\VLWdb\Models\Work\WorkTagsModel;
 
 	require_once Path::root("src/databases/VLWdb.php");
 	require_once Path::root("src/databases/models/Work/WorkTags.php");
 
-	class DELETE_WorkTags extends VLWdb {
+	class GET_WorkTags extends VLWdb {
 		private Ruleset $ruleset;
 
 		public function __construct() {
@@ -32,8 +31,15 @@
 		}
 
 		public function main(): Response {
-			return $this->db->for(WorkTagsModel::TABLE)->delete($_POST) === true
-				? new Response(RESP_DELETE_OK)
-				: new Response("Failed to delete value from document", 500);
+			$response = $this->db->for(FieldsEnumsModel::TABLE)
+				->where($_GET)
+				->select([
+					FieldsEnumsModel::REF_WORK_ID->value,
+					FieldsEnumsModel::NAME->value
+				]);
+
+			return $response->num_rows > 0
+				? new Response($response->fetch_all(MYSQLI_ASSOC))
+				: new Response([], 404);
 		}
 	}

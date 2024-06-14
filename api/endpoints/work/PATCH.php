@@ -1,30 +1,28 @@
 <?php
 
+	use Reflect\Call;
 	use Reflect\Path;
 	use Reflect\Response;
 	use ReflectRules\Type;
 	use ReflectRules\Rules;
 	use ReflectRules\Ruleset;
 
-	use Reflect\Method;
-	use function Reflect\Call;
-
+	use VLW\API\Endpoints;
 	use VLW\API\Databases\VLWdb\VLWdb;
-	use VLW\API\Databases\VLWdb\Models\Work\WorkModel;
-	use VLW\API\Databases\VLWdb\Models\WorkPermalinks\WorkPermalinksModel;
+	use VLW\API\Databases\VLWdb\Models\Work\{
+		WorkModel,
+		WorkPermalinksModel
+	};
 
+	require_once Path::root("src/Endpoints.php");
 	require_once Path::root("src/databases/VLWdb.php");
-	require_once Path::root("src/databases/models/Work.php");
-	require_once Path::root("src/databases/models/WorkPermalinks.php");
+	require_once Path::root("src/databases/models/Work/Work.php");
+	require_once Path::root("src/databases/models/Work/WorkPermalinks.php");
 
 	class PATCH_Work extends VLWdb {
 		protected Ruleset $ruleset;
 
-		protected Response $current_entity;
-		protected array $updated_entity;
-
 		public function __construct() {
-			parent::__construct();
 			$this->ruleset = new Ruleset(strict: true);
 
 			$this->ruleset->GET([
@@ -52,19 +50,19 @@
 				(new Rules(WorkModel::IS_READABLE->value))
 					->type(Type::BOOLEAN),
 
-				(new Rules(WorkModel::DATE_TIMESTAMP_CREATED->value))
+				(new Rules(WorkModel::DATE_MODIFIED->value))
 					->type(Type::NUMBER)
-					->min(0)
+					->min(1)
+					->max(parent::MYSQL_INT_MAX_LENGHT)
+					->default(time()),
+
+				(new Rules(WorkModel::DATE_CREATED->value))
+					->type(Type::NUMBER)
+					->min(1)
 					->max(parent::MYSQL_INT_MAX_LENGHT)
 			]);
 
-			$this->get_existing_entity();
-
-			// Copy all provided post data into a new array
-			$this->updated_entity = $_POST;
-
-			// Set date modified timestamp
-			$this->updated_entity[WorkModel::DATE_TIMESTAMP_MODIFIED->value] = time();
+			parent::__construct();
 		}
 
 		// Generate a slug URL from string
@@ -72,130 +70,46 @@
 			return strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $input)));
 		}
 
-		// # Helper methods
-
-		private function get_existing_entity(): Response {
-			// Check if an entity already exists with slugified title from GET endpoint
-			$this->current_entity = Call("work?id={$_GET["id"]}", Method::GET);
-
-			// Response is not 404 (Not found) so we can't create the entity
-			if ($this->current_entity->code !== 200) {
-				// Response is not a valid entity, something went wrong
-				if ($this->current_entity->code !== 404) {
-					return $this->resp_database_error();
-				}
-
-				// Return 402 Conflict
-				return new Response("No entity with id '{$_GET["id"]}' was found", 404);
-			}
-
-			return $this->current_entity;
+		// Compute and return modeled year, month, and day from Unix timestamp in request body
+		private static function gen_date_created(): array {
+			return [
+				WorkModel::DATE_YEAR->value   => date("Y", $_POST[WorkModel::DATE_CREATED->value]),
+				WorkModel::DATE_MONTH ->value => date("n", $_POST[WorkModel::DATE_CREATED->value]),
+				WorkModel::DATE_DAY->value    => date("j", $_POST[WorkModel::DATE_CREATED->value])
+			];
 		}
 
-		// Create new permalink for entity slug
-		private function create_permalink(string $slug): bool {
-			$create = Call("work/permalinks", Method::POST, [
-				WorkPermalinksModel::SLUG->value   => $slug,
-				WorkPermalinksModel::ANCHOR->value => $slug
-			]);
-
-			return $create->ok;
-		}
-
-		// ## Updated entity
-
-		private function change_slug(): bool {
-			if (!array_key_exists(WorkModel::ID->value, $this->updated_entity)) {
-				return true;
-			}
-
-			// Generate new permalink for entity id
-			return $this->create_permalink($this->updated_entity[WorkModel::ID->value]);
-		}
-
-		private function timestamp_to_dates(): void {
-			if (!array_key_exists(WorkModel::DATE_TIMESTAMP_CREATED->value, $this->updated_entity)) {
-				return;
-			}
-
-			// Get timestamp from post data
-			$timestamp = $this->updated_entity[WorkModel::DATE_TIMESTAMP_CREATED->value];
-
-			// Update fractured dates from timestamp
-			$this->updated_entity[WorkModel::DATE_YEAR->value] = date("Y", $timestamp);
-			$this->updated_entity[WorkModel::DATE_MONTH ->value] = date("n", $timestamp);
-			$this->updated_entity[WorkModel::DATE_DAY->value] = date("j", $timestamp);
-		}
-
-		// # Responses
-
-		// Return 422 Unprocessable Content error if request validation failed 
-		private function resp_rules_invalid(): Response {
-			return new Response($this->ruleset->get_errors(), 422);
-		}
-
-		// Return a 503 Service Unavailable error if something went wrong with the database call
-		private function resp_database_error(): Response {
-			return new Response("Failed to get work data, please try again later", 503);
-		}
-
-		// Return a 422 Unprocessable Entity if there is nothing to change
-		private function resp_no_changes(): Response {
-			return new Response("No columns to update", 422);
-		}
-
-		// Rollback changes and return error response
-		private function resp_permalink_error_rollback(): Response {
-			$update = $this->db->for(WorkModel::TABLE)
-				->where([WorkModel::ID->value => $_GET["id"]])
-				->update($this->current_entity->output());
-
-			return $update
-				? new Response("Failed to create new permalink for updated entity. Changes have been rolled back", 500)
-				: new Reponse("Failed to create new permalink for updated entity. Changes failed to rollback, this is bad.", 500);
+		private function get_entity_by_id(string $id): Response {
+			return (new Call(Endpoints::WORK->value))->params([
+				WorkModel::ID->value => $id
+			])->get();
 		}
 
 		public function main(): Response {
-			// Bail out if request validation failed
-			if (!$this->ruleset->is_valid()) {
-				return $this->resp_rules_invalid();
-			}
+			// Use copy of request body as entity
+			$entity = $_POST;
 
-			// Empty payload, nothing to do
-			if (empty($_POST)) {
-				return $this->resp_no_changes();
-			}
+			// Generate a new slug id from title if changed
+			if ($_POST[WorkModel::TITLE->value]) {
+				$slug = $_POST[WorkModel::TITLE->value];
 
-			// Generate new slug for entity if title is updated
-			if (array_key_exists(WorkModel::TITLE->value, $_POST)) {
-				// Generate URL slug from title text or UUID if undefined
-				$slug = self::gen_slug($_POST["title"]);
-
-				// Save generated slug from title if it's different from existing slug
-				if ($slug !== $this->current_entity->output()[WorkModel::ID->value]) {
-					$this->updated_entity[WorkModel::ID->value] = $slug;
+				// Bail out if the slug generated from the new tite already exist
+				if ($this->get_entity_by_id($slug)) {
+					return new Response("An entity with this title already exist", 409);
 				}
+
+				// Add the new slug to update entity
+				$entity[WorkModel::ID] = $slug;
 			}
 
-			// Update fractured dates from timestamp
-			$this->timestamp_to_dates();
-
-			// Attempt to update the entity
-			$update = $this->db->for(WorkModel::TABLE)
-				->where([WorkModel::ID->value => $_GET["id"]])
-				->update($this->updated_entity);
-
-			// Bail out if update failed
-			if (!$update) {
-				return $this->resp_database_error();
-			}
-
-			// Create new slug for entity if title was changed
-			if (!$this->change_slug()) {
-				return $this->resp_permalink_error_rollback();
+			// Generate new work date fields from timestamp
+			if ($_POST[WorkModel::DATE_CREATED->value]) {
+				array_merge($entity, self::gen_date_created());
 			}
 			
-			// Return 200 OK and new or existing entity slug as body
-			return new Response($this->current_entity->output()[WorkModel::ID->value]);
+			// Update entity by existing id
+			return $this->db->for(WorkModel::TABLE)->where([WorkModel::ID->value => $_GET[WorkModel::ID->value]])->update($entity) === true
+				? new Response($_GET[WorkModel::ID->value])
+				: new Response("Failed to update entity", 500);
 		}
 	}

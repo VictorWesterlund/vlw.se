@@ -2,18 +2,27 @@
 
 	namespace VLW\API\Databases\VLWdb;
 
+	use Reflect\ENV;
+	use Reflect\Path;
+	use Reflect\Request;
+	use Reflect\Response;
+	use ReflectRules\Ruleset;
+
 	use libmysqldriver\MySQL;
 
 	class VLWdb {
 		const UUID_LENGTH = 36;
 
-		const MYSQL_TEXT_MAX_LENGTH = 65538;
+		const MYSQL_TEXT_MAX_LENGTH    = 65538;
 		const MYSQL_VARCHAR_MAX_LENGTH = 255;
-		const MYSQL_INT_MAX_LENGHT = 2147483647;
+		const MYSQL_INT_MAX_LENGHT     = 2147483647;
 
-		protected MySQL $db;
+		protected readonly MySQL $db;
 
-		public function __construct() {
+		public function __construct(Ruleset $ruleset) {
+			// Validate provided Ruleset before attempting to connect to the database
+			self::eval_ruleset_or_exit($ruleset);
+
 			// Create new MariaDB connection
 			$this->db = new MySQL(
 				$_ENV["vlwdb"]["mariadb_host"],
@@ -46,7 +55,8 @@
 			);
 		}
 
-		public static function is_mysqli_result(\mysqli_result|bool $resp): bool {
-			return $resp instanceof \mysqli_result;
+		// Bail out if provided ReflectRules\Ruleset is invalid
+		private static function eval_ruleset_or_exit(Ruleset $ruleset): ?Response {
+			return !$ruleset->is_valid() ? new Response($ruleset->get_errors(), 422) : null;
 		}
 	}
