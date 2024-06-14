@@ -1,6 +1,17 @@
 new vv.Interactions("document", {
 	navigateHome: () => new vv.Navigation("/").navigate(),
-	closeSearchbox: () => document.querySelector("header").classList.remove("searchboxActive"),
+	closeSearchbox: () => {
+		// Disable search button interaction while animation is running
+		// This is required to prevent conflicts with the :hover "peak" transformation
+		const searchButtonElement = document.querySelector("header button.search");
+		const transformDuration = parseInt(window.getComputedStyle(searchButtonElement).getPropertyValue("--transform-duration"));
+		searchButtonElement.style.setProperty("pointer-events", "none");
+
+		document.querySelector("header").classList.remove("searchboxActive");
+
+		// Wait for the transform animation to finish
+		setTimeout(() => searchButtonElement.style.removeProperty("pointer-events"), transformDuration);
+	},
 	openSearchbox: () => {
 		document.querySelector("header").classList.add("searchboxActive");
 		// Select searchbox inner input element

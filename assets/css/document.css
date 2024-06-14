@@ -57,10 +57,6 @@ body[vv-page]::before {
 	opacity: 1;
 }
 
-body.search-dialog-open {
-	overflow: hidden;
-}
-
 a {
     display: contents;
     color: inherit;
@@ -168,8 +164,10 @@ header > * {
 
 /* enable 3d flip animation */
 @media not (prefers-reduced-motion: reduce) {
-	header > * {	
-		transition: 600ms transform, 300ms background-color;
+	header > * {
+		--transform-duration: 600ms;
+
+		transition: var(--transform-duration) transform, 300ms background-color;
 	}
 }
 
@@ -252,12 +250,10 @@ header searchbox input {
 
 header.searchboxActive > * {
 	transform: rotateX(-180deg);
-	pointer-events: none;
 }
 
 header.searchboxActive searchbox {
 	transform: rotateX(0);
-	pointer-events: all;
 }
 
 /* ## Main */
