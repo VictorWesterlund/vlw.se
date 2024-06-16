@@ -5,9 +5,11 @@
 	use VLW\Client\API;
 	use VLW\API\Endpoints;
 
-	use VLW\API\Databases\VLWdb\Models\Work\WorkModel;
-	use VLW\API\Databases\VLWdb\Models\Work\WorkTagsModel;
-	use VLW\API\Databases\VLWdb\Models\Work\WorkActionsModel;
+	use VLW\API\Databases\VLWdb\Models\Work\{
+		WorkModel,
+		WorkTagsModel,
+		WorkActionsModel
+	};
 
 	require_once Path::root("src/client/API.php");
 	require_once Path::root("api/src/Endpoints.php");

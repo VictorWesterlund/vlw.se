@@ -2,7 +2,6 @@
 
 	namespace VLW\Client;
 	
-	use Vegvisir\Path;
 	use Reflect\Client;	
 
 	class API extends Client {

@@ -5,12 +5,16 @@
 	use VLW\Client\API;
 	use VLW\API\Endpoints;
 
-	use VLW\API\Databases\VLWdb\Models\Work\WorkModel;
+	use VLW\API\Databases\VLWdb\Models\Work\{
+		WorkModel,
+		WorkActionsModel
+	};
 
 	require_once Path::root("src/client/API.php");
 	require_once Path::root("api/src/Endpoints.php");
 
 	require_once Path::root("api/src/databases/models/Work/Work.php");
+	require_once Path::root("api/src/databases/models/Work/WorkActions.php");
 
 	// Search endpoint query paramter
 	const SEARCH_PARAM = "q";
@@ -53,23 +57,25 @@
 					<p><?= $result[WorkModel::SUMMARY->value] ?></p>
 					<p><?= date(API::DATE_FORMAT, $result[WorkModel::DATE_CREATED->value]) ?></p>
 
-					<?php // Result has actions defined ?>
-					<?php /*if (!empty($result["actions"])): ?>
-						<div class="actions">
+					<?php // Get action buttons for work entity by id ?>
+					<?php $actions = $api->call(Endpoints::WORK_ACTIONS->value)->params([WorkActionsModel::REF_WORK_ID->value => $result[WorkModel::ID->value]])->get(); ?>
 
-							<?php // List all actions ?>
-							<?php foreach ($result["actions"] as $action): ?>
+					<?php // List each action button for work entity if exists ?>
+					<?php if ($actions->ok): ?>
+						<div class="actions">
+							<?php foreach ($actions->json() as $action): ?>
 								
-								<?php if (!$action["external"]): ?>
-									<a href="<?= $action["href"] ?>" vv="search" vv-call="navigate"><button class="inline <?= $action["class_list"] ?>"><?= $action["display_text"] ?></button></a>
+								<?php // Bind VV Interactions if link is same origin, else open in new tab ?>
+								<?php if (!$action[WorkActionsModel::EXTERNAL->value]): ?>
+									<a href="<?= $action[WorkActionsModel::HREF->value] ?>" vv="search" vv-call="navigate"><button class="inline <?= $action[WorkActionsModel::CLASS_LIST->value] ?>"><?= $action[WorkActionsModel::DISPLAY_TEXT->value] ?></button></a>
 								<?php else: ?>
-									<a href="<?= $action["href"] ?>" target="_blank"><button class="inline <?= $action["class_list"] ?>"><?= $action["display_text"] ?></button></a>
+									<a href="<?= $action[WorkActionsModel::HREF->value] ?>" target="_blank"><button class="inline <?= $action[WorkActionsModel::CLASS_LIST->value] ?>"><?= $action[WorkActionsModel::DISPLAY_TEXT->value] ?></button></a>
 								<?php endif; ?>
 
 							<?php endforeach; ?>
-
 						</div>
-					<?php endif;*/ ?>
+					<?php endif; ?>
+
 				</div>
 			<?php endforeach; ?>
 		</section>
