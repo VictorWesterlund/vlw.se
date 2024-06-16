@@ -7,7 +7,10 @@
 	use ReflectRules\Ruleset;
 
 	use VLW\API\Databases\VLWdb\VLWdb;
-	use VLW\API\Databases\VLWdb\Models\Work\WorkTagsModel;
+	use VLW\API\Databases\VLWdb\Models\Work\{
+		WorkTagsModel,
+		WorkTagsNameEnum
+	};
 
 	require_once Path::root("src/databases/VLWdb.php");
 	require_once Path::root("src/databases/models/Work/WorkTags.php");
@@ -31,11 +34,11 @@
 		}
 
 		public function main(): Response {
-			$response = $this->db->for(FieldsEnumsModel::TABLE)
+			$response = $this->db->for(WorkTagsModel::TABLE)
 				->where($_GET)
 				->select([
-					FieldsEnumsModel::REF_WORK_ID->value,
-					FieldsEnumsModel::NAME->value
+					WorkTagsModel::REF_WORK_ID->value,
+					WorkTagsModel::NAME->value
 				]);
 
 			return $response->num_rows > 0

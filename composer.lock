@@ -4,64 +4,11 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "73a61bf0308871f9dc9ad050aedfe13e",
+    "content-hash": "2a8a06dc452a4eb9055d238f771dcd37",
     "packages": [
         {
-            "name": "local/api.client",
-            "version": "1.0.0-dev",
-            "dist": {
-                "type": "path",
-                "url": "src/packages/API",
-                "reference": "020275feb0e0017fa91ae0b33213bc54f35cac75"
-            },
-            "require": {
-                "reflect/client": "^3.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "VLW\\API\\": "src/"
-                }
-            },
-            "authors": [
-                {
-                    "name": "Victor Westerlund",
-                    "email": "victor@vlw.se"
-                }
-            ],
-            "description": "Wrapper for vlw.se API",
-            "transport-options": {
-                "relative": true
-            }
-        },
-        {
-            "name": "local/api.endpoints",
-            "version": "1.0.0-dev",
-            "dist": {
-                "type": "path",
-                "url": "api/src/packages/Endpoints",
-                "reference": "89b7b9a4cc504abddb4aeec8e05a95c9d9087575"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "VLW\\API\\": "src/"
-                }
-            },
-            "authors": [
-                {
-                    "name": "Victor Westerlund",
-                    "email": "victor@vlw.se"
-                }
-            ],
-            "description": "Endpoint pathmappings for VLW API",
-            "transport-options": {
-                "relative": true
-            }
-        },
-        {
             "name": "reflect/client",
-            "version": "3.0.6",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/VictorWesterlund/reflect-client-php.git",
@@ -73,6 +20,7 @@
                 "reference": "89a8c041044c8c60cefafc4716d5d61b96c43e06",
                 "shasum": ""
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -95,14 +43,52 @@
                 "source": "https://github.com/VictorWesterlund/reflect-client-php/tree/3.0.6"
             },
             "time": "2024-04-06T14:55:04+00:00"
+        },
+        {
+            "name": "victorwesterlund/xenum",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/VictorWesterlund/php-xenum.git",
+                "reference": "8972f06f42abd1f382807a67e937d5564bb89699"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/VictorWesterlund/php-xenum/zipball/8972f06f42abd1f382807a67e937d5564bb89699",
+                "reference": "8972f06f42abd1f382807a67e937d5564bb89699",
+                "shasum": ""
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "victorwesterlund\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0-only"
+            ],
+            "authors": [
+                {
+                    "name": "Victor Westerlund",
+                    "email": "victor.vesterlund@gmail.com"
+                }
+            ],
+            "description": "PHP eXtended Enums. The missing quality-of-life features from PHP 8+ Enums",
+            "support": {
+                "issues": "https://github.com/VictorWesterlund/php-xenum/issues",
+                "source": "https://github.com/VictorWesterlund/php-xenum/tree/1.1.1"
+            },
+            "time": "2023-11-20T10:10:39+00:00"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "local/api.client": 20,
-        "local/api.endpoints": 20
+        "reflect/client": 20,
+        "victorwesterlund/xenum": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

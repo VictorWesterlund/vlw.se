@@ -10,7 +10,7 @@
 	use VLW\API\Databases\VLWdb\Models\Work\WorkActionsModel;
 
 	require_once Path::root("src/databases/VLWdb.php");
-	require_once Path::root("src/databases/models/WorkActions.php");
+	require_once Path::root("src/databases/models/Work/WorkActions.php");
 
 	class GET_WorkActions extends VLWdb {
 		protected Ruleset $ruleset;

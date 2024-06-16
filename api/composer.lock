@@ -4,33 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9da96ba90ef20d885034442b30dce0a3",
+    "content-hash": "13ba5cc60bab24ac8ef5b1018fe4249b",
     "packages": [
-        {
-            "name": "local/api.endpoints",
-            "version": "1.0.0-dev",
-            "dist": {
-                "type": "path",
-                "url": "src/packages/Endpoints",
-                "reference": "89b7b9a4cc504abddb4aeec8e05a95c9d9087575"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "VLW\\API\\": "src/"
-                }
-            },
-            "authors": [
-                {
-                    "name": "Victor Westerlund",
-                    "email": "victor@vlw.se"
-                }
-            ],
-            "description": "Endpoint pathmappings for VLW API",
-            "transport-options": {
-                "relative": true
-            }
-        },
         {
             "name": "reflect/plugin-rules",
             "version": "1.5.0",
@@ -69,8 +44,46 @@
             "time": "2024-01-17T11:07:44+00:00"
         },
         {
+            "name": "victorwesterlund/libmysqldriver",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/VictorWesterlund/php-libmysqldriver.git",
+                "reference": "adc2fda90a3b8308e8a9df202d5ec418a9220ff8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/VictorWesterlund/php-libmysqldriver/zipball/adc2fda90a3b8308e8a9df202d5ec418a9220ff8",
+                "reference": "adc2fda90a3b8308e8a9df202d5ec418a9220ff8",
+                "shasum": ""
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "libmysqldriver\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0-only"
+            ],
+            "authors": [
+                {
+                    "name": "Victor Westerlund",
+                    "email": "victor.vesterlund@gmail.com"
+                }
+            ],
+            "description": "Abstraction library for common mysqli features",
+            "support": {
+                "issues": "https://github.com/VictorWesterlund/php-libmysqldriver/issues",
+                "source": "https://github.com/VictorWesterlund/php-libmysqldriver/tree/3.6.1"
+            },
+            "time": "2024-04-29T08:17:12+00:00"
+        },
+        {
             "name": "victorwesterlund/xenum",
-            "version": "1.1.1",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/VictorWesterlund/php-xenum.git",
@@ -82,6 +95,7 @@
                 "reference": "8972f06f42abd1f382807a67e937d5564bb89699",
                 "shasum": ""
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -110,7 +124,8 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "local/api.endpoints": 20
+        "victorwesterlund/xenum": 20,
+        "victorwesterlund/libmysqldriver": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

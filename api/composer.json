@@ -1,14 +1,8 @@
 {
     "require": {
-        "local/api.endpoints": "1.0.0-dev",
         "reflect/plugin-rules": "^1.5",
-        "victorwesterlund/xenum": "^1.1"
+        "victorwesterlund/xenum": "dev-master",
+        "victorwesterlund/libmysqldriver": "dev-master"
     },
-    "minimum-stability": "dev",
-    "repositories": [
-        {
-            "type": "path",
-            "url": "src/packages/Endpoints"
-        }
-    ]
+    "minimum-stability": "dev"
 }

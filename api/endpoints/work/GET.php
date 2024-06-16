@@ -10,7 +10,7 @@
 	use VLW\API\Databases\VLWdb\Models\Work\WorkModel;
 
 	require_once Path::root("src/databases/VLWdb.php");
-	require_once Path::root("src/databases/models/Work.php");
+	require_once Path::root("src/databases/models/Work/Work.php");
 
 	class GET_Work extends VLWdb {
 		protected Ruleset $ruleset;
@@ -26,12 +26,10 @@
 
 				(new Rules(WorkModel::TITLE->value))
 					->type(Type::STRING)
-					->min(3)
 					->max(parent::MYSQL_VARCHAR_MAX_LENGTH),
 
 				(new Rules(WorkModel::SUMMARY->value))
 					->type(Type::STRING)
-					->min(1)
 					->max(parent::MYSQL_TEXT_MAX_LENGTH),
 
 				(new Rules(WorkModel::IS_LISTABLE->value))
@@ -57,14 +55,34 @@
 		}
 
 		public function main(): Response {
+			// Use copy of search paramters as filters
+			$filters = $_GET;
+
+			// Do a wildcard search on the title column if provided
+			if (array_key_exists(WorkModel::TITLE->value, $_GET)) {
+				$filters[WorkModel::TITLE->value] = [
+					"LIKE" => "%{$_GET[WorkModel::TITLE->value]}%"
+				];
+			}
+
+			// Do a wildcard search on the summary column if provided
+			if (array_key_exists(WorkModel::SUMMARY->value, $_GET)) {
+				$filters[WorkModel::SUMMARY->value] = [
+					"LIKE" => "%{$_GET[WorkModel::SUMMARY->value]}%"
+				];
+			}
+
 			$response = $this->db->for(WorkModel::TABLE)
-				->where($_GET)
+				->where($filters)
 				->select([
 					WorkModel::ID->value,
 					WorkModel::TITLE->value,
 					WorkModel::SUMMARY->value,
 					WorkModel::IS_LISTABLE->value,
 					WorkModel::IS_READABLE->value,
+					WorkModel::DATE_YEAR->value,
+					WorkModel::DATE_MONTH->value,
+					WorkModel::DATE_DAY->value,
 					WorkModel::DATE_MODIFIED->value,
 					WorkModel::DATE_CREATED->value
 				]);

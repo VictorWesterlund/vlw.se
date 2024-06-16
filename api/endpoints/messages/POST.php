@@ -16,7 +16,6 @@
 		protected Ruleset $ruleset;
 
 		public function __construct() {
-			parent::__construct();
 			$this->ruleset = new Ruleset(strict: true);
 
 			$this->ruleset->POST([
@@ -31,6 +30,8 @@
 					->min(1)
 					->max(parent::MYSQL_TEXT_MAX_LENGTH)
 			]);
+
+			parent::__construct($this->ruleset);
 		}
 
 		public function main(): Response {
@@ -40,7 +41,7 @@
 			$entity[MessagesModel::ID->value] = parent::gen_uuid4();
 			$entity[MessagesModel::DATE_CREATED->value] = time();
 
-			return $this->db->for(MessagesModel::TABLE)->insert($_POST) === true
+			return $this->db->for(MessagesModel::TABLE)->insert($entity) === true
 				? new Response($entity[MessagesModel::ID->value], 201)
 				: new Response("Failed to create message", 500);
 		}
