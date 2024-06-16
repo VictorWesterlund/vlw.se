@@ -1,27 +1,28 @@
 <?php
 
+	use Reflect\Call;
 	use Reflect\Path;
 	use Reflect\Response;
 	use ReflectRules\Type;
 	use ReflectRules\Rules;
 	use ReflectRules\Ruleset;
 
-	use Reflect\Method;
-	use function Reflect\Call;
-
+	use VLW\API\Endpoints;
 	use VLW\API\Databases\VLWdb\VLWdb;
-	use VLW\API\Databases\VLWdb\Models\Work\WorkModel;
-	use VLW\API\Databases\VLWdb\Models\WorkPermalinks\WorkPermalinksModel;
+	use VLW\API\Databases\VLWdb\Models\Work\{
+		WorkModel,
+		WorkPermalinksModel
+	};
 
+	require_once Path::root("src/Endpoints.php");
 	require_once Path::root("src/databases/VLWdb.php");
-	require_once Path::root("src/databases/models/Work.php");
-	require_once Path::root("src/databases/models/WorkPermalinks.php");
+	require_once Path::root("src/databases/models/Work/Work.php");
+	require_once Path::root("src/databases/models/Work/WorkPermalinks.php");
 
 	class POST_Work extends VLWdb {
 		protected Ruleset $ruleset;
 
 		public function __construct() {
-			parent::__construct();
 			$this->ruleset = new Ruleset(strict: true);
 
 			$this->ruleset->POST([
@@ -37,12 +38,22 @@
 					->max(parent::MYSQL_TEXT_MAX_LENGTH)
 					->default(null),
 
-				(new Rules(WorkModel::DATE_TIMESTAMP_CREATED->value))
+				(new Rules(WorkModel::IS_LISTABLE->value))
+					->type(Type::BOOLEAN)
+					->default(false),
+
+				(new Rules(WorkModel::IS_READABLE->value))
+					->type(Type::BOOLEAN)
+					->default(false),
+
+				(new Rules(WorkModel::DATE_CREATED->value))
 					->type(Type::NUMBER)
 					->min(1)
 					->max(parent::MYSQL_INT_MAX_LENGHT)
-					->default(null)
+					->default(time())
 			]);
+
+			parent::__construct($this->ruleset);
 		}
 
 		// Generate a slug URL from string
@@ -50,84 +61,51 @@
 			return strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $input)));
 		}
 
-		// Create permalink for entity slug
-		private function create_permalink(string $slug): bool {
-			$create = Call("work/permalinks", Method::POST, [
-				WorkPermalinksModel::SLUG->value   => $slug,
-				WorkPermalinksModel::ANCHOR->value => $slug
-			]);
+		// Compute and return modeled year, month, and day from a Unix timestamp
+		private static function gen_date_created(): array {
+			// Use provided timestamp in request
+			$date_created = $_POST[WorkModel::DATE_CREATED->value];
 
-			return $create->ok;
+			return [
+				WorkModel::DATE_YEAR->value   => date("Y", $date_created),
+				WorkModel::DATE_MONTH ->value => date("n", $date_created),
+				WorkModel::DATE_DAY->value    => date("j", $date_created)
+			];
 		}
 
-		// # Responses
-
-		// Return 422 Unprocessable Content error if request validation failed 
-		private function resp_rules_invalid(): Response {
-			return new Response($this->ruleset->get_errors(), 422);
-		}
-
-		// Return a 503 Service Unavailable error if something went wrong with the database call
-		private function resp_database_error(): Response {
-			return new Response("Failed to get work data, please try again later", 503);
+		private function get_entity_by_id(string $id): Response {
+			return (new Call(Endpoints::WORK->value))->params([
+				WorkModel::ID->value => $id
+			])->get();
 		}
 
 		public function main(): Response {
-			// Bail out if request validation failed
-			if (!$this->ruleset->is_valid()) {
-				return $this->resp_rules_invalid();
-			}
+			// Use copy of request body as entity
+			$entity = $_POST;
 
 			// Generate URL slug from title text or UUID if undefined
-			$slug = !empty($_POST["title"]) ? self::gen_slug($_POST["title"]) : parent::gen_uuid4();
+			$entity[WorkModel::ID->value] = $_POST[WorkModel::TITLE->value] 
+				? self::gen_slug($_POST[WorkModel::TITLE->value]) 
+				: parent::gen_uuid4();
 
-			// Check if an entity already exists with slugified title from GET endpoint
-			$existing_entity = Call("work?id={$slug}", Method::GET);
-			// Response is not 404 (Not found) so we can't create the entity
-			if ($existing_entity->code !== 404) {
-				// Response is not a valid entity, something went wrong
-				if ($existing_entity->code !== 200) {
-					return $this->resp_database_error();
-				}
-
-				// Return 402 Conflict
-				return new Response("Entity with id '{$slug}' already exists", 402);
+			// Bail out here if a work entry with id had been created already
+			if ($this->get_entity_by_id($entity[WorkModel::ID->value])->ok) {
+				return new Response("An entity with id '{$slug}' already exist", 409);
 			}
 
-			// Get created timestamp from payload or use current time if not specified
-			$created_timestamp = $_POST[WorkModel::DATE_TIMESTAMP_CREATED->value] 
-				? $_POST[WorkModel::DATE_TIMESTAMP_CREATED->value]
-				: time();
+			// Generate the necessary date fields
+			array_merge($entity, self::gen_date_created());
 
-			// Attempt to create new entity
-			$insert = $this->db->for(WorkModel::TABLE)
-				->insert([
-					WorkModel::ID->value                      => $slug,
-					WorkModel::TITLE->value                   => $_POST["title"],
-					WorkModel::SUMMARY->value                 => $_POST["summary"],
-					WorkModel::IS_LISTABLE->value             => true,
-					WorkModel::IS_READABLE->value             => true,
-					WorkModel::DATE_YEAR->value               => date("Y", $created_timestamp),
-					WorkModel::DATE_MONTH ->value             => date("n", $created_timestamp),
-					WorkModel::DATE_DAY->value                => date("j", $created_timestamp),
-					WorkModel::DATE_TIMESTAMP_MODIFIED->value => null,
-					WorkModel::DATE_TIMESTAMP_CREATED->value  => $created_timestamp,
-				]);
-
-			// Bail out if insert failed
-			if (!$insert) {
-				return $this->resp_database_error();
+			// Let's try to insert the new entity
+			if (!$this->db->for(WorkModel::TABLE)->insert($entity)) {
+				return new Response("Failed to insert work entry", 500);
 			}
 
-			// Create permalink for new entity
-			if (!$this->create_permalink($slug)) {
-				// Rollback created entity if permalink creation failed
-				Call("work", Method::DELETE, [WorkModel::ID->value => $slug]);
-
-				return new Response("Failed to create permalink", 500);
-			}
-
-			// Return 201 Created and entity slug as body
-			return new Response($slug, 201);
+			// Generate permalink for new entity
+			return (new Call(Endpoints::WORK_PERMALINKS->value))->post([
+				WorkPermalinksModel::ID           => $entity[WorkModel::ID->value],
+				WorkPermalinksModel::REF_WORK_ID  => $entity[WorkModel::ID->value],
+				WorkPermalinksModel::DATE_CREATED => time()
+			]);
 		}
 	}

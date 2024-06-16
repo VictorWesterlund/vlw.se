@@ -1,6 +1,5 @@
 <?php
 
-
 	use Reflect\Path;
 	use Reflect\Response;
 	use ReflectRules\Type;
@@ -8,53 +7,43 @@
 	use ReflectRules\Ruleset;
 
 	use VLW\API\Databases\VLWdb\VLWdb;
-	use VLW\API\Databases\VLWdb\Models\WorkPermalinks\WorkPermalinksModel;
+	use VLW\API\Databases\VLWdb\Models\Work\WorkPermalinksModel;
 
 	require_once Path::root("src/databases/VLWdb.php");
-	require_once Path::root("src/databases/models/WorkPermalinks.php");
+	require_once Path::root("src/databases/models/Work/WorkPermalinks.php");
 
 	class GET_WorkPermalinks extends VLWdb {
 		protected Ruleset $ruleset;
 
 		public function __construct() {
-			parent::__construct();
 			$this->ruleset = new Ruleset(strict: true);
 
 			$this->ruleset->GET([
-				(new Rules("id"))
-					->required()
+				(new Rules(WorkPermalinksModel::ID->value))
+					->type(Type::STRING)
+					->min(1)
+					->max(parent::MYSQL_VARCHAR_MAX_LENGTH),
+
+				(new Rules(WorkPermalinksModel::REF_WORK_ID->value))
 					->type(Type::STRING)
 					->min(1)
 					->max(parent::MYSQL_VARCHAR_MAX_LENGTH)
 			]);
-		}
 
-		// # Responses
-
-		// Return 422 Unprocessable Content error if request validation failed 
-		private function resp_rules_invalid(): Response {
-			return new Response($this->ruleset->get_errors(), 422);
-		}
-
-		// Return a 503 Service Unavailable error if something went wrong with the database call
-		private function resp_database_error(): Response {
-			return new Response("Failed to resolve permalink, please try again later", 503);
+			parent::__construct($this->ruleset);
 		}
 
 		public function main(): Response {
-			// Bail out if request validation failed
-			if (!$this->ruleset->is_valid()) {
-				return $this->resp_rules_invalid();
-			}
+			$response = $this->db->for(WorkPermalinksModel::TABLE)
+				->where($_GET)
+				->select([
+					WorkPermalinksModel::ID->value,
+					WorkPermalinksModel::REF_WORK_ID->value,
+					WorkPermalinksModel::DATE_CREATED->value
+				]);
 
-			// Get all anchors that match the requested slug
-			$resolve = $this->db->for(WorkPermalinksModel::TABLE)
-				->where([WorkPermalinksModel::SLUG->value => $_GET["id"]])
-				->select(WorkPermalinksModel::ANCHOR->value);
-
-			// Return array of all matched work table ids. Or empty array if none found
-			return parent::is_mysqli_result($resolve)
-				? new Response(array_column($resolve->fetch_all(MYSQLI_ASSOC), WorkPermalinksModel::ANCHOR->value))
-				: $this->resp_database_error();
+			return $response->num_rows > 0
+				? new Response($response->fetch_all(MYSQLI_ASSOC))
+				: new Response([], 404);
 		}
 	}

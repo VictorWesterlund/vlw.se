@@ -1,17 +1,7 @@
 {
     "require": {
-        "local/api.client": "1.0.0-dev",
-        "local/api.endpoints": "1.0.0-dev"
+        "reflect/client": "dev-master",
+        "victorwesterlund/xenum": "dev-master"
     },
-    "minimum-stability": "dev",
-    "repositories": [
-        {
-            "type": "path",
-            "url": "src/packages/API"
-        },
-        {
-            "type": "path",
-            "url": "api/src/packages/Endpoints"
-        }
-    ]
+    "minimum-stability": "dev"
 }

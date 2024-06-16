@@ -1,6 +1,6 @@
 <?php
 
-	namespace VLW\API\Databases\VLWdb\Models\WorkPermalinks;
+	namespace VLW\API\Databases\VLWdb\Models\Work;
 	
 	enum WorkPermalinksModel: string {
 		const TABLE = "work_permalinks";

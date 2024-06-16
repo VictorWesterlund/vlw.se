@@ -1,13 +1,34 @@
 <?php
 
-	use VLW\API\Client;
+	use Vegvisir\Path;
+
+	use VLW\Client\API;
 	use VLW\API\Endpoints;
 
-	// Connect to VLW API
-	$api = new Client();
+	use VLW\API\Databases\VLWdb\Models\Work\{
+		WorkModel,
+		WorkTagsModel,
+		WorkActionsModel
+	};
 
-	// Retreive rows from work endpoint
-	$response = $api->call(Endpoints::WORK->value)->get();
+	require_once Path::root("src/client/API.php");
+	require_once Path::root("api/src/Endpoints.php");
+
+	require_once Path::root("api/src/databases/models/Work/Work.php");
+	require_once Path::root("api/src/databases/models/Work/WorkTags.php");
+	require_once Path::root("api/src/databases/models/Work/WorkActions.php");
+
+	// Connect to VLW API
+	$api = new API();
+
+	// Retreive rows from work endpoints
+	$resp_work = $api->call(Endpoints::WORK->value)->get();
+
+	// Resolve tags and actions if we got work results
+	if ($resp_work->ok) {
+		$work_tags = $api->call(Endpoints::WORK_TAGS->value)->get()->json();
+		$work_actions = $api->call(Endpoints::WORK_ACTIONS->value)->get()->json();
+	}
 
 ?>
 <style><?= VV::css("pages/work") ?></style>
@@ -21,7 +42,7 @@
 	</div>
 </section>
 
-<?php if ($response->ok): ?>
+<?php if ($resp_work->ok): ?>
 	<?php
 
 		/*
@@ -32,24 +53,24 @@
 
 		$rows = [];
 		// Create array of arrays ordered by decending year, month, day, items
-		foreach ($response->json() as $row) {
+		foreach ($resp_work->json() as $row) {
 			// Create array for current year if it doesn't exist
-			if (!array_key_exists($row["date_year"], $rows)) {
-				$rows[$row["date_year"]] = [];
+			if (!array_key_exists($row[WorkModel::DATE_YEAR->value], $rows)) {
+				$rows[$row[WorkModel::DATE_YEAR->value]] = [];
 			}
 
 			// Create array for current month if it doesn't exist
-			if (!array_key_exists($row["date_month"], $rows[$row["date_year"]])) {
-				$rows[$row["date_year"]][$row["date_month"]] = [];
+			if (!array_key_exists($row[WorkModel::DATE_MONTH->value], $rows[$row[WorkModel::DATE_YEAR->value]])) {
+				$rows[$row[WorkModel::DATE_YEAR->value]][$row[WorkModel::DATE_MONTH->value]] = [];
 			}
 
 			// Create array for current day if it doesn't exist
-			if (!array_key_exists($row["date_day"], $rows[$row["date_year"]][$row["date_month"]])) {
-				$rows[$row["date_year"]][$row["date_month"]][$row["date_day"]] = [];
+			if (!array_key_exists($row[WorkModel::DATE_DAY->value], $rows[$row[WorkModel::DATE_YEAR->value]][$row[WorkModel::DATE_MONTH->value]])) {
+				$rows[$row[WorkModel::DATE_YEAR->value]][$row[WorkModel::DATE_MONTH->value]][$row[WorkModel::DATE_DAY->value]] = [];
 			}
 
 			// Append item to ordered array
-			$rows[$row["date_year"]][$row["date_month"]][$row["date_day"]][] = $row;
+			$rows[$row[WorkModel::DATE_YEAR->value]][$row[WorkModel::DATE_MONTH->value]][$row[WorkModel::DATE_DAY->value]][] = $row;
 		}
 
 	?>
@@ -84,52 +105,50 @@
 											<?php foreach($items as $item): ?>
 												<div class="item">
 
-													<?php // List tags if defined for item ?>
-													<?php if(!empty($item["tags"])): ?>
+													<?php // Get array index ids from tags array where work entity id matches ref_work_id ?>
+													<?php $tag_ids = array_keys(array_column($work_tags, WorkTagsModel::REF_WORK_ID->value), $item[WorkModel::ID->value]); ?>
+
+													<?php // List tags if available ?>
+													<?php if($tag_ids): ?>
 														<div class="tags">
-															<?php foreach($item["tags"] as $tag): ?>
-																<p class="tag <?= $tag["name"] ?>"><?= $tag["name"] ?></p>
+															<?php foreach($tag_ids as $tag_id): ?>
+																<?php // Get tag details from tag array by index id ?>
+																<?php $tag = $work_tags[$tag_id]; ?>
+
+																<p class="tag <?= $tag[WorkTagsModel::NAME->value] ?>"><?= $tag[WorkTagsModel::NAME->value] ?></p>
 															<?php endforeach; ?>
 														</div>
 													<?php endif; ?>
 
 													<?php // Show large heading if defined ?>
-													<?php if (!empty($item["title"])): ?>
-														<h2><?= $item["title"] ?></h2>
+													<?php if (!empty($item[WorkModel::TITLE->value])): ?>
+														<h2><?= $item[WorkModel::TITLE->value] ?></h2>
 													<?php endif; ?>
 
-													<?php // Show cover image if defined for item ?>
-													<?php if (!empty($item["cover_srcset"])): ?>
-														<picture>
+													<p><?= $item[WorkModel::SUMMARY->value] ?></p>
 
-															<?php // List all srcset images ?>
-															<?php foreach ($item["cover_srcset"]["srcset"] as $srcset): ?>
-																<?php // Skip any media that isn't an image ?>
-																<?php if ($srcset["type"] !== "IMAGE"): continue; endif; ?>
-
-																<srcset src="/assets/media/content/<?= $srcset["id"] ?>.<?= $srcset["extension"] ?>" type="<?= $srcset["mime"] ?>"></srcset>
-															<?php endforeach; ?>
-
-															<?php 
-																// Get the default/fallback image for this srcset
-																$default = $item["cover_srcset"]["default"];
-															?>
-															<img src="/assets/media/content/<?= $default["id"] ?>.<?= $default["extension"] ?>" type="<?= $default["mime"] ?>" loading="lazy"/>
-														</picture>
-													<?php endif; ?>
-
-													<p><?= $item["summary"] ?></p>
+													<?php // Get array index ids from actions array where work entity id matches ref_work_id ?>
+													<?php $action_ids = array_keys(array_column($work_actions, WorkTagsModel::REF_WORK_ID->value), $item[WorkModel::ID->value]); ?>
 
 													<?php // List actions if defined for item ?>
-													<?php if(!empty($item["actions"])): ?>
+													<?php if($action_ids): ?>
 														<div class="actions">
-															<?php foreach($item["actions"] as $action): ?>
+															<?php foreach($action_ids as $action_id): ?>
 																<?php
-																	// Bind VV interactions for buttons or add new tab target if external link
-																	$link_attr = !$action["external"] ? "vv='work' vv-call='navigate'" : "target='_blank'";
+																	// Get tag details from tag array by index id
+																	$action = $work_actions[$action_id];
 
-																	// Self-reference to a work page with the item id if no href is set
-																	$link_href = $action["href"] === null ? "/work/{$item["id"]}" : $action["href"];
+																	$link_attr = !$action[WorkActionsModel::EXTERNAL->value]
+																		// Bind VV Interactions for local links
+																		? "vv='work' vv-call='navigate'"
+																		// Open external links in a new tab
+																		: "target='_blank'";
+
+																	$link_href = $action[WorkActionsModel::HREF->value] === null
+																		// Navigate to work details page if no href is defined
+																		? "/work/{$item[WorkModel::ID->value]}"
+																		// Href is defined so use it directly
+																		: $action[WorkActionsModel::HREF->value];
 																?>
 
 																<a href="<?= $link_href ?>" <?= $link_attr ?>><button class="inline <?= $action["class_list"] ?>"><?= $action["display_text"] ?></button></a>

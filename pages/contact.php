@@ -1,15 +1,19 @@
 <?php
 
-	use VLW\API\Client;
+	use Vegvisir\Path;
+
+	use VLW\Client\API;
 	use VLW\API\Endpoints;
 
-	enum ContactFieldsEnum: string {
-		case EMAIL   = "email";
-		case MESSAGE = "message";
-	}
+	use VLW\API\Databases\VLWdb\Models\Messages\MessagesModel;
+
+	require_once Path::root("src/client/API.php");
+	require_once Path::root("api/src/Endpoints.php");
+
+	require_once Path::root("api/src/databases/models/Messages/Messages.php");
 
 	// Connect to VLW API
-	$api = new Client();
+	$api = new API();
 
 ?>
 <style><?= VV::css("pages/contact") ?></style>
@@ -50,8 +54,8 @@
 	
 		// Send message via API
 		$send = $api->call(Endpoints::MESSAGES->value)->post([
-			ContactFieldsEnum::EMAIL->value   => $_POST[ContactFieldsEnum::EMAIL->value],
-			ContactFieldsEnum::MESSAGE->value => $_POST[ContactFieldsEnum::MESSAGE->value]
+			MessagesModel::EMAIL->value   => $_POST[MessagesModel::EMAIL->value],
+			MessagesModel::MESSAGE->value => $_POST[MessagesModel::MESSAGE->value]
 		]);
 
 	?>
@@ -74,11 +78,11 @@
 	<form method="POST">
 		<input-group>
 			<label>your email (optional)</label>
-			<input type="email" name="<?= ContactFieldsEnum::EMAIL->value ?>" placeholder="nissehult@example.com" autocomplete="off"></input>
+			<input type="email" name="<?= MessagesModel::EMAIL->value ?>" placeholder="nissehult@example.com" autocomplete="off"></input>
 		</input-group>
 		<input-group>
 			<label title="this field is required">your message (required)</label>
-			<textarea name="<?= ContactFieldsEnum::MESSAGE->value ?>" required placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed molestie dignissim mauris vel dignissim. Sed et aliquet odio, id egestas libero. Vestibulum ut dui a turpis aliquam hendrerit id et dui. Morbi eu tristique quam, sit amet dictum felis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ac nibh a ex accumsan ullamcorper non quis eros. Nam at suscipit lacus. Nullam placerat semper sapien, vitae aliquet nisl elementum a. Duis viverra quam eros, eu vestibulum quam egestas sit amet. Duis lobortis varius malesuada. Mauris in fringilla mi. "></textarea>
+			<textarea name="<?= MessagesModel::MESSAGE->value ?>" required placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed molestie dignissim mauris vel dignissim. Sed et aliquet odio, id egestas libero. Vestibulum ut dui a turpis aliquam hendrerit id et dui. Morbi eu tristique quam, sit amet dictum felis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ac nibh a ex accumsan ullamcorper non quis eros. Nam at suscipit lacus. Nullam placerat semper sapien, vitae aliquet nisl elementum a. Duis viverra quam eros, eu vestibulum quam egestas sit amet. Duis lobortis varius malesuada. Mauris in fringilla mi. "></textarea>
 		</input-group>
 		<button class="inline solid">send</button>
 	</form>

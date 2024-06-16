@@ -1,136 +1,94 @@
 <?php
 
-	use Reflect\Call;
 	use Reflect\Path;
-	use Reflect\Method;
 	use Reflect\Response;
 	use ReflectRules\Type;
 	use ReflectRules\Rules;
 	use ReflectRules\Ruleset;
 
-	use VLW\API\Endpoints;
-
 	use VLW\API\Databases\VLWdb\VLWdb;
 	use VLW\API\Databases\VLWdb\Models\Work\WorkModel;
-	use VLW\API\Databases\VLWdb\Models\Work\WorkTagsModel;
-	use VLW\API\Databases\VLWdb\Models\Work\WorkActionsModel;
 
 	require_once Path::root("src/databases/VLWdb.php");
-	require_once Path::root("src/databases/models/Work.php");
-	require_once Path::root("src/databases/models/WorkTags.php");
-	require_once Path::root("src/databases/models/WorkActions.php");
+	require_once Path::root("src/databases/models/Work/Work.php");
 
 	class GET_Work extends VLWdb {
 		protected Ruleset $ruleset;
 
 		public function __construct() {
-			parent::__construct();
 			$this->ruleset = new Ruleset(strict: true);
 
 			$this->ruleset->GET([
-				(new Rules("id"))
+				(new Rules(WorkModel::ID->value))
 					->type(Type::STRING)
 					->min(1)
-					->max(parent::MYSQL_VARCHAR_MAX_LENGTH)
-					->default(null)
+					->max(parent::MYSQL_VARCHAR_MAX_LENGTH),
+
+				(new Rules(WorkModel::TITLE->value))
+					->type(Type::STRING)
+					->max(parent::MYSQL_VARCHAR_MAX_LENGTH),
+
+				(new Rules(WorkModel::SUMMARY->value))
+					->type(Type::STRING)
+					->max(parent::MYSQL_TEXT_MAX_LENGTH),
+
+				(new Rules(WorkModel::IS_LISTABLE->value))
+					->type(Type::BOOLEAN)
+					->default(true),
+
+				(new Rules(WorkModel::IS_READABLE->value))
+					->type(Type::BOOLEAN)
+					->default(true),
+
+				(new Rules(WorkModel::DATE_MODIFIED->value))
+					->type(Type::NUMBER)
+					->min(1)
+					->max(parent::MYSQL_INT_MAX_LENGHT),
+
+				(new Rules(WorkModel::DATE_CREATED->value))
+					->type(Type::NUMBER)
+					->min(1)
+					->max(parent::MYSQL_INT_MAX_LENGHT)
 			]);
-		}
 
-		// # Helper methods
-
-		private function fetch_row_tags(string $id): array {
-			$resp = $this->db->for(WorkTagsModel::TABLE)
-				->where([WorkTagsModel::ANCHOR->value => $id])
-				->select(WorkTagsModel::NAME->value);
-
-			return parent::is_mysqli_result($resp) ? $resp->fetch_all(MYSQLI_ASSOC) : [];
-		}
-
-		// # Responses
-
-		// Return 422 Unprocessable Content error if request validation failed 
-		private function resp_rules_invalid(): Response {
-			return new Response($this->ruleset->get_errors(), 422);
-		}
-
-		// Return a 503 Service Unavailable error if something went wrong with the database call
-		private function resp_database_error(): Response {
-			return new Response("Failed to get work data, please try again later", 503);
-		}
-
-		private function resp_item_details(string $id): Response {
-			$resp = $this->db->for(WorkModel::TABLE)
-				->where([
-					WorkModel::ID->value          => $id,
-					WorkModel::IS_READABLE->value => true
-				])
-				->limit(1)
-				->select([
-					WorkModel::ID->value,
-					WorkModel::TITLE->value,
-					WorkModel::SUMMARY->value,
-					WorkModel::COVER_SRCSET->value,
-					WorkModel::DATE_YEAR->value,
-					WorkModel::DATE_MONTH->value,
-					WorkModel::DATE_DAY->value,
-					WorkModel::DATE_TIMESTAMP_MODIFIED->value,
-					WorkModel::DATE_TIMESTAMP_CREATED->value
-				]);
-
-			// Bail out if something went wrong retrieving rows from the database
-			if (!parent::is_mysqli_result($resp)) {
-				return $this->resp_database_error();
-			}
-
-			return $resp->num_rows === 1
-				? new Response($resp->fetch_assoc())
-				: new Response("No entity with id '{$id}' was found", 404);
+			parent::__construct($this->ruleset);
 		}
 
 		public function main(): Response {
-			// Bail out if request validation failed
-			if (!$this->ruleset->is_valid()) {
-				return $this->resp_rules_invalid();
+			// Use copy of search paramters as filters
+			$filters = $_GET;
+
+			// Do a wildcard search on the title column if provided
+			if (array_key_exists(WorkModel::TITLE->value, $_GET)) {
+				$filters[WorkModel::TITLE->value] = [
+					"LIKE" => "%{$_GET[WorkModel::TITLE->value]}%"
+				];
 			}
 
-			// Return details about a specific item by id
-			if (!empty($_GET["id"])) {
-				return $this->resp_item_details($_GET["id"]);
+			// Do a wildcard search on the summary column if provided
+			if (array_key_exists(WorkModel::SUMMARY->value, $_GET)) {
+				$filters[WorkModel::SUMMARY->value] = [
+					"LIKE" => "%{$_GET[WorkModel::SUMMARY->value]}%"
+				];
 			}
 
-			$resp = $this->db->for(WorkModel::TABLE)
-				->where([WorkModel::IS_LISTABLE->value => true])
-				->order([WorkModel::DATE_TIMESTAMP_CREATED->value => "DESC"])
+			$response = $this->db->for(WorkModel::TABLE)
+				->where($filters)
 				->select([
 					WorkModel::ID->value,
 					WorkModel::TITLE->value,
 					WorkModel::SUMMARY->value,
-					WorkModel::COVER_SRCSET->value,
+					WorkModel::IS_LISTABLE->value,
+					WorkModel::IS_READABLE->value,
 					WorkModel::DATE_YEAR->value,
 					WorkModel::DATE_MONTH->value,
 					WorkModel::DATE_DAY->value,
-					WorkModel::DATE_TIMESTAMP_MODIFIED->value,
-					WorkModel::DATE_TIMESTAMP_CREATED->value
+					WorkModel::DATE_MODIFIED->value,
+					WorkModel::DATE_CREATED->value
 				]);
 
-			// Bail out if something went wrong retrieving rows from the database
-			if (!parent::is_mysqli_result($resp)) {
-				return $this->resp_database_error();
-			}
-
-			// Resolve foreign keys
-			$rows = [];
-			while ($row = $resp->fetch_assoc()) {
-				$row["tags"] = $this->fetch_row_tags($row["id"]);
-
-				// Fetch actions for work entity by id from endpoint
-				$row["actions"] = (new Call(Endpoints::WORK_ACTIONS->value))
-					->params([WorkActionsModel::ANCHOR->value => $row[WorkModel::ID->value]])
-					->get()->output();
-
-				$rows[] = $row;
-			}
-
-			return new Response($rows);
+			return $response->num_rows > 0
+				? new Response($response->fetch_all(MYSQLI_ASSOC))
+				: new Response([], 404);
 		}
 	}

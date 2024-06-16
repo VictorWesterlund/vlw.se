@@ -1,10 +1,10 @@
 <?php
 
-	namespace VLW\API;
+	namespace VLW\Client;
 	
-	use Reflect\Client as ReflectClient;
+	use Reflect\Client;	
 
-	class Client extends ReflectClient {
+	class API extends Client {
 		// ISO 8601: YYYY-MM-DD
 		public const DATE_FORMAT = "Y-m-d";
 

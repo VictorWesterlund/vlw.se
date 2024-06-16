@@ -4,17 +4,17 @@
 
 	use victorwesterlund\xEnum;
 
-	enum WorkTagsNameEnum: string {
+	enum WorkTagsNameEnum {
 		use xEnum;
 
-		case VLW     = "VLW";
-		case RELEASE = "RELEASE";
-		case WEBSITE = "WEBSITE";
+		case VLW;
+		case RELEASE;
+		case WEBSITE;
 	}
 
 	enum WorkTagsModel: string {
 		const TABLE = "work_tags";
 
-		case ANCHOR = "anchor";
-		case NAME   = "name";
+		case REF_WORK_ID = "ref_work_id";
+		case NAME        = "name";
 	}
