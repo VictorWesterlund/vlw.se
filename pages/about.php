@@ -41,5 +41,6 @@
 	<p>aviation</p>
 	<p>marine&nbsp;technology</p>
 	<p>typography</p>
+	<p>networking</p>
 </div>
 <script><?= VV::js("pages/about") ?></script>
