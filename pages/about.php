@@ -39,7 +39,13 @@
 	<p>astronomy</p>
 	<p>electronics</p>
 	<p>aviation</p>
-	<p>marine&nbsp;technology</p>
+	<p>maritime</p>
 	<p>typography</p>
+	<p>networking</p>
+	<p>SSTV</p>
+	<p>simulations</p>
+	<p>ISO&nbsp;8601</p>
+	<p>photography</p>
+	<p>videography</p>
 </div>
 <script><?= VV::js("pages/about") ?></script>
