@@ -53,7 +53,7 @@ body::before {
 }
 
 /* "enable" the corner glow effect on initial load when a page has been fully loaded */
-body[vv-page]::before {
+body[vv-top-page]::before {
 	opacity: 1;
 }
 
