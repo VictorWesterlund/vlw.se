@@ -1,6 +1,6 @@
 /* # Overrides */
 
-body[vv-page="/"]::before {
+body[vv-top-page="/"]::before {
 	opacity: 0;
 }
 
