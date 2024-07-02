@@ -9,7 +9,10 @@
 
 	use VLW\API\Endpoints;
 
-	use VLW\API\Databases\VLWdb\VLWdb;
+	use VLW\API\Databases\VLWdb\{
+		VLWdb,
+		Databases
+	};
 	use VLW\API\Databases\VLWdb\Models\Work\WorkModel;
 
 	require_once Path::root("src/Endpoints.php");
@@ -32,7 +35,7 @@
 					->max(parent::MYSQL_VARCHAR_MAX_LENGTH)
 			]);
 
-			parent::__construct($this->ruleset);
+			parent::__construct(Databases::VLW, $this->ruleset);
 		}
 
 		private function search_work(): Response {

@@ -7,7 +7,10 @@
 	use ReflectRules\Ruleset;
 
 	use const VLW\API\RESP_DELETE_OK;
-	use VLW\API\Databases\VLWdb\VLWdb;
+	use VLW\API\Databases\VLWdb\{
+		VLWdb,
+		Databases
+	};
 	use VLW\API\Databases\VLWdb\Models\Work\WorkTagsModel;
 
 	require_once Path::root("src/databases/VLWdb.php");
@@ -28,7 +31,7 @@
 					->type(Type::ENUM, WorkTagsNameEnum::names())
 			]);
 
-			parent::__construct($this->ruleset);
+			parent::__construct(Databases::VLW, $this->ruleset);
 		}
 
 		public function main(): Response {

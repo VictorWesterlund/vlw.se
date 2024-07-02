@@ -1,0 +1,252 @@
+/* # Overrides */
+
+:root {
+	--primer-color-accent: 148, 255, 21;
+	--color-accent: rgb(var(--primer-color-accent));
+}
+
+main {
+	display: flex;
+	flex-direction: column;
+	gap: var(--padding);
+}
+
+/* # Content */
+
+/* ## Heading */
+
+section.heading h1::before,
+section.heading h1::after {
+	opacity: .4;
+}
+
+section.heading h1::before {
+	content: "“";
+}
+
+section.heading h1::after {
+	content: "”";
+}
+
+/* ## Config */
+
+section.config {
+	position: relative;
+	display: grid;
+	grid-template-columns: 300px 1fr;
+	gap: calc(var(--padding) * 2);
+}
+
+section.config:nth-child(4n+1) {
+	grid-template-columns: 1fr 300px;
+}
+
+section.config:nth-child(4n+1) > svg {
+	order: 1;
+}
+
+/* ### PC */
+
+section.config > svg {
+	position: sticky;
+	top: calc(var(--running-size) + var(--padding));
+	width: 100%;
+}
+
+section.config > svg :is(rect, path) {
+	transition: 300ms;
+	stroke: white;
+}
+
+section.config > svg.active :is(rect, path),
+section.config > svg:hover :is(rect, path) {
+	opacity: .4;
+}
+
+section.config > svg g.active rect,
+section.config > svg g.active path,
+section.config > svg g:not(.group):hover rect,
+section.config > svg g:not(.group):hover path {
+	opacity: 1;
+	stroke: var(--color-accent);
+}
+
+section.config > svg g.active rect,
+section.config > svg g:not(.group):hover rect {
+	filter: drop-shadow(0 0 10px rgba(var(--primer-color-accent), .4));
+}
+
+/* #### Case */
+
+section.config g.case:not(:hover, .active) :is(rect, path) {
+	opacity: .2;
+}
+
+section.config > svg g.active path,
+section.config > svg g:not(.group):hover path {
+	fill: var(--color-accent);
+}
+
+/* #### Motherboard */
+
+section.config > svg .mb .chips {
+	opacity: 0;
+}
+
+/* #### Active states */
+
+section.config > svg g:not(.group) {
+	display: none;
+}
+
+section.config[data-dram="1"] > svg g.drams g.dram:nth-child(1),
+section.config[data-dram="2"] > svg g.drams g.dram:nth-child(3n+1),
+section.config[data-dram="3"] > svg g.drams g.dram:nth-child(-n+3),
+section.config[data-dram="4"] > svg g.drams g.dram,
+
+section.config[data-drives-mdottwo="1"] > svg g.mdottwo g.drive:nth-child(1),
+section.config[data-drives-mdottwo="2"] > svg g.mdottwo g.drive:nth-child(-n+2),
+section.config[data-drives-mdottwo="3"] > svg g.mdottwo g.drive:nth-child(-n+3),
+
+section.config[data-drives-twodotfive="1"] > svg g.twodotfive g.drive:nth-child(1),
+section.config[data-drives-twodotfive="2"] > svg g.twodotfive g.drive:nth-child(-n+2),
+section.config[data-drives-twodotfive="3"] > svg g.twodotfive g.drive:nth-child(-n+3),
+
+section.config[data-drives-threedotfive="1"] > svg g.threedotfive g.drive:nth-child(1),
+section.config[data-drives-threedotfive="2"] > svg g.threedotfive g.drive:nth-child(-n+2),
+section.config[data-drives-threedotfive="3"] > svg g.threedotfive g.drive:nth-child(-n+3),
+
+section.config[data-mb="1"] > svg g.mb,
+section.config[data-psu="1"] > svg g.psu,
+section.config[data-gpu="1"] > svg g.gpu,
+section.config[data-cpu="1"] > svg g.cpu,
+section.config[data-case="1"] > svg g.case {
+	display: initial;
+}
+
+/* ## Specs */
+
+section.config .specs {
+	display: flex;
+	flex-direction: column;
+	gap: calc(var(--padding) / 2);
+}
+
+section.config .specs :is(.spec, .group) {
+	--border-width: 4px;
+
+	transition: 300ms background-color, 300ms border-color, 500ms box-shadow;
+	padding: calc(var(--padding) - var(--border-width));
+	border: solid var(--border-width) transparent;
+	background-color: rgba(255, 255, 255, .03);
+	border-radius: 6px;
+	cursor: pointer;
+}
+
+section.config .specs :is(.spec, .group) * {
+	pointer-events: none;
+}
+
+/* ### Spec */
+
+section.config .specs .spec {
+	display: flex;
+	flex-direction: column;
+}
+
+section.config .specs .spec:hover {
+	border-color: rgba(255, 255, 255, .05);
+	background-color: rgba(255, 255, 255, .1);
+	box-shadow: 0 0 30px 10px rgba(255, 255, 255, .05);
+}
+
+section.config .specs .spec.active {
+	border-color: var(--color-accent);
+	background-color: rgba(var(--primer-color-accent), .1);
+	box-shadow: 0 0 30px 10px rgba(var(--primer-color-accent), .05);
+	cursor: initial;
+}
+
+section.config .specs .spec h3 {
+	color: rgba(255, 255, 255, .3);
+}
+
+section.config .specs .spec span {
+	color: white;
+}
+
+section.config .specs .spec > div {
+	display: none;
+	grid-template-columns: repeat(2, 1fr);
+	gap: calc(var(--padding) / 2);
+	margin-top: var(--padding);
+}
+
+section.config .specs .spec.active > div {
+	display: grid;
+}
+
+section.config .specs .spec > div label {
+	color: var(--color-accent);
+}
+
+section.config .specs .spec > svg {
+	display: none;
+	height: calc(var(--padding) / 2);
+	margin: 0 auto;
+	margin-top: calc(var(--padding) / 2);
+	fill: var(--color-accent);
+}
+
+/* ### Group */
+
+section.config .specs .group {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+section.config .specs .group.active {
+	background-color: rgba(255, 255, 255, .2);
+}
+
+section.config .specs .group:hover {
+	background-color: rgba(255, 255, 255, .1);
+}
+
+section.config .specs .group.active:hover {
+	background-color: rgba(255, 255, 255, .3);
+}
+
+section.config .specs .group > svg {
+	transition: 300ms transform;
+	fill: var(--color-accent);
+	height: 10px;
+}
+
+section.config .specs .group.active > svg {
+	transform: rotateX(180deg);
+}
+
+/* #### Collection */
+
+section.config .specs .collection {
+	display: none;
+}
+
+section.config .specs .group.active + .collection {
+	display: contents;
+}
+
+/* # Size quries */
+
+@media (max-width: 700px) {
+	section.config,
+	section.config:nth-child(4n+1) {
+		grid-template-columns: 1fr;
+	}
+
+	section.config > svg {
+		display: none;
+	}
+}
