@@ -9,7 +9,7 @@ This website is built for PHP 8.0+ and MariaDB 14+ (for the API database).
 **Confimed supported framework versions:**
 Vegvisir|Reflect
 --|--
-✅ [`2.4.4`](https://github.com/VictorWesterlund/vegvisir/releases/tag/2.4.4)|✅ [`2.7.1`](https://github.com/VictorWesterlund/reflect/releases/tag/2.7.1)
+✅ [`2.5.0`](https://github.com/VictorWesterlund/vegvisir/releases/tag/2.5.0)|✅ [`2.7.2`](https://github.com/VictorWesterlund/reflect/releases/tag/2.7.2)
 
 ## Website (Vegvisir)
 1. **Download this repo**
