@@ -64,7 +64,7 @@
 		// https://github.com/VictorWesterlund/php-libmysqldriver?tab=readme-ov-file#define-custom-operators
 		public static function make_wildcard_search(string $property_name, array &$filters): array {
 			// Bail out if property name is not set in filters array or if its value is null
-			if (!array_key_exists($property_name, $filters) || $filers[$property_name] !== null) {
+			if (!array_key_exists($property_name, $filters) || $filters[$property_name] === null) {
 				return $filters;
 			}
 
