@@ -1,8 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta charset="UTF-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+	<meta property="og:title" content="Victor L. Westerlund"/>
+	<meta property="og:type" content="website"/>
+	<meta property="og:description" content="Full-stack PHP and JavaScript web developer from Sweden"/>
+	<meta property="og:image" content="https://vlw.se/assets/media/ogp.jpg"/>
 
 	<script>
 		<!--//--><![CDATA[//><!--
@@ -37,7 +41,7 @@
 	<style><?= VV::css("fonts") ?></style>
 	<style><?= VV::css("document") ?></style>
 
-	<title>Victor Westerlund</title>
+	<title>Victor L. Westerlund</title>
 </head>
 <body>
 	<header>
