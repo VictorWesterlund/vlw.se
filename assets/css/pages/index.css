@@ -152,11 +152,19 @@ splash::after {
 
 	.menu menu li:hover {
 		opacity: 1;
+		font-weight: 100;
 		text-shadow: 0 0 10px rgba(var(--primer-color-accent), .4);
 	}
 
 	button.email:hover {
 		background-color: transparent;
+	}
+
+	/* enable font-weight hover animation */
+	@media not (prefers-reduced-motion: reduce) {
+		.menu menu li {
+			transition: 200ms opacity, 200ms color, 300ms font-weight;
+		}
 	}
 }
 
