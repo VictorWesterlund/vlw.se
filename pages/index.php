@@ -22,10 +22,5 @@
 	</button>
 </div>
 
-<img src="/assets/media/gazing.jpg"/>
-<!--<picture class="gazing">
-	<source srcset="/assets/media/gazing.avif" type="image/avif"/>
-	<source srcset="/assets/media/gazing.webp" type="image/webp"/>
-	<img src="/assets/media/gazing.jpg"/>
-</picture>-->
+<img src="/assets/media/gazing.jpg" alt="A portrait of Victor with a pair of cartoon glasses drawn in the shape of two V's over his eyes"/>
 <script><?= VV::js("pages/index") ?></script>
