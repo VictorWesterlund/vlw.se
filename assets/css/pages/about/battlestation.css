@@ -127,9 +127,11 @@ section.config[data-case="1"] > svg g.case {
 /* ## Specs */
 
 section.config .specs {
+	position: relative;
 	display: flex;
 	flex-direction: column;
 	gap: calc(var(--padding) / 2);
+	border-radius: 6px;
 }
 
 section.config .specs :is(.spec, .group) {
@@ -145,6 +147,16 @@ section.config .specs :is(.spec, .group) {
 
 section.config .specs :is(.spec, .group) * {
 	pointer-events: none;
+}
+
+/* ### Active state */
+
+section.config .specs.active {
+	background-color: rgba(255, 255, 255, .03);
+}
+
+section.config .specs.active :is(.group, .spec:not(.active)) {
+	display: none;
 }
 
 /* ### Spec */
@@ -165,6 +177,11 @@ section.config .specs .spec.active {
 	background-color: rgba(var(--primer-color-accent), .1);
 	box-shadow: 0 0 30px 10px rgba(var(--primer-color-accent), .05);
 	cursor: initial;
+}
+
+section.config .specs.active .spec.active {
+	position: sticky;
+	top: calc(var(--running-size) + var(--padding));
 }
 
 section.config .specs .spec h3 {

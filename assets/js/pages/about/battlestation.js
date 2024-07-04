@@ -21,28 +21,35 @@ new vv.Interactions("battlestation", {
 	element.addEventListener("mouseenter", () => {
 		// Find an element in the most adjacent speclist and highlighit it
 		const target = element.closest("section.config").querySelector(`.spec[data-target="${element.dataset.target}"]`);
+		// Get closest specs wrapper element
+		const specsElement = target.closest(".specs");
 		// Spec item is part of a collection, we need to expand the group if that is the case
-		const collection = target.closest(".collection") ?? null;
+		const collectionElement = target.closest(".collection") ?? null;
 		// Don't close the group after hove ends
 		let closeGroupOnLeave = false;
 
+		// Set fixed height on .specs wrapper to prevent glitchy page jumping when scrolled
+		specsElement.style.setProperty("height", `${specsElement.offsetHeight}px`);
 		target.classList.add("active");
+		specsElement.classList.add("active");
 
-		if (collection) {
+		if (collectionElement) {
 			// Close the group on leave if the group wasn't active before hovering
-			closeGroupOnLeave = !collection.previousElementSibling.classList.contains("active");
+			closeGroupOnLeave = !collectionElement.previousElementSibling.classList.contains("active");
 
-			collection.previousElementSibling.classList.add("active");
+			collectionElement.previousElementSibling.classList.add("active");
 		}
-
-		//window.scrollTo(0, target.offsetTop);
 
 		// Bind hover leave listener
 		element.addEventListener("mouseleave", () => {
+			// Reset to initial states
 			target.classList.remove("active");
+			specsElement.classList.remove("active");
+			specsElement.style.removeProperty("height");
 
+			// Group was closed prior to hover, let's close it on hover leave
 			if (closeGroupOnLeave) {
-				collection.previousElementSibling.classList.remove("active");
+				collectionElement.previousElementSibling.classList.remove("active");
 			}
 		}, { once: true });
 	});
