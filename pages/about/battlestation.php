@@ -57,6 +57,15 @@
 ?>
 <style><?= VV::css("pages/about/battlestation") ?></style>
 <?php if ($config->ok): ?>
+	<section class="title">
+		<h1>Battle&shy;stations</h1>
+		<p>I'd be happy to send you, dear reader, any component that you find here for "free" that hasn't been retired yet. The only thing I ask in return is that you pay for shipping.</p>
+		<p>I can't guarantee the thing you want will work as expected, or work at all! But I will test the compontent for you if I still have means at hand to do so.</p>
+		<div>
+			<a href="/contact" vv="battlestation" vv-call="navigate"><button class="inline solid">Contact me</button></a>
+		</div>
+	</section>
+
 	<?php foreach ($config->json() as $config): ?>
 
 		<?php 
@@ -123,10 +132,10 @@
 								<p><?= date(API::DATE_FORMAT, $motherboard[MbModel::DATE_AQUIRED->value]) ?></p>
 							</div>
 
-							<?php if ($motherboard[MbModel::DATE_RETIRED->value]): ?>
+							<?php if ($motherboard[MbModel::IS_RETIRED->value]): ?>
 								<div>
 									<label>Retired</label>
-									<p><?= date(API::DATE_FORMAT, $motherboard[MbModel::DATE_RETIRED->value]) ?></p>
+									<p>Yes</p>
 								</div>
 							<?php endif; ?>
 						</div>
@@ -166,10 +175,10 @@
 								<p><?= date(API::DATE_FORMAT, $case[ChassisModel::DATE_AQUIRED->value]) ?></p>
 							</div>
 
-							<?php if ($motherboard[MbModel::DATE_RETIRED->value]): ?>
+							<?php if ($case[ChassisModel::IS_RETIRED->value]): ?>
 								<div>
 									<label>Retired</label>
-									<p><?= date(API::DATE_FORMAT, $case[ChassisModel::DATE_RETIRED->value]) ?></p>
+									<p>Yes</p>
 								</div>
 							<?php endif; ?>
 						</div>
@@ -221,10 +230,10 @@
 								<p><?= date(API::DATE_FORMAT, $cpu[CpuModel::DATE_AQUIRED->value]) ?></p>
 							</div>
 
-							<?php if ($motherboard[MbModel::DATE_RETIRED->value]): ?>
+							<?php if ($cpu[CpuModel::IS_RETIRED->value]): ?>
 								<div>
 									<label>Retired</label>
-									<p><?= date(API::DATE_FORMAT, $cpu[CpuModel::DATE_RETIRED->value]) ?></p>
+									<p>Yes</p>
 								</div>
 							<?php endif; ?>
 						</div>
@@ -278,10 +287,10 @@
 								<p><?= date(API::DATE_FORMAT, $gpu[GpuModel::DATE_AQUIRED->value]) ?></p>
 							</div>
 
-							<?php if ($motherboard[MbModel::DATE_RETIRED->value]): ?>
+							<?php if ($gpu[GpuModel::IS_RETIRED->value]): ?>
 								<div>
 									<label>Retired</label>
-									<p><?= date(API::DATE_FORMAT, $gpu[GpuModel::DATE_RETIRED->value]) ?></p>
+									<p>Yes</p>
 								</div>
 							<?php endif; ?>
 						</div>
@@ -325,10 +334,10 @@
 								<p><?= date(API::DATE_FORMAT, $psu[PsuModel::DATE_AQUIRED->value]) ?></p>
 							</div>
 
-							<?php if ($motherboard[MbModel::DATE_RETIRED->value]): ?>
+							<?php if ($psu[PsuModel::IS_RETIRED->value]): ?>
 								<div>
 									<label>Retired</label>
-									<p><?= date(API::DATE_FORMAT, $psu[PsuModel::DATE_RETIRED->value]) ?></p>
+									<p>Yes</p>
 								</div>
 							<?php endif; ?>
 						</div>
@@ -393,10 +402,10 @@
 									<p><?= date(API::DATE_FORMAT, $dram[DramModel::DATE_AQUIRED->value]) ?></p>
 								</div>
 
-								<?php if ($motherboard[MbModel::DATE_RETIRED->value]): ?>
+								<?php if ($dram[DramModel::IS_RETIRED->value]): ?>
 									<div>
 										<label>Retired</label>
-										<p><?= date(API::DATE_FORMAT, $dram[DramModel::DATE_RETIRED->value]) ?></p>
+										<p>Yes</p>
 									</div>
 								<?php endif; ?>
 							</div>
@@ -464,10 +473,10 @@
 									<p><?= date(API::DATE_FORMAT, $storage[StorageModel::DATE_AQUIRED->value]) ?></p>
 								</div>
 
-								<?php if ($motherboard[MbModel::DATE_RETIRED->value]): ?>
+								<?php if ($storage[StorageModel::IS_RETIRED->value]): ?>
 									<div>
 										<label>Retired</label>
-										<p><?= date(API::DATE_FORMAT, $storage[StorageModel::DATE_RETIRED->value]) ?></p>
+										<p>Yes</p>
 									</div>
 								<?php endif; ?>
 							</div>

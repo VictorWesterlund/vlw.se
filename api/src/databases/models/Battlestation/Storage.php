@@ -32,14 +32,14 @@
 		
 		const TABLE = "storage";
 
-		case ID                   = "id";
-		case DISK_TYPE            = "disk_type";
-		case DISK_SIZE            = "disk_size";
-		case DISK_SECTORS         = "disk_sectors";
-		case DISK_INTERFACE       = "disk_interface";
-		case DISK_FORMFACTOR      = "disk_formfactor";
-		case VENDOR_NAME          = "vendor_name";
-		case VENDOR_MODEL         = "vendor_model";
-		case DATE_AQUIRED         = "date_aquired";
-		case DATE_RETIRED         = "date_retired";
+		case ID              = "id";
+		case DISK_TYPE       = "disk_type";
+		case DISK_SIZE       = "disk_size";
+		case DISK_SECTORS    = "disk_sectors";
+		case DISK_INTERFACE  = "disk_interface";
+		case DISK_FORMFACTOR = "disk_formfactor";
+		case VENDOR_NAME     = "vendor_name";
+		case VENDOR_MODEL    = "vendor_model";
+		case DATE_AQUIRED    = "date_aquired";
+		case IS_RETIRED      = "is_retired";
 	}

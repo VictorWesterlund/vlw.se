@@ -15,5 +15,5 @@
 		case STORAGE_TWOINCHFIVE   = "storage_2i5hi";
 		case STORAGE_THREEINCHFIVE = "storage_3i5hi";
 		case DATE_AQUIRED          = "date_aquired";
-		case DATE_RETIRED          = "date_retired";
+		case IS_RETIRED            = "is_retired";
 	}

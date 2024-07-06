@@ -26,5 +26,5 @@
 		case NETWORK_WLAN      = "network_wlan";
 		case NETWORK_BLUETOOTH = "network_bluetooth";
 		case DATE_AQUIRED      = "date_aquired";
-		case DATE_RETIRED      = "date_retired";
+		case IS_RETIRED        = "is_retired";
 	}

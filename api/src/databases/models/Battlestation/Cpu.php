@@ -27,5 +27,5 @@
 		case VENDOR_NAME            = "vendor_name";
 		case VENDOR_MODEL           = "vendor_model";
 		case DATE_AQUIRED           = "date_aquired";
-		case DATE_RETIRED           = "date_retired";
+		case IS_RETIRED             = "is_retired";
 	}

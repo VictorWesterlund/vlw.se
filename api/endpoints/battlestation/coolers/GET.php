@@ -59,7 +59,10 @@
 				(new Rules(CoolerModel::VENDOR_MODEL->value))
 					->type(Type::STRING)
 					->min(1)
-					->max(parent::MYSQL_VARCHAR_MAX_LENGTH)
+					->max(parent::MYSQL_VARCHAR_MAX_LENGTH),
+
+				(new Rules(CoolerModel::IS_RETIRED->value))
+					->type(Type::BOOLEAN)
 			]);
 
 			parent::__construct(Databases::BATTLESTATION, $this->ruleset);

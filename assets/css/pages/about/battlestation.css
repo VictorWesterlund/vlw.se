@@ -13,6 +13,23 @@ main {
 
 /* # Content */
 
+/* ## Title */
+
+section.title {
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
+	padding: calc(var(--padding) * 1.5);
+	background-color: rgba(var(--primer-color-accent), .1);
+	border-radius: 6px;
+}
+
+section.title > div {
+	margin-top: calc(var(--padding) / 2);
+	display: flex;
+	gap: var(--padding);
+}
+
 /* ## Heading */
 
 section.heading h1::before,
@@ -37,11 +54,11 @@ section.config {
 	gap: calc(var(--padding) * 2);
 }
 
-section.config:nth-child(4n+1) {
+section.config:nth-child(4n+2) {
 	grid-template-columns: 1fr 300px;
 }
 
-section.config:nth-child(4n+1) > svg {
+section.config:nth-child(4n+2) > svg {
 	order: 1;
 }
 
@@ -258,8 +275,12 @@ section.config .specs .group.active + .collection {
 /* # Size quries */
 
 @media (max-width: 700px) {
+	section.title > div {
+		flex-direction: column;
+	}
+
 	section.config,
-	section.config:nth-child(4n+1) {
+	section.config:nth-child(4n+2) {
 		grid-template-columns: 1fr;
 	}
 

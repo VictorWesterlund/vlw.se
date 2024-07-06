@@ -16,5 +16,5 @@
 		case VENDOR_CHIP_NAME  = "vendor_chip_name";
 		case VENDOR_CHIP_MODEL = "vendor_chip_model";
 		case DATE_AQUIRED      = "date_aquired";
-		case DATE_RETIRED      = "date_retired";
+		case IS_RETIRED        = "is_retired";
 	}

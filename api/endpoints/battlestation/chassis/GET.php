@@ -54,7 +54,10 @@
 					->type(Type::NUMBER)
 					->type(Type::NULL)
 					->min(0)
-					->max(parent::MYSQL_TINYINT_MAX_LENGTH)
+					->max(parent::MYSQL_TINYINT_MAX_LENGTH),
+
+				(new Rules(ChassisModel::IS_RETIRED->value))
+					->type(Type::BOOLEAN)
 			]);
 
 			parent::__construct(Databases::BATTLESTATION, $this->ruleset);

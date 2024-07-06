@@ -27,5 +27,5 @@
 		case TYPE_MODULAR      = "type_modular";
 		case EIGHTYPLUS_RATING = "80plus_rating";
 		case DATE_AQUIRED      = "date_aquired";
-		case DATE_RETIRED      = "date_retired";
+		case IS_RETIRED        = "is_retired";
 	}
