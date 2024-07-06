@@ -177,6 +177,10 @@ header nav {
 	padding: var(--padding);
 }
 
+header .logo {
+	fill: none;
+}
+
 header .logo path.stroke {
 	fill: var(--color-accent);
 }

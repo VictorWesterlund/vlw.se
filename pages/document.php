@@ -42,6 +42,7 @@
 	<style><?= VV::css("document") ?></style>
 
 	<title>Victor L. Westerlund</title>
+	<link rel="icon" href="/assets/media/vw.svg"/>
 </head>
 <body>
 	<header>
