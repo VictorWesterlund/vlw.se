@@ -1,16 +1,8 @@
 @font-face {
-    font-family: "Roboto Mono";
-    ascent-override: 100%;
-    font-weight: 400;
-    size-adjust: 105%;
-    font-stretch: 97.5% 112.5%;
-    src: local("Roboto Mono Regular"), url("/assets/fonts/roboto-mono-regular.woff2") format("woff2");
-}
-
-@font-face {
-    font-family: "Roboto Mono";
-    ascent-override: 100%;
-    size-adjust: 95%;
-    font-weight: 800;
-    src: local("Roboto Mono Bold"), url("/assets/fonts/roboto-mono-bold.woff2") format("woff2");
+	font-family: "Roboto Mono";
+	src: 
+		url("/assets/fonts/roboto-mono.woff2") format("woff2 supports variations"),
+		url("/assets/fonts/roboto-mono.woff2") format("woff2-variations")
+	;
+	font-weight: 100 900;
 }
