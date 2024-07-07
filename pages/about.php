@@ -16,7 +16,7 @@
 <section class="about">
 	<h2>Personal</h2>
 	<p>With a cup of coffee ready at hand, I can at times become a real armchair detective for a <span class="interests">variety of nerdy topics I find interesting</span>, and spend hours reading as much as I can about them too. I like to skii when I'm not glued in front of a computer screen.</p>
-	<p>I do occationally game, and I also have a silent passion for <a href="/about/battlestation" vv="about" vv-call="navigate">building gaming computers</a> (even servers recently!) that comes out every few years.</p>
+	<p>I do occationally game, and I also have a silent passion that comes out every few years for <a href="/about/battlestation" vv="about" vv-call="navigate">building gaming computers</a> - even servers recently!</p>
 </section>
 <section class="about">
 	<h2>Projects</h2>
