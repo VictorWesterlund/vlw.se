@@ -6,7 +6,10 @@
 	use ReflectRules\Rules;
 	use ReflectRules\Ruleset;
 
-	use VLW\API\Databases\VLWdb\VLWdb;
+	use VLW\API\Databases\VLWdb\{
+		VLWdb,
+		Databases
+	};
 	use VLW\API\Databases\VLWdb\Models\Work\{
 		WorkTagsModel,
 		WorkTagsNameEnum
@@ -30,7 +33,7 @@
 					->type(Type::ENUM, WorkTagsNameEnum::names())
 			]);
 
-			parent::__construct($this->ruleset);
+			parent::__construct(Databases::VLW, $this->ruleset);
 		}
 
 		public function main(): Response {

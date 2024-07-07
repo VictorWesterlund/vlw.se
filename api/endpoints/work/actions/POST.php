@@ -8,7 +8,10 @@
 	use ReflectRules\Ruleset;
 
 	use VLW\API\Endpoints;
-	use VLW\API\Databases\VLWdb\VLWdb;
+	use VLW\API\Databases\VLWdb\{
+		VLWdb,
+		Databases
+	};
 	use VLW\API\Databases\VLWdb\Models\Work\{
 		WorkModel,
 		WorkActionsModel
@@ -54,7 +57,7 @@
 					->default(false)
 			]);
 
-			parent::__construct($this->ruleset);
+			parent::__construct(Databases::VLW, $this->ruleset);
 		}
 
 		private static function get_entity(): Response {

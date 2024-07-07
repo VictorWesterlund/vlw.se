@@ -8,7 +8,10 @@
 	use ReflectRules\Ruleset;
 
 	use VLW\API\Endpoints;
-	use VLW\API\Databases\VLWdb\VLWdb;
+	use VLW\API\Databases\VLWdb\{
+		VLWdb,
+		Databases
+	};
 	use VLW\API\Databases\VLWdb\Models\Work\{
 		WorkModel,
 		WorkPermalinksModel
@@ -49,11 +52,11 @@
 				(new Rules(WorkModel::DATE_CREATED->value))
 					->type(Type::NUMBER)
 					->min(1)
-					->max(parent::MYSQL_INT_MAX_LENGHT)
+					->max(parent::MYSQL_INT_MAX_LENGTH)
 					->default(time())
 			]);
 
-			parent::__construct($this->ruleset);
+			parent::__construct(Databases::VLW, $this->ruleset);
 		}
 
 		// Generate a slug URL from string

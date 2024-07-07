@@ -6,7 +6,10 @@
 	use ReflectRules\Rules;
 	use ReflectRules\Ruleset;
 
-	use VLW\API\Databases\VLWdb\VLWdb;
+	use VLW\API\Databases\VLWdb\{
+		VLWdb,
+		Databases
+	};
 	use VLW\API\Databases\VLWdb\Models\Messages\MessagesModel;
 
 	require_once Path::root("src/databases/VLWdb.php");
@@ -31,7 +34,7 @@
 					->max(parent::MYSQL_TEXT_MAX_LENGTH)
 			]);
 
-			parent::__construct($this->ruleset);
+			parent::__construct(Databases::VLW, $this->ruleset);
 		}
 
 		public function main(): Response {

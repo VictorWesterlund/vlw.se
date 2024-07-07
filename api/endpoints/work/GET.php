@@ -6,7 +6,10 @@
 	use ReflectRules\Rules;
 	use ReflectRules\Ruleset;
 
-	use VLW\API\Databases\VLWdb\VLWdb;
+	use VLW\API\Databases\VLWdb\{
+		VLWdb,
+		Databases
+	};
 	use VLW\API\Databases\VLWdb\Models\Work\WorkModel;
 
 	require_once Path::root("src/databases/VLWdb.php");
@@ -43,15 +46,15 @@
 				(new Rules(WorkModel::DATE_MODIFIED->value))
 					->type(Type::NUMBER)
 					->min(1)
-					->max(parent::MYSQL_INT_MAX_LENGHT),
+					->max(parent::MYSQL_INT_MAX_LENGTH),
 
 				(new Rules(WorkModel::DATE_CREATED->value))
 					->type(Type::NUMBER)
 					->min(1)
-					->max(parent::MYSQL_INT_MAX_LENGHT)
+					->max(parent::MYSQL_INT_MAX_LENGTH)
 			]);
 
-			parent::__construct($this->ruleset);
+			parent::__construct(Databases::VLW, $this->ruleset);
 		}
 
 		public function main(): Response {

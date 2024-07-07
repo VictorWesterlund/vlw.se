@@ -7,7 +7,10 @@
 	use ReflectRules\Ruleset;
 
 	use const VLW\API\RESP_DELETE_OK;
-	use VLW\API\Databases\VLWdb\VLWdb;
+	use VLW\API\Databases\VLWdb\{
+		VLWdb,
+		Databases
+	};
 	use VLW\API\Databases\VLWdb\Models\Work\WorkActionsModel;
 
 	require_once Path::root("src/databases/VLWdb.php");
