@@ -62,7 +62,8 @@
 		<p>I'd be happy to send you, dear reader, any component that you find here for "free" that hasn't been retired yet. The only thing I ask in return is that you pay for shipping.</p>
 		<p>I can't guarantee the thing you want will work as expected, or work at all! But I will test the compontent for you if I still have means at hand to do so.</p>
 		<div>
-			<a href="/contact" vv="battlestation" vv-call="navigate"><button class="inline solid">Contact me</button></a>
+			<a href="/about/battlestation-retired" vv="battlestation" vv-call="navigate"><button class="inline solid">Retired components</button></a>
+			<a href="/contact" vv="battlestation" vv-call="navigate"><button class="inline">Contact me</button></a>
 		</div>
 	</section>
 
@@ -74,8 +75,6 @@
 			$motherboard = $api->call(Endpoints::BATTLESTATION_MB->value)->params([
 				MbModel::ID->value => $config[ChassisMbModel::REF_MB_ID->value]
 			])->get()->json()[0];
-
-			$test = true;
 		
 		?>
 

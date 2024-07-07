@@ -1,0 +1,30 @@
+/* # Overrides */
+
+:root {
+	--primer-color-accent: 148, 255, 21;
+	--color-accent: rgb(var(--primer-color-accent));
+}
+
+main {
+	display: flex;
+	flex-direction: column;
+	gap: var(--padding);
+}
+
+/* # Content */
+
+/* ## Title */
+
+section.title {
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
+}
+
+/* ## Actions */
+
+section.actions {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: var(--padding);
+}
